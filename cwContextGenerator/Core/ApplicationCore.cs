@@ -342,7 +342,7 @@ namespace cwContextGenerator.Core
             {
                 config.SetModel(this.SelectedModel);
 
-                Dictionary<int, cwLightObject>  diagramNode = config.GetDiagramNode().usedOTLightObjectsByID;
+                Dictionary<int, cwLightObject>  lightdiagramsById = config.GetDiagramNode().usedOTLightObjectsByID;
    
                 //diagram data
                 CwDiagramDataStore diagramDataStore = new CwDiagramDataStore(config.Filters, this.SelectedModel);

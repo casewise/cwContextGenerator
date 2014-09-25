@@ -12,7 +12,7 @@ using System.Web.Script.Serialization;
 
 namespace cwContextGenerator.Configuration
 {
-   // public enum ReadingMode { _NONE_, INCLUDES, IS_INCLUDED_IN, IS_LINK_WITH_JOINER }
+    // public enum ReadingMode { _NONE_, INCLUDES, IS_INCLUDED_IN, IS_LINK_WITH_JOINER }
     public enum ReadingMode { _NONE_, Includes, IsIncludedIn, IsLinkWithJoiner }
 
     public class ConfigurationObjectNode
@@ -71,7 +71,7 @@ namespace cwContextGenerator.Configuration
             return node;
         }
 
-         
+
         /// <summary>
         /// Get Association Type
         /// </summary>
@@ -84,23 +84,5 @@ namespace cwContextGenerator.Configuration
             return at;
         }
 
-        /// <summary>
-        /// get target object type
-        /// </summary>
-        /// <returns></returns>
-        //public cwLightObjectType GetTargetObjectType(cwLightModel model)
-        //{
-        //    return this.GetAssociationType(model).Target;
-        //}
-
-
-        /// <summary>
-        /// get target object type
-        /// </summary>
-        /// <returns></returns>
-        //public cwLightObjectType GetTargetObjectType()
-        //{
-        //    return this.GetAssociationType(this.Model).Target;
-        //}
     }
 }

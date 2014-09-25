@@ -32,7 +32,7 @@ namespace cwContextGenerator.DataAnalysis
         /// <summary>
         /// dispatch the diagram data to diagram object
         /// </summary>
-        private void DispatchDiagramData()
+       private void DispatchDiagramData()
         {
             foreach (var diagramData in this.FilteredDiagramsData)
             {
