@@ -13,6 +13,7 @@ using Casewise.GraphAPI.Definitions;
 using cwContextGenerator.Configuration;
 using System.Web.Script.Serialization;
 using cwContextGenerator.DataAnalysis;
+using log4net;
 
 namespace cwContextGenerator.Core
 {
@@ -23,6 +24,8 @@ namespace cwContextGenerator.Core
 
     public class ApplicationCore
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(ApplicationCore));
+
         internal static string CONTEXTPATH_OT = "CWCONTEXTPATH";
         internal static string DIAGRAMTEMPLATE_PT = "DIAGRAMUUID";
         internal static string ATNAME_PT = "ATNAME";
@@ -61,6 +64,7 @@ namespace cwContextGenerator.Core
         /// <param name="conn">The connection.</param>
         public ApplicationCore(string user, string password, string database)
         {
+            log4net.Config.XmlConfigurator.Configure();
             CwFrameworkLoader.RegisterAssemblyResolveToCasewiseBin();
             if (!string.IsNullOrEmpty(user))
             {
@@ -68,8 +72,9 @@ namespace cwContextGenerator.Core
                 {
                     this._connection = new cwConnection(database, user, password);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    log.Error(e);
                     this.ReturnValue = -2;
                     return;
                 }
@@ -78,10 +83,12 @@ namespace cwContextGenerator.Core
             {
                 this._connection = new cwConnection();
             }
+            log.Debug("Connection open. Loading models...");
             this._allModels = this._connection.getModels();
 
             this._notEnabledModels = new List<cwLightModel>();
             this._enabledModels = new List<cwLightModel>();
+            log.Debug("Models loaded");
         }
         #endregion
 
@@ -90,10 +97,12 @@ namespace cwContextGenerator.Core
         /// </summary>
         public void closeConnection()
         {
+            log.Debug("Closing connection");
             if (this._connection != null)
             {
                 this._connection.CloseConnections();
             }
+            log.Debug("Connection closed");
         }
 
         /// <summary>
@@ -102,18 +111,23 @@ namespace cwContextGenerator.Core
         /// <param name="filename">The filename.</param>
         public void SetModelFromFilename(string filename)
         {
+            log.Debug("Select model " + filename + " for cwContextGenerator operation");
             cwLightModel model = this._allModels.Find(m => m.FileName.Equals(filename));
             if (model == null)
             {
                 this.ReturnValue = -3;
+                log.Error("Model " + filename + " does not exist in repository.");
                 return;
             }
             if (this._enabledModels.Exists(mod => mod.FileName.Equals(filename)))
             {
                 this.ReturnValue = -4;
+                log.Error("Model " + filename + " is not enabled for cwContextGenerator");
                 return;
             }
+
             this.SelectedModel = model;
+
         }
 
         /// <summary>
@@ -141,13 +155,19 @@ namespace cwContextGenerator.Core
         /// <returns></returns>
         public cwLightObject GetConfigurationObjectFromId(int id)
         {
+
+            log.Debug("Getting configuration object with id = " + id);
             cwLightModel m = this.SelectedModel;
+
             cwLightObjectType ot = m.getObjectTypeByScriptName(CONTEXTPATH_OT);
             cwLightObject o = ot.getObjectByID(id);
             if (o == null)
             {
                 this.ReturnValue = -5;
+                log.Error("Impossible to get configuration object with id = " + id);
+                return null;
             }
+            log.Debug("Configuration with id = " + id + " loaded");
             return o;
         }
 
@@ -157,14 +177,15 @@ namespace cwContextGenerator.Core
         /// <param name="m">The m.</param>
         public void EnableModel(cwLightModel m)
         {
+            log.Debug("Activating model " + m.FileName + " for cwContextGenerator operation");
             Assembly assembly = Assembly.GetExecutingAssembly();
             string[] resources = assembly.GetManifestResourceNames();
             Stream stream = assembly.GetManifestResourceStream("cwContextGenerator.Resources.ContextGeneratorMetaModel.xml");
             XmlReader reader = XmlReader.Create(stream);
-
             CasewiseProfessionalServices.Data.cwMetaModelManager manager = new CasewiseProfessionalServices.Data.cwMetaModelManager(Tool.GetModelFromLightModel(m));
             manager.UpdateMetaModel(reader);
             m.loadLightModelContent();
+            log.Debug("Meta model updated for model " + m.FileName);
         }
 
         /// <summary>
@@ -204,6 +225,7 @@ namespace cwContextGenerator.Core
         /// <param name="ot">The ot.</param>
         public cwLightObject CreateConfiguration(cwLightObjectType ot, string newName)
         {
+            log.Debug("Create new configuration \"" + newName + "\"");
             // ajouter les éléments nécessaire au root node
             ConfigurationRootNode root = new ConfigurationRootNode(this.SelectedModel);
             root.Name = newName;
@@ -212,6 +234,7 @@ namespace cwContextGenerator.Core
             cwLightObject o = ot.createUsingNameAndGet(newName);
             o.getProperty<CwPropertyMemo>("DESCRIPTION").Value = serialize.ToString();
             o.updatePropertiesInModel();
+            log.Debug("Configuration created");
             return o;
         }
 
@@ -238,6 +261,8 @@ namespace cwContextGenerator.Core
             CwPropertyMemo memo = o.getProperty<CwPropertyMemo>("DESCRIPTION");
             JavaScriptSerializer s = new JavaScriptSerializer();
             ConfigurationRootNode root = s.Deserialize(memo.DisplayValue, typeof(ConfigurationRootNode)) as ConfigurationRootNode;
+            cwLightModel model = o.GetObjectType().Model;
+            root.SetModelForAllNodes(model);
             return root;
         }
 
@@ -248,6 +273,7 @@ namespace cwContextGenerator.Core
         /// <returns></returns>
         public LauncherTreeNodeConfigurationNode BuildTreeNode(ConfigurationRootNode config)
         {
+            log.Debug("Create ui treenode from configuration");
             LauncherTreeNodeConfigurationNode root = new LauncherTreeNodeConfigurationNode(this, config);
             List<ConfigurationObjectNode> children = config.ChildrenNodes;
             foreach (ConfigurationObjectNode child in children)
@@ -256,6 +282,7 @@ namespace cwContextGenerator.Core
                 this.BrowseNodeToLoadConfiguration(n, child);
                 root.Nodes.Add(n);
             }
+            log.Debug("Treenodes created");
             return root;
         }
 
@@ -294,7 +321,10 @@ namespace cwContextGenerator.Core
         /// </summary>
         public void SaveConfiguration(LauncherTreeNodeConfigurationNode rootNode, cwLightObject o)
         {
-            ConfigurationRootNode config = new ConfigurationRootNode(this.SelectedModel);
+
+            log.Debug("Creating configuration from ui treenode");
+           ConfigurationRootNode config = new ConfigurationRootNode(this.SelectedModel);
+
             rootNode.SetupConfigurationObject(config);
 
             List<LauncherTreeNodeObjectNode> children = rootNode.GetChildren();
@@ -308,8 +338,7 @@ namespace cwContextGenerator.Core
             StringBuilder xml = this.SerializeConfiguration(config);
             o.getProperty<CwPropertyMemo>("DESCRIPTION").Value = xml.ToString();
             o.updatePropertiesInModel();
-
-            //config.ChildrenNodes[0].GetNode();
+            log.Debug("Configuration written in model");
         }
 
         /// <summary>
@@ -340,169 +369,28 @@ namespace cwContextGenerator.Core
             this.ReturnValue = -1;
             try
             {
-                config.SetModel(this.SelectedModel);
 
-                Dictionary<int, cwLightObject>  lightdiagramsById = config.GetDiagramNode().usedOTLightObjectsByID;
-   
-                //diagram data
-                CwDiagramDataStore diagramDataStore = new CwDiagramDataStore(config.Filters, this.SelectedModel);
-                //data on diagram
-                DiagramContextDataStore contextDataStore = new DiagramContextDataStore(diagramDataStore.DiagramIds, this.SelectedModel);
+                DateTime start = DateTime.Now;
+                log.Debug("Start operation");
+               // cwLightModel m = this._selectedModel;
 
-                foreach (int diagramId in diagramDataStore.DiagramIds)
-                {
-                    if (!contextDataStore.DiagramContextByDiagramId.ContainsKey(diagramId))
-                    {
-                        continue;
-                    }
+                
 
-                    CwDiagram diagram = diagramDataStore.FilteredDiagrams[diagramId];
-
-                    DiagramContext diagramContext = contextDataStore.DiagramContextByDiagramId[diagramId];
-
-                    List<CwShape> parentShapes = new List<CwShape>();
-                    cwLightObject parentObjectContext;
-                    parentShapes = diagramContext.GetShapesByObject(diagram.Parent);
-                    if (parentShapes == null)
-                    {
-                        // parent object must have at least one shape on the diagram
-                        continue;
-                    }
-                    else
-                    {
-                        parentObjectContext = this.CreateContextObject(parentShapes.FirstOrDefault());
-                    }
-
-                    List<ConfigurationObjectNode> childrenNode = config.ChildrenNodes;
-                    foreach (ConfigurationObjectNode childNode in childrenNode)
-                    {
-                        cwLightAssociationType associationType = childNode.GetAssociationType(this.SelectedModel);
-                        cwLightObjectType targetObjectType = associationType.Target;
-
-                        //todo : targetObjectType.targetObjectType.getObjectsByFilter <=childNode Filters                    
-                        List<CwShape> targeObjectOnDiagram = new List<CwShape>();
-                        diagramContext.ShapesByObjectTypeId.TryGetValue(targetObjectType.ID, out targeObjectOnDiagram);
-
-                        switch (childNode.ReadingMode)
-                        {
-                            case ReadingMode.Includes:
-                                foreach (CwShape parentShape in parentShapes)
-                                {
-                                    Dictionary<int, List<CwShape>> includesShapes = parentShape.ChildrenShapesByObjectTypeId;
-                                    List<CwShape> includesTargetShapes = new List<CwShape>();
-
-                                    includesShapes.TryGetValue(targetObjectType.ID, out includesTargetShapes);
-                                    if (includesTargetShapes == null)
-                                    {
-                                        continue;
-                                    }
-
-                                    var res = includesTargetShapes.Union(targeObjectOnDiagram, new ShapeComparator());
-                                    if (res.ToList() != null)
-                                    {
-                                        this.CreateContextObject(parentObjectContext, associationType, includesTargetShapes);
-                                    }
-                                }
-                                break;
-                            case ReadingMode.IsIncludedIn:
-                                foreach (CwShape parentShape in parentShapes)
-                                {
-                                    Dictionary<int, List<CwShape>> containerShapes = parentShape.ParentsShapesByObjectTypeId;
-                                    List<CwShape> containerTargetShapes = new List<CwShape>();
-                                    containerShapes.TryGetValue(targetObjectType.ID, out containerTargetShapes);
-                                    if (containerTargetShapes == null)
-                                    {
-                                        continue;
-                                    }
-
-                                    var res = containerTargetShapes.Union(targeObjectOnDiagram, new ShapeComparator());
-                                    if (res.ToList() != null)
-                                    {
-                                        this.CreateContextObject(parentObjectContext, associationType, containerTargetShapes);
-                                    }
-                                }
-                                break;
-                            case ReadingMode.IsLinkWithJoiner:
-                                foreach (CwShape parentShape in parentShapes)
-                                {
-                                    Dictionary<int, List<int>> toShapesByIntersectaionId = parentShape.ToShapesByIntersectionId;
-                                    List<int> toShapesId = new List<int>();
-                                    List<CwShape> toShapes = new List<CwShape>();
-
-                                    toShapesByIntersectaionId.TryGetValue(associationType.Intersection.ID, out toShapesId);
-                                    if (toShapes == null)
-                                    {
-                                        continue;
-                                    }
-
-                                    foreach (int toShapeId in toShapesId)
-                                    {
-                                        CwShape shape = null;
-                                        diagramContext.ShapesById.TryGetValue(toShapeId, out shape);
-                                        if (shape != null)
-                                        {
-                                            toShapes.Add(shape);
-                                        }
-                                    }
-
-                                    if (toShapes.Count != 0)
-                                    {
-                                        this.CreateContextObject(parentObjectContext, associationType, toShapes);
-                                    }
-                                }
-                                break;
-                            default:
-
-                                break;
-                        }
-                    }
-                }
 
 
                 // appel du context manager
+                log.Debug("Operation done ! Duration : " + DateTime.Now.Subtract(start).ToString());
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 this.ReturnValue = 1;
+                log.Error("Error occured during operation.", e);
+                return;
             }
         }
         #endregion
 
-        public cwLightObject CreateContextObject(cwLightObject parentContextObject, cwLightAssociationType at, List<CwShape> childrenShapes)
-        {
-            cwLightObjectType contextOT = this.SelectedModel.getObjectTypeByScriptName("CWCONTEXTNODE");
-            cwLightAssociationType atContextToContext = contextOT.getAssociationTypeByScriptName("CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODECWCONTEXTNODEFATHEROFFORWARDTOCWCONTEXTNODE");
-            cwLightAssociationType atContextStartFrom = contextOT.getAssociationTypeByScriptName("CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODEANYOBJECTHASSTARTOBJECTFORWARDTOANYOBJECT");
-            cwLightAssociationType atContextEndWith = contextOT.getAssociationTypeByScriptName("CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODEANYOBJECTHASENDOBJECTFORWARDTOANYOBJECT");
-
-            cwLightObject childContextObject = null;
-            if (childrenShapes.Count > 0)
-            {
-                childContextObject = contextOT.createUsingNameAndGet("Context");
-            }
-            parentContextObject.AssociateToWithTransaction(atContextToContext, childContextObject, this.SelectedModel);
-
-            foreach (CwShape childShape in childrenShapes)
-            {
-                cwLightObject childOnObject = childShape.GetOnObject(this.SelectedModel);
-                childContextObject.AssociateToWithTransaction(atContextEndWith, childOnObject, this.SelectedModel);
-            }
-            return null;
-        }
-
-        public cwLightObject CreateContextObject(CwShape parentShape)
-        {
-            return this.CreateContextObject(parentShape, this.SelectedModel);
-        }
-
-        public cwLightObject CreateContextObject(CwShape parentShape, cwLightModel model)
-        {
-            cwLightObjectType contextOT = model.getObjectTypeByScriptName("CWCONTEXTNODE");
-            cwLightObject parentOnObject = parentShape.GetOnObject(model);
-            Dictionary<string, CwProperty> sourceProperties = new Dictionary<string, CwProperty>();
-            cwLightObject parentContextObject = contextOT.createUsingNameAndGet(parentOnObject.Text + "_" + parentOnObject.ID + "_" + DateTime.Now);
-            return parentContextObject;
-        }
+       
 
     }
 }

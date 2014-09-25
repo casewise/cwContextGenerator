@@ -47,6 +47,19 @@ namespace cwContextGenerator.Configuration
             this.Model = model;
         }
         /// <summary>
+        /// Sets the model for all nodes.
+        /// </summary>
+        /// <param name="m">The m.</param>
+        public void SetModelForAllNodes(cwLightModel m)
+        {
+            this.Model = m;
+            foreach (ConfigurationObjectNode node in this.ChildrenNodes)
+            {
+                node.SetModelForAllNodes(m);
+            }
+        }
+
+        /// <summary>
         /// Adds the child node.
         /// </summary>
         /// <param name="n">The n.</param>
