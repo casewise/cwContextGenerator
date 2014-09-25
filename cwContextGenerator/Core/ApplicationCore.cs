@@ -323,7 +323,7 @@ namespace cwContextGenerator.Core
         {
 
             log.Debug("Creating configuration from ui treenode");
-           ConfigurationRootNode config = new ConfigurationRootNode(this.SelectedModel);
+            ConfigurationRootNode config = new ConfigurationRootNode(this.SelectedModel);
 
             rootNode.SetupConfigurationObject(config);
 
@@ -372,11 +372,9 @@ namespace cwContextGenerator.Core
 
                 DateTime start = DateTime.Now;
                 log.Debug("Start operation");
-               // cwLightModel m = this._selectedModel;
-
-                
-
-
+                //cwLightModel m = this._selectedModel;
+                CwDiagramContextManager diagramContextManager = new CwDiagramContextManager(this.SelectedModel, config);
+                diagramContextManager.DoAnalysis();
 
                 // appel du context manager
                 log.Debug("Operation done ! Duration : " + DateTime.Now.Subtract(start).ToString());
@@ -389,8 +387,5 @@ namespace cwContextGenerator.Core
             }
         }
         #endregion
-
-       
-
     }
 }

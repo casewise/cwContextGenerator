@@ -11,136 +11,162 @@ namespace cwContextGenerator.DataAnalysis
     public class CwDiagramContextManager
     {
 
-        private cwLightModel SelectedModel;
-        private ConfigurationRootNode config;
+        private cwLightModel SelectedModel { get; set; }
+        private ConfigurationRootNode Config { get; set; }
+        private Dictionary<int, cwLightObject> ApprovedLightDiagramsById{get;set;}       
+
+
         public CwDiagramContextManager(cwLightModel model, ConfigurationRootNode config)
         {
-
             this.SelectedModel = model;
-            this.config = config;
-
+            this.Config = config;
+            this.ApprovedLightDiagramsById = new Dictionary<int, cwLightObject>();
         }
-        public void DoLater()
+
+        public void DoAnalysis()
         {
+            Dictionary<int, cwLightObject> lightDiagramById = this.GetLightDiagramById();
 
-            config.SetModel(this.SelectedModel);
+            CheckDiagram(lightDiagramById);
 
-            Dictionary<int, cwLightObject> lightdiagramsById = config.GetDiagramNode().usedOTLightObjectsByID;
+            DiagramContextDataStore contextDataStore = new DiagramContextDataStore(this.ApprovedLightDiagramsById.Keys.ToList(), this.SelectedModel);
 
-            //diagram data
-            CwDiagramDataStore diagramDataStore = new CwDiagramDataStore(config.Filters, this.SelectedModel);
-            //data on diagram
-            DiagramContextDataStore contextDataStore = new DiagramContextDataStore(diagramDataStore.DiagramIds, this.SelectedModel);
-
-            foreach (int diagramId in diagramDataStore.DiagramIds)
+            foreach (var d in this.ApprovedLightDiagramsById)
             {
+                int diagramId = d.Key;
+                cwLightObject approvedDiagram = d.Value;
                 if (!contextDataStore.DiagramContextByDiagramId.ContainsKey(diagramId))
                 {
                     continue;
                 }
-
-                CwDiagram diagram = diagramDataStore.FilteredDiagrams[diagramId];
-
-                DiagramContext diagramContext = contextDataStore.DiagramContextByDiagramId[diagramId];
-
-                List<CwShape> parentShapes = new List<CwShape>();
-                cwLightObject parentObjectContext;
-                parentShapes = diagramContext.GetShapesByObject(diagram.Parent);
-                if (parentShapes == null)
-                {
-                    // parent object must have at least one shape on the diagram
-                    continue;
-                }
                 else
                 {
-                    parentObjectContext = this.CreateContextObject(parentShapes.FirstOrDefault());
+                    CwDiagram diagram = new CwDiagram(approvedDiagram,this.SelectedModel);
+                    DiagramContext diagramContext = contextDataStore.DiagramContextByDiagramId[diagramId];
+                    CreateContextObjects(diagram,diagramContext);
                 }
 
-                List<ConfigurationObjectNode> childrenNode = config.ChildrenNodes;
-                foreach (ConfigurationObjectNode childNode in childrenNode)
-                {
-                    cwLightAssociationType associationType = childNode.GetAssociationType(this.SelectedModel);
-                    cwLightObjectType targetObjectType = associationType.Target;
+            }
+        }
 
-                    //todo : targetObjectType.targetObjectType.getObjectsByFilter <=childNode Filters                    
-                    List<CwShape> targeObjectOnDiagram = new List<CwShape>();
-                    diagramContext.ShapesByObjectTypeId.TryGetValue(targetObjectType.ID, out targeObjectOnDiagram);
+        private Dictionary<int, cwLightObject> GetLightDiagramById()
+        {
+            Dictionary<int, cwLightObject> lightdiagramsById = Config.GetDiagramNode().usedOTLightObjectsByID;
+            return lightdiagramsById;
+        }
 
-                    switch (childNode.ReadingMode)
-                    {
-                        case ReadingMode.Includes:
-                            foreach (CwShape parentShape in parentShapes)
-                            {
-                                Dictionary<int, List<CwShape>> includesShapes = parentShape.ChildrenShapesByObjectTypeId;
-                                List<CwShape> includesTargetShapes = new List<CwShape>();
+        private void CheckDiagram(Dictionary<int, cwLightObject> lightDiagramById)
+        {
+            foreach (var d in lightDiagramById) {
+                int diagramId = d.Key;
+                cwLightObject lightDiagram = d.Value;
 
-                                includesShapes.TryGetValue(targetObjectType.ID, out includesTargetShapes);
-                                if (includesTargetShapes == null)
-                                {
-                                    continue;
-                                }
-
-                                var res = includesTargetShapes.Union(targeObjectOnDiagram, new ShapeComparator());
-                                if (res.ToList() != null)
-                                {
-                                    this.CreateContextObject(parentObjectContext, associationType, includesTargetShapes);
-                                }
-                            }
-                            break;
-                        case ReadingMode.IsIncludedIn:
-                            foreach (CwShape parentShape in parentShapes)
-                            {
-                                Dictionary<int, List<CwShape>> containerShapes = parentShape.ParentsShapesByObjectTypeId;
-                                List<CwShape> containerTargetShapes = new List<CwShape>();
-                                containerShapes.TryGetValue(targetObjectType.ID, out containerTargetShapes);
-                                if (containerTargetShapes == null)
-                                {
-                                    continue;
-                                }
-
-                                var res = containerTargetShapes.Union(targeObjectOnDiagram, new ShapeComparator());
-                                if (res.ToList() != null)
-                                {
-                                    this.CreateContextObject(parentObjectContext, associationType, containerTargetShapes);
-                                }
-                            }
-                            break;
-                        case ReadingMode.IsLinkWithJoiner:
-                            foreach (CwShape parentShape in parentShapes)
-                            {
-                                Dictionary<int, List<int>> toShapesByIntersectaionId = parentShape.ToShapesByIntersectionId;
-                                List<int> toShapesId = new List<int>();
-                                List<CwShape> toShapes = new List<CwShape>();
-
-                                toShapesByIntersectaionId.TryGetValue(associationType.Intersection.ID, out toShapesId);
-                                if (toShapes == null)
-                                {
-                                    continue;
-                                }
-
-                                foreach (int toShapeId in toShapesId)
-                                {
-                                    CwShape shape = null;
-                                    diagramContext.ShapesById.TryGetValue(toShapeId, out shape);
-                                    if (shape != null)
-                                    {
-                                        toShapes.Add(shape);
-                                    }
-                                }
-
-                                if (toShapes.Count != 0)
-                                {
-                                    this.CreateContextObject(parentObjectContext, associationType, toShapes);
-                                }
-                            }
-                            break;
-                        default:
-
-                            break;
-                    }
+                int parentObjectId = Convert.ToInt32(lightDiagram.properties["OBJECTID"].Value);
+                if (parentObjectId != 0) {
+                    this.ApprovedLightDiagramsById[diagramId] = lightDiagram;
                 }
             }
         }
+
+        public void CreateContextObjects(CwDiagram diagram, DiagramContext diagramContext)
+        {
+            List<CwShape> parentShapes = new List<CwShape>();
+            cwLightObject parentObjectContext;
+            parentShapes = diagramContext.GetShapesByObject(diagram.Parent);
+            if (parentShapes == null)
+            {
+                return;
+            }
+            else
+            {
+                parentObjectContext = this.CreateContextObject(parentShapes.FirstOrDefault());
+            }
+
+            List<ConfigurationObjectNode> childrenNode = Config.ChildrenNodes;
+            foreach (ConfigurationObjectNode childNode in childrenNode)
+            {
+                cwLightAssociationType associationType = childNode.GetAssociationType(this.SelectedModel);
+                cwLightObjectType targetObjectType = associationType.Target;
+
+                //todo : targetObjectType.targetObjectType.getObjectsByFilter <=childNode Filters                    
+                List<CwShape> targeObjectOnDiagram = new List<CwShape>();
+                diagramContext.ShapesByObjectTypeId.TryGetValue(targetObjectType.ID, out targeObjectOnDiagram);
+
+                switch (childNode.ReadingMode)
+                {
+                    case ReadingMode.Includes:
+                        foreach (CwShape parentShape in parentShapes)
+                        {
+                            Dictionary<int, List<CwShape>> includesShapes = parentShape.ChildrenShapesByObjectTypeId;
+                            List<CwShape> includesTargetShapes = new List<CwShape>();
+
+                            includesShapes.TryGetValue(targetObjectType.ID, out includesTargetShapes);
+                            if (includesTargetShapes == null)
+                            {
+                                continue;
+                            }
+
+                            var res = includesTargetShapes.Union(targeObjectOnDiagram, new ShapeComparator());
+                            if (res.ToList() != null)
+                            {
+                                this.CreateContextObject(parentObjectContext, associationType, includesTargetShapes);
+                            }
+                        }
+                        break;
+                    case ReadingMode.IsIncludedIn:
+                        foreach (CwShape parentShape in parentShapes)
+                        {
+                            Dictionary<int, List<CwShape>> containerShapes = parentShape.ParentsShapesByObjectTypeId;
+                            List<CwShape> containerTargetShapes = new List<CwShape>();
+                            containerShapes.TryGetValue(targetObjectType.ID, out containerTargetShapes);
+                            if (containerTargetShapes == null)
+                            {
+                                continue;
+                            }
+
+                            var res = containerTargetShapes.Union(targeObjectOnDiagram, new ShapeComparator());
+                            if (res.ToList() != null)
+                            {
+                                this.CreateContextObject(parentObjectContext, associationType, containerTargetShapes);
+                            }
+                        }
+                        break;
+                    case ReadingMode.IsLinkWithJoiner:
+                        foreach (CwShape parentShape in parentShapes)
+                        {
+                            Dictionary<int, List<int>> toShapesByIntersectaionId = parentShape.ToShapesByIntersectionId;
+                            List<int> toShapesId = new List<int>();
+                            List<CwShape> toShapes = new List<CwShape>();
+
+                            toShapesByIntersectaionId.TryGetValue(associationType.Intersection.ID, out toShapesId);
+                            if (toShapes == null)
+                            {
+                                continue;
+                            }
+
+                            foreach (int toShapeId in toShapesId)
+                            {
+                                CwShape shape = null;
+                                diagramContext.ShapesById.TryGetValue(toShapeId, out shape);
+                                if (shape != null)
+                                {
+                                    toShapes.Add(shape);
+                                }
+                            }
+
+                            if (toShapes.Count != 0)
+                            {
+                                this.CreateContextObject(parentObjectContext, associationType, toShapes);
+                            }
+                        }
+                        break;
+                    default:
+
+                        break;
+                }
+            }
+        }
+
         public cwLightObject CreateContextObject(cwLightObject parentContextObject, cwLightAssociationType at, List<CwShape> childrenShapes)
         {
             cwLightObjectType contextOT = this.SelectedModel.getObjectTypeByScriptName("CWCONTEXTNODE");
