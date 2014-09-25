@@ -258,6 +258,8 @@ namespace cwContextGenerator.Core
             CwPropertyMemo memo = o.getProperty<CwPropertyMemo>("DESCRIPTION");
             JavaScriptSerializer s = new JavaScriptSerializer();
             ConfigurationRootNode root = s.Deserialize(memo.DisplayValue, typeof(ConfigurationRootNode)) as ConfigurationRootNode;
+            cwLightModel model = o.GetObjectType().Model;
+            root.SetModelForAllNodes(model);
             return root;
         }
 
