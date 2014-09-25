@@ -42,9 +42,9 @@ namespace cwContextGenerator.Configuration
         {
             this.Core = c;
             this.config = _config;
-            if (!string.IsNullOrEmpty(this.config.name))
+            if (!string.IsNullOrEmpty(this.config.Name))
             {
-                this.Text = this.config.name;
+                this.Text = this.config.Name;
             }
         }
         #endregion
@@ -127,22 +127,22 @@ namespace cwContextGenerator.Configuration
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void addItem_Click(object sender, EventArgs e)
         {
-            ConfigurationObjectNode config = new ConfigurationObjectNode(this.Core._selectedModel);
+            ConfigurationObjectNode config = new ConfigurationObjectNode(this.Core.SelectedModel);
             if (this.bName != null)
             {
                 cwLightObjectType target = this.bAt.getSelectedTargetObjectType();
                 if (target != null)
                 {
-                    config.otScriptname = target.ScriptName;
-                    config.name = target.ToString();
+                    config.ObjectTypeScriptName = target.ScriptName;
+                    config.Name = target.ToString();
                 }
                 else
                 {
                     cwLightObjectType ot = this.bOt.getSelectedObjectType();
                     if (ot != null)
                     {
-                        config.otScriptname = ot.ScriptName;
-                        config.name = ot.ToString();
+                        config.ObjectTypeScriptName = ot.ScriptName;
+                        config.Name = ot.ToString();
                     }
                 }
             }
@@ -210,10 +210,10 @@ namespace cwContextGenerator.Configuration
                 this.bOt = new cwPSFPropertyBoxComboBoxObjectType(null, "Objet Type", string.Empty, string.Empty, null);
                 this.bAt = new cwPSFPropertyBoxComboBoxAssociationType(null, "Association Type", string.Empty, string.Empty, null);
                 this.bFilter = new cwPSFPropertyBoxFilterProperties(null, "Filtre (ET)", string.Empty, string.Empty);
-                this.bReadingPath = new cwPSFPropertyBoxComboBox(null, "Mode de lecture", string.Empty, string.Empty, Enum.GetNames(typeof(READING_PATH)));
+                this.bReadingPath = new cwPSFPropertyBoxComboBox(null, "Mode de lecture", string.Empty, string.Empty, Enum.GetNames(typeof(ReadingMode)));
 
-                this.bOt.loadNodes(this.Core._selectedModel);
-                this.bReadingPath.setValue(READING_PATH._NONE_.ToString());
+                this.bOt.loadNodes(this.Core.SelectedModel);
+                this.bReadingPath.setValue(ReadingMode._NONE_.ToString());
 
                 this.bOt.checkBoxChanged(this.bOt_Changed);
                 this.bAt.checkBoxChanged(this.bAt_Changed);
@@ -297,12 +297,12 @@ namespace cwContextGenerator.Configuration
         {
             if (this.bName != null)
             {
-                node.name = this.Text;
-                node.otScriptname = this.bOt.ToString();
-                node.atScriptname = this.bAt.ToString();
-                node.filters = this.bFilter.getDataGrid().GetAttributesFiltered();
+                node.Name = this.Text;
+                node.ObjectTypeScriptName = this.bOt.ToString();
+                node.AssociationTypeScriptName = this.bAt.ToString();
+                node.Filters = this.bFilter.getDataGrid().GetAttributesFiltered();
 
-                node.readingMode = (READING_PATH)Enum.Parse(typeof(READING_PATH), this.bReadingPath.getValue().ToString());
+                node.ReadingMode = (ReadingMode)Enum.Parse(typeof(ReadingMode), this.bReadingPath.getValue().ToString());
             }
         }
 
@@ -312,17 +312,17 @@ namespace cwContextGenerator.Configuration
         /// <param name="node">The node.</param>
         protected virtual void LoadFromConfigurationObject(ConfigurationObjectNode node)
         {
-            this.bName.setValue(node.name);
-            this.bOt.setValue(node.otScriptname);
-            this.bAt.setValue(node.atScriptname);
-            foreach (var attributesKeep in node.filters)
+            this.bName.setValue(node.Name);
+            this.bOt.setValue(node.ObjectTypeScriptName);
+            this.bAt.setValue(node.AssociationTypeScriptName);
+            foreach (var attributesKeep in node.Filters)
             {
                 foreach (cwLightNodePropertyFilter attributeFilter in attributesKeep.Value)
                 {
                     this.bFilter.getDataGrid().AddDataGridRow(attributeFilter.OperatorString, attributesKeep.Key, attributeFilter.Value);
                 }
             }
-            this.bReadingPath.setValue(node.readingMode.ToString());
+            this.bReadingPath.setValue(node.ReadingMode.ToString());
 
             this.bOt.enable();
             this.bAt.enable();

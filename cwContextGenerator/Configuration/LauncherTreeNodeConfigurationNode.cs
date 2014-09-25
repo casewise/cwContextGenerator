@@ -59,11 +59,11 @@ namespace cwContextGenerator.Configuration
             base.SetPropertiesBoxes(panel);
             if (this.bTemplate == null)
             {
-                this.bTemplate = new cwPSFPropertyBoxComboBoxTemplate(null, "Template", string.Empty, string.Empty, this.Core._selectedModel);
+                this.bTemplate = new cwPSFPropertyBoxComboBoxTemplate(null, "Template", string.Empty, string.Empty, this.Core.SelectedModel);
                 this.bAt.disable();
                 this.bReadingPath.disable();
 
-                this.bFilter.loadNodes(this.Core._selectedModel.getObjectTypeByScriptName("DIAGRAM"));
+                this.bFilter.loadNodes(this.Core.SelectedModel.getObjectTypeByScriptName("DIAGRAM"));
             }
             panel.addPropertyBox(this.bTemplate);
         }
@@ -88,7 +88,7 @@ namespace cwContextGenerator.Configuration
             if (this.bName != null)
             {
                 base.SetupConfigurationObject(node);
-                node.diagramId = this.bTemplate.ToString();
+                node.DiagramId = this.bTemplate.ToString();
             }
         }
 
@@ -102,7 +102,7 @@ namespace cwContextGenerator.Configuration
             this.bAt.disable();
             this.bReadingPath.disable();
             ConfigurationRootNode n = node as ConfigurationRootNode;
-            this.bTemplate.setValue(n.diagramId);
+            this.bTemplate.setValue(n.DiagramId);
         }
 
     }

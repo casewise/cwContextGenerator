@@ -48,7 +48,7 @@ namespace cwContextGenerator.GUI
             {
                 ContextMenuStrip menuStrip = new ContextMenuStrip();
                 menuStrip.RightToLeft = System.Windows.Forms.RightToLeft.No;
-                if (mainGUI.GetCore()._selectedModel == null)
+                if (mainGUI.GetCore().SelectedModel == null)
                 {
                     mainGUI.GetCore()._notEnabledModels.Sort();
                     for (var i = 0; i < mainGUI.GetCore()._notEnabledModels.Count; ++i)
@@ -61,7 +61,7 @@ namespace cwContextGenerator.GUI
                 }
                 else
                 {
-                    ctx_createItem(mainGUI.GetCore()._selectedModel);
+                    ctx_createItem(mainGUI.GetCore().SelectedModel);
                 }
                 menuStrip.Show(this, new Point(e.X, e.Y));
             }

@@ -66,7 +66,7 @@ namespace cwContextGenerator.GUI
         {
             if (e.Button.Equals(MouseButtons.Left))
             {
-                this.mainGUI.GetCore()._selectedModel = this._model;
+                this.mainGUI.GetCore().SelectedModel = this._model;
                 this.mainGUI.DisplayConfigurations(this._model);
                 this.mainGUI.optionBack.Visible = true;
             }

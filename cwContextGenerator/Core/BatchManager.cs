@@ -48,7 +48,6 @@ namespace cwContextGenerator.Core
                         break;
                 }
             }
-
         }
 
         /// <summary>

@@ -24,7 +24,7 @@ namespace cwContextGenerator.GUI
     public partial class EditModeGUI : Form
     {
 
-        private static readonly ILog log = LogManager.GetLogger(typeof(EditModeGUI));
+        private static readonly ILog log = log4net.LogManager.GetLogger(typeof(EditModeGUI));
 
         private cwLightObject _cmObject = null;
         private cwLightModel _model = null;

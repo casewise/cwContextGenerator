@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="cwContextGenerator.Configuration.ConfigurationObjectNode">
+    <Position X="6" Y="3.25" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIBkAAAAAAAIAAIAQAEAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Configuration\ConfigurationObjectNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cwContextGenerator.Configuration.ConfigurationRootNode">
+    <Position X="6" Y="7" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAQAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\ConfigurationRootNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="8.83" />
+</ClassDiagram>

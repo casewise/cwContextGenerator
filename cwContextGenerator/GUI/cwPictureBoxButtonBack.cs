@@ -24,7 +24,7 @@ namespace cwContextGenerator.GUI
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cwPictureBoxButtonBack_Click(object sender, EventArgs e)
         {
-            this.mainGUI.GetCore()._selectedModel = null;
+            this.mainGUI.GetCore().SelectedModel = null;
             this.mainGUI.DisplayEnabledModels();
         }
 

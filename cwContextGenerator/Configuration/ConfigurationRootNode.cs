@@ -12,7 +12,7 @@ namespace cwContextGenerator.Configuration
 {
     public class ConfigurationRootNode : ConfigurationObjectNode
     {
-        public string diagramId { get; set; }
+        public string DiagramId { get; set; }
 
         public ConfigurationRootNode()
             : base()
@@ -22,27 +22,28 @@ namespace cwContextGenerator.Configuration
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigurationRootNode"/> class.
         /// </summary>
-        public ConfigurationRootNode(cwLightModel m)
-            : base(m)
+        public ConfigurationRootNode(cwLightModel model)
+            : base(model)
         {
         }
 
         public new cwLightNodeObjectType GetNode()
         {
-            cwLightObjectType ot = this.Model.ObjectTypeManager.GetObjectTypeByScriptName(this.otScriptname);
+            cwLightObjectType ot = this.Model.getObjectTypeByScriptName(this.ObjectTypeScriptName);
             cwLightNodeObjectType node = new cwLightNodeObjectType(ot);
-
             return node;
         }
 
         public cwLightNodeObjectType GetDiagramNode()
         {
-            cwLightObjectType ot = this.Model.ObjectTypeManager.GetObjectTypeByScriptName("DIAGRAM");
+            cwLightObjectType ot = this.Model.getObjectTypeByScriptName("DIAGRAM");
             cwLightNodeObjectType node = new cwLightNodeObjectType(ot);
+
+            node.selectedPropertiesScriptName = new string[] { "ID", "NAME" }.ToList();
+            node.attributeFiltersKeep = this.Filters;
 
             return node;
         }
-
 
     }
 }

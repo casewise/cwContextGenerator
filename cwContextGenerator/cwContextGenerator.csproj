@@ -63,24 +63,20 @@
       <HintPath>..\..\..\..\..\..\..\..\Dev\CasewiseProfessionalServices\CasewiseProfessionalServicesApplication\bin\Debug\CasewiseProfessionalServices.dll</HintPath>
     </Reference>
     <Reference Include="cwGraphAPI">
-      <HintPath>..\..\lib\evolve\cwGraphAPI.dll</HintPath>
+      <HintPath>..\..\dll\cwGraphAPI.dll</HintPath>
     </Reference>
     <Reference Include="cwGraphAPIDefinitions">
-      <HintPath>..\..\lib\evolve\cwGraphAPIDefinitions.dll</HintPath>
+      <HintPath>..\..\dll\cwGraphAPIDefinitions.dll</HintPath>
     </Reference>
-    <Reference Include="cwPSF, Version=2.0.0.108, Culture=neutral, PublicKeyToken=db9f61c05792b625, processorArchitecture=x86">
+    <Reference Include="cwPSF">
+      <HintPath>..\..\dll\cwPSF.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\x86\Debug\cwPSF.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\..\lib\evolve\log4net.dll</HintPath>
+      <HintPath>..\..\dll\log4net.dll</HintPath>
     </Reference>
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="ReachFramework" />
-    <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Program Files\Microsoft Ribbon for WPF\V4.0\RibbonControlsLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -109,7 +105,15 @@
     <Compile Include="Configuration\LauncherTreeNodeConfigurationNode.cs" />
     <Compile Include="Core\ApplicationCore.cs" />
     <Compile Include="Core\BatchManager.cs" />
-    <Compile Include="Core\LogManager.cs" />
+    <Compile Include="DataAnalysis\CwDiagram.cs" />
+    <Compile Include="DataAnalysis\CwDiagramDataStore.cs" />
+    <Compile Include="DataAnalysis\CwJoiner.cs" />
+    <Compile Include="DataAnalysis\CwShape.cs" />
+    <Compile Include="DataAnalysis\DiagramContext.cs" />
+    <Compile Include="DataAnalysis\DiagramContextDataStore.cs" />
+    <Compile Include="DataAnalysis\ShapeComparer.cs" />
+    <Compile Include="DataAnalysis\ShapeCouple.cs" />
+    <Compile Include="Data\CwDiagramDataLoader.cs" />
     <Compile Include="GUI\EditModeGUI.cs">
       <SubType>Form</SubType>
     </Compile>
