@@ -12,6 +12,7 @@ using Casewise.GraphAPI.API.Graph;
 using Casewise.GraphAPI.Definitions;
 using cwContextGenerator.Configuration;
 using System.Web.Script.Serialization;
+using log4net;
 
 namespace cwContextGenerator.Core
 {
@@ -22,6 +23,8 @@ namespace cwContextGenerator.Core
 
     public class ApplicationCore
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(ApplicationCore));
+
         internal static string CONTEXTPATH_OT = "CWCONTEXTPATH";
         internal static string DIAGRAMTEMPLATE_PT = "DIAGRAMUUID";
         internal static string ATNAME_PT = "ATNAME";
@@ -61,6 +64,7 @@ namespace cwContextGenerator.Core
         /// <param name="conn">The connection.</param>
         public ApplicationCore(string user, string password, string database)
         {
+            log4net.Config.XmlConfigurator.Configure();
             CwFrameworkLoader.RegisterAssemblyResolveToCasewiseBin();
             if (!string.IsNullOrEmpty(user))
             {
@@ -68,8 +72,9 @@ namespace cwContextGenerator.Core
                 {
                     this._connection = new cwConnection(database, user, password);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    log.Error(e);
                     this.ReturnValue = -2;
                     return;
                 }
@@ -78,10 +83,12 @@ namespace cwContextGenerator.Core
             {
                 this._connection = new cwConnection();
             }
+            log.Debug("Connection open. Loading models...");
             this._allModels = this._connection.getModels();
 
             this._notEnabledModels = new List<cwLightModel>();
             this._enabledModels = new List<cwLightModel>();
+            log.Debug("Models loaded");
         }
         #endregion
 
@@ -90,10 +97,12 @@ namespace cwContextGenerator.Core
         /// </summary>
         public void closeConnection()
         {
+            log.Debug("Closing connection");
             if (this._connection != null)
             {
                 this._connection.CloseConnections();
             }
+            log.Debug("Connection closed");
         }
 
         /// <summary>
@@ -102,17 +111,21 @@ namespace cwContextGenerator.Core
         /// <param name="filename">The filename.</param>
         public void SetModelFromFilename(string filename)
         {
+            log.Debug("Select model " + filename + " for cwContextGenerator operation");
             cwLightModel model = this._allModels.Find(m => m.FileName.Equals(filename));
             if (model == null)
             {
                 this.ReturnValue = -3;
+                log.Error("Model " + filename + " does not exist in repository.");
                 return;
             }
             if (this._enabledModels.Exists(mod => mod.FileName.Equals(filename)))
             {
                 this.ReturnValue = -4;
+                log.Error("Model " + filename + " is not enabled for cwContextGenerator");
                 return;
             }
+            log.Debug("Set model " + filename + " for cwContextGenerator operation");
             this._selectedModel = model;
         }
 
@@ -141,13 +154,17 @@ namespace cwContextGenerator.Core
         /// <returns></returns>
         public cwLightObject GetConfigurationObjectFromId(int id)
         {
+            log.Debug("Getting configuration object with id = " + id);
             cwLightModel m = this._selectedModel;
             cwLightObjectType ot = m.getObjectTypeByScriptName(CONTEXTPATH_OT);
             cwLightObject o = ot.getObjectByID(id);
             if (o == null)
             {
                 this.ReturnValue = -5;
+                log.Error("Impossible to get configuration object with id = " + id);
+                return null;
             }
+            log.Debug("Configuration with id = " + id + " loaded");
             return o;
         }
 
@@ -157,14 +174,15 @@ namespace cwContextGenerator.Core
         /// <param name="m">The m.</param>
         public void EnableModel(cwLightModel m)
         {
+            log.Debug("Activating model " + m.FileName + " for cwContextGenerator operation");
             Assembly assembly = Assembly.GetExecutingAssembly();
             string[] resources = assembly.GetManifestResourceNames();
             Stream stream = assembly.GetManifestResourceStream("cwContextGenerator.Resources.ContextGeneratorMetaModel.xml");
             XmlReader reader = XmlReader.Create(stream);
-
             CasewiseProfessionalServices.Data.cwMetaModelManager manager = new CasewiseProfessionalServices.Data.cwMetaModelManager(Tool.GetModelFromLightModel(m));
             manager.UpdateMetaModel(reader);
             m.loadLightModelContent();
+            log.Debug("Meta model updated for model " + m.FileName);
         }
 
         /// <summary>
@@ -204,6 +222,7 @@ namespace cwContextGenerator.Core
         /// <param name="ot">The ot.</param>
         public cwLightObject CreateConfiguration(cwLightObjectType ot, string newName)
         {
+            log.Debug("Create new configuration \"" + newName + "\"");
             // ajouter les éléments nécessaire au root node
             ConfigurationRootNode root = new ConfigurationRootNode(this._selectedModel);
             root.name = newName;
@@ -212,6 +231,7 @@ namespace cwContextGenerator.Core
             cwLightObject o = ot.createUsingNameAndGet(newName);
             o.getProperty<CwPropertyMemo>("DESCRIPTION").Value = serialize.ToString();
             o.updatePropertiesInModel();
+            log.Debug("Configuration created");
             return o;
         }
 
@@ -248,6 +268,7 @@ namespace cwContextGenerator.Core
         /// <returns></returns>
         public LauncherTreeNodeConfigurationNode BuildTreeNode(ConfigurationRootNode config)
         {
+            log.Debug("Create ui treenode from configuration");
             LauncherTreeNodeConfigurationNode root = new LauncherTreeNodeConfigurationNode(this, config);
             List<ConfigurationObjectNode> children = config.ChildrenNodes;
             foreach (ConfigurationObjectNode child in children)
@@ -256,6 +277,7 @@ namespace cwContextGenerator.Core
                 this.BrowseNodeToLoadConfiguration(n, child);
                 root.Nodes.Add(n);
             }
+            log.Debug("Treenodes created");
             return root;
         }
 
@@ -294,6 +316,7 @@ namespace cwContextGenerator.Core
         /// </summary>
         public void SaveConfiguration(LauncherTreeNodeConfigurationNode rootNode, cwLightObject o)
         {
+            log.Debug("Creating configuration from ui treenode");
             ConfigurationRootNode config = new ConfigurationRootNode(this._selectedModel);
             rootNode.SetupConfigurationObject(config);
 
@@ -308,8 +331,7 @@ namespace cwContextGenerator.Core
             StringBuilder xml = this.SerializeConfiguration(config);
             o.getProperty<CwPropertyMemo>("DESCRIPTION").Value = xml.ToString();
             o.updatePropertiesInModel();
-
-            //config.ChildrenNodes[0].GetNode();
+            log.Debug("Configuration written in model");
         }
 
         /// <summary>
@@ -340,12 +362,17 @@ namespace cwContextGenerator.Core
             this.ReturnValue = -1;
             try
             {
+                DateTime start = DateTime.Now;
+                log.Debug("Start operation");
                 cwLightModel m = this._selectedModel;
                 // appel du context manager
+                log.Debug("Operation done ! Duration : " + DateTime.Now.Subtract(start).ToString());
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 this.ReturnValue = 1;
+                log.Error("Error occured during operation.", e);
+                return;
             }
         }
         #endregion

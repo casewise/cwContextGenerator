@@ -109,7 +109,6 @@
     <Compile Include="Configuration\LauncherTreeNodeConfigurationNode.cs" />
     <Compile Include="Core\ApplicationCore.cs" />
     <Compile Include="Core\BatchManager.cs" />
-    <Compile Include="Core\LogManager.cs" />
     <Compile Include="GUI\EditModeGUI.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -62,8 +62,32 @@ namespace cwContextGenerator.GUI
             this.richTextBoxDebug.ScrollToCaret();
             this.richTextBoxDebug.Refresh();
             this.richTextBoxDebug.SelectionColor = richTextBoxDebug.ForeColor;
+            log.Info(message);
         }
 
+        /// <summary>
+        /// Appends the error.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public void appendError(string message)
+        {
+            this.richTextBoxDebug.AppendText(message);
+            this.richTextBoxDebug.ScrollToCaret();
+            this.richTextBoxDebug.Refresh();
+            log.Error(message);
+        }
+
+        /// <summary>
+        /// Appends the error.
+        /// </summary>
+        /// <param name="e">The e.</param>
+        public void appendError(Exception e)
+        {
+            this.richTextBoxDebug.AppendText(e.Message);
+            this.richTextBoxDebug.ScrollToCaret();
+            this.richTextBoxDebug.Refresh();
+            this.appendError(e.ToString());
+        }
 
         /// <summary>
         /// Suspends the layout.
@@ -102,6 +126,7 @@ namespace cwContextGenerator.GUI
         {
             Cursor.Current = Cursors.WaitCursor;
             this._core.SaveConfiguration(this.rootNode, this._cmObject);
+            this.appendInfo("Configuration sauvegardée !");
             Cursor.Current = Cursors.Default;
         }
 
@@ -113,7 +138,9 @@ namespace cwContextGenerator.GUI
         private void executeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
+            this.appendInfo("Exécution de la configuration");
             this._core.GenerateContextTree(this.rootNode.config as ConfigurationRootNode);
+            this.appendInfo("Fin de l'opération");
             Cursor.Current = Cursors.Default;
         }
 
