@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<cwMetaModel>
+  <cwObjectTypes>
+    <cwObjectType scriptname="CWCONTEXTNODE" text="CwContextNode" uuid="d95a4a112a0611e48266ecf4bb47d31e">
+      <cwPanes>
+        <cwPane scriptname="DESCRIPTION" text="Description" uuid="d95a4a132a0611e48266ecf4bb47d31e" sequence="2"/>
+        <cwPane scriptname="STATUS" text="Etat" uuid="d95a4a142a0611e48266ecf4bb47d31e" sequence="997"/>
+        <cwPane scriptname="GENERAL" text="General" uuid="d95a4a122a0611e48266ecf4bb47d31e" sequence="1"/>
+        <cwPane scriptname="VERSION" text="Version" uuid="d95a4a152a0611e48266ecf4bb47d31e" sequence="998"/>
+      </cwPanes>
+      <cwProperties>
+        <cwProperty scriptname="NAME" text="Nom" uuid="d95a4a162a0611e48266ecf4bb47d31e" type="string" flags="512" paneid="1"/>
+        <cwProperty scriptname="TYPE" text="Catégorie" uuid="d95a4a172a0611e48266ecf4bb47d31e" type="lookup" paneid="1"/>
+        <cwProperty scriptname="ATNAME" text="Association Type Name" uuid="9b094ac32a0711e48266ecf4bb47d31e" type="string" flags="32" paneid="1"/>
+        <cwProperty scriptname="ATSCRIPTNAME" text="Association Type Scriptname" uuid="a2f2295a2a0711e48266ecf4bb47d31e" type="string" flags="32" paneid="1"/>
+        <cwProperty scriptname="DESCRIPTION" text="Description" uuid="d95a4a182a0611e48266ecf4bb47d31e" type="multi" paneid="2"/>
+        <cwProperty scriptname="WHOOWNS" text="Propriétaire" uuid="d95a4a192a0611e48266ecf4bb47d31e" type="int" paneid="997"/>
+        <cwProperty scriptname="EXPORTFLAG" text="Niveau de protection" uuid="d95a4a1a2a0611e48266ecf4bb47d31e" type="int" paneid="997"/>
+        <cwProperty scriptname="VALIDATED" text="Validé" uuid="d95a4a1b2a0611e48266ecf4bb47d31e" type="bool" paneid="997"/>
+        <cwProperty scriptname="DATEVALIDATED" text="Date validation" uuid="d95a4a1c2a0611e48266ecf4bb47d31e" type="date" paneid="997"/>
+        <cwProperty scriptname="TEMPLATE" text="Template" uuid="d95a4a1d2a0611e48266ecf4bb47d31e" type="bool" paneid="997"/>
+        <cwProperty scriptname="ID" text="Id" uuid="d95a4a1e2a0611e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+        <cwProperty scriptname="WHOCREATED" text="Créé par" uuid="d95a4a1f2a0611e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+        <cwProperty scriptname="WHENCREATED" text="Date création" uuid="d95a4a202a0611e48266ecf4bb47d31e" type="date" flags="2" paneid="998"/>
+        <cwProperty scriptname="WHOUPDATED" text="Mis à jour par" uuid="d95a4a212a0611e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+        <cwProperty scriptname="WHENUPDATED" text="Date mise à jour" uuid="d95a4a222a0611e48266ecf4bb47d31e" type="date" flags="2" paneid="998"/>
+        <cwProperty scriptname="UNIQUEIDENTIFIER" text="Uuid" uuid="d95a4a232a0611e48266ecf4bb47d31e" type="string" flags="2" paneid="998"/>
+      </cwProperties>
+    </cwObjectType>
+    <cwObjectType scriptname="CWCONTEXTPATH" text="CwContextPath" uuid="d95a4a242a0611e48266ecf4bb47d31e">
+      <cwPanes>
+        <cwPane scriptname="DESCRIPTION" text="Description" uuid="d95a4a262a0611e48266ecf4bb47d31e" sequence="2"/>
+        <cwPane scriptname="STATUS" text="Etat" uuid="d95a4a272a0611e48266ecf4bb47d31e" sequence="997"/>
+        <cwPane scriptname="GENERAL" text="General" uuid="d95a4a252a0611e48266ecf4bb47d31e" sequence="1"/>
+        <cwPane scriptname="VERSION" text="Version" uuid="d95a4a282a0611e48266ecf4bb47d31e" sequence="998"/>
+      </cwPanes>
+      <cwProperties>
+        <cwProperty scriptname="NAME" text="Nom" uuid="d95a4a292a0611e48266ecf4bb47d31e" type="string" flags="512" paneid="1"/>
+        <cwProperty scriptname="TYPE" text="Catégorie" uuid="d95a4a2a2a0611e48266ecf4bb47d31e" type="lookup" paneid="1"/>
+        <cwProperty scriptname="DIAGRAMUUID" text="Diagram Template Uuid" uuid="c23a50182a0711e48266ecf4bb47d31e" type="string" flags="32" paneid="1"/>
+        <cwProperty scriptname="DESCRIPTION" text="Description" uuid="d95a4a2b2a0611e48266ecf4bb47d31e" type="multi" paneid="2"/>
+        <cwProperty scriptname="WHOOWNS" text="Propriétaire" uuid="d95a4a2c2a0611e48266ecf4bb47d31e" type="int" paneid="997"/>
+        <cwProperty scriptname="EXPORTFLAG" text="Niveau de protection" uuid="d95a4a2d2a0611e48266ecf4bb47d31e" type="int" paneid="997"/>
+        <cwProperty scriptname="VALIDATED" text="Validé" uuid="d95a4a2e2a0611e48266ecf4bb47d31e" type="bool" paneid="997"/>
+        <cwProperty scriptname="DATEVALIDATED" text="Date validation" uuid="d95a4a2f2a0611e48266ecf4bb47d31e" type="date" paneid="997"/>
+        <cwProperty scriptname="TEMPLATE" text="Template" uuid="d95a4a302a0611e48266ecf4bb47d31e" type="bool" paneid="997"/>
+        <cwProperty scriptname="ID" text="Id" uuid="d95a4a312a0611e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+        <cwProperty scriptname="WHOCREATED" text="Créé par" uuid="d95a4a322a0611e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+        <cwProperty scriptname="WHENCREATED" text="Date création" uuid="d95a4a332a0611e48266ecf4bb47d31e" type="date" flags="2" paneid="998"/>
+        <cwProperty scriptname="WHOUPDATED" text="Mis à jour par" uuid="d95a4a342a0611e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+        <cwProperty scriptname="WHENUPDATED" text="Date mise à jour" uuid="d95a4a352a0611e48266ecf4bb47d31e" type="date" flags="2" paneid="998"/>
+        <cwProperty scriptname="UNIQUEIDENTIFIER" text="Uuid" uuid="d95a4a362a0611e48266ecf4bb47d31e" type="string" flags="2" paneid="998"/>
+      </cwProperties>
+    </cwObjectType>
+  </cwObjectTypes>
+  <cwAssociationTypes>
+    <cwAssociationType name="is father of" reversename="is child of" sourceobjecttype="CWCONTEXTNODE" targetobjecttype="CWCONTEXTNODE" flags="8">
+      <cwObjectType scriptname="ASSOCIATIONCWCONTEXTNODECWCONTEXTNODEFATHEROF" text="Association Context Node - Context Node (Father of)" uuid="1201b24e2a0711e48266ecf4bb47d31e">
+        <cwPanes>
+          <cwPane scriptname="DESCRIPTION" text="Description" uuid="1201b2502a0711e48266ecf4bb47d31e" sequence="2"/>
+          <cwPane scriptname="STATUS" text="Etat" uuid="1201b2512a0711e48266ecf4bb47d31e" sequence="997"/>
+          <cwPane scriptname="GENERAL" text="General" uuid="1201b24f2a0711e48266ecf4bb47d31e" sequence="1"/>
+          <cwPane scriptname="VERSION" text="Version" uuid="1201b2522a0711e48266ecf4bb47d31e" sequence="998"/>
+        </cwPanes>
+        <cwProperties>
+          <cwProperty scriptname="NAME" text="Nom" uuid="1201b2532a0711e48266ecf4bb47d31e" type="string" paneid="1"/>
+          <cwProperty scriptname="TYPE" text="Catégorie" uuid="1201b2542a0711e48266ecf4bb47d31e" type="lookup" paneid="1"/>
+          <cwProperty scriptname="DESCRIPTION" text="Description" uuid="1201b2562a0711e48266ecf4bb47d31e" type="multi" paneid="2"/>
+          <cwProperty scriptname="WHOOWNS" text="Propriétaire" uuid="1201b2572a0711e48266ecf4bb47d31e" type="int" paneid="997"/>
+          <cwProperty scriptname="EXPORTFLAG" text="Niveau de protection" uuid="1201b2582a0711e48266ecf4bb47d31e" type="int" paneid="997"/>
+          <cwProperty scriptname="VALIDATED" text="Validé" uuid="1201b2592a0711e48266ecf4bb47d31e" type="bool" paneid="997"/>
+          <cwProperty scriptname="DATEVALIDATED" text="Date validation" uuid="1201b25a2a0711e48266ecf4bb47d31e" type="date" paneid="997"/>
+          <cwProperty scriptname="ALLOWAUTOMATICDELETION" text="Autoriser suppression automatique" uuid="1201b2552a0711e48266ecf4bb47d31e" type="bool" paneid="997"/>
+          <cwProperty scriptname="ID" text="Id" uuid="1201b25b2a0711e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHOCREATED" text="Créé par" uuid="1201b25c2a0711e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHENCREATED" text="Date création" uuid="1201b25d2a0711e48266ecf4bb47d31e" type="date" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHOUPDATED" text="Mis à jour par" uuid="1201b25e2a0711e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHENUPDATED" text="Date mise à jour" uuid="1201b25f2a0711e48266ecf4bb47d31e" type="date" flags="2" paneid="998"/>
+          <cwProperty scriptname="UNIQUEIDENTIFIER" text="Uuid" uuid="1201b2602a0711e48266ecf4bb47d31e" type="string" flags="2" paneid="998"/>
+          <cwProperty scriptname="ABOVEOBJECTID" text="Au-dessus de l'Id. d'objet" uuid="1201b2642a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="ABOVETABLENUMBER" text="Au-dessus du numéro de table" uuid="1201b2632a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="BELOWOBJECTID" text="Au-dessous de l'Id. d'objet" uuid="1201b2622a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="BELOWTABLENUMBER" text="Au-dessous du numéro de table" uuid="1201b2612a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="TEMPLATE" text="Template" uuid="1201b2652a0711e48266ecf4bb47d31e" type="bool" flags="1" />
+        </cwProperties>
+      </cwObjectType>
+    </cwAssociationType>
+    <cwAssociationType name="is part of" reversename="is tree structure of" sourceobjecttype="CWCONTEXTNODE" targetobjecttype="CWCONTEXTPATH" flags="8">
+      <cwObjectType scriptname="ASSOCIATIONCWCONTEXTNODECWCPATHPARTOF" text="Association Context Node - Context Path (part of)" uuid="308ece6e2a0711e48266ecf4bb47d31e">
+        <cwPanes>
+          <cwPane scriptname="DESCRIPTION" text="Description" uuid="308ece702a0711e48266ecf4bb47d31e" sequence="2"/>
+          <cwPane scriptname="STATUS" text="Etat" uuid="308ece712a0711e48266ecf4bb47d31e" sequence="997"/>
+          <cwPane scriptname="GENERAL" text="General" uuid="308ece6f2a0711e48266ecf4bb47d31e" sequence="1"/>
+          <cwPane scriptname="VERSION" text="Version" uuid="308ece722a0711e48266ecf4bb47d31e" sequence="998"/>
+        </cwPanes>
+        <cwProperties>
+          <cwProperty scriptname="NAME" text="Nom" uuid="308ece732a0711e48266ecf4bb47d31e" type="string" paneid="1"/>
+          <cwProperty scriptname="TYPE" text="Catégorie" uuid="308ece742a0711e48266ecf4bb47d31e" type="lookup" paneid="1"/>
+          <cwProperty scriptname="DESCRIPTION" text="Description" uuid="308ece762a0711e48266ecf4bb47d31e" type="multi" paneid="2"/>
+          <cwProperty scriptname="WHOOWNS" text="Propriétaire" uuid="308ece772a0711e48266ecf4bb47d31e" type="int" paneid="997"/>
+          <cwProperty scriptname="EXPORTFLAG" text="Niveau de protection" uuid="308ece782a0711e48266ecf4bb47d31e" type="int" paneid="997"/>
+          <cwProperty scriptname="VALIDATED" text="Validé" uuid="308ece792a0711e48266ecf4bb47d31e" type="bool" paneid="997"/>
+          <cwProperty scriptname="DATEVALIDATED" text="Date validation" uuid="308ece7a2a0711e48266ecf4bb47d31e" type="date" paneid="997"/>
+          <cwProperty scriptname="ALLOWAUTOMATICDELETION" text="Autoriser suppression automatique" uuid="308ece752a0711e48266ecf4bb47d31e" type="bool" paneid="997"/>
+          <cwProperty scriptname="ID" text="Id" uuid="308ece7b2a0711e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHOCREATED" text="Créé par" uuid="308ece7c2a0711e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHENCREATED" text="Date création" uuid="308ece7d2a0711e48266ecf4bb47d31e" type="date" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHOUPDATED" text="Mis à jour par" uuid="308ece7e2a0711e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHENUPDATED" text="Date mise à jour" uuid="308ece7f2a0711e48266ecf4bb47d31e" type="date" flags="2" paneid="998"/>
+          <cwProperty scriptname="UNIQUEIDENTIFIER" text="Uuid" uuid="308ece802a0711e48266ecf4bb47d31e" type="string" flags="2" paneid="998"/>
+          <cwProperty scriptname="ABOVEOBJECTID" text="Au-dessus de l'Id. d'objet" uuid="308ece842a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="ABOVETABLENUMBER" text="Au-dessus du numéro de table" uuid="308ece832a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="BELOWOBJECTID" text="Au-dessous de l'Id. d'objet" uuid="308ece822a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="BELOWTABLENUMBER" text="Au-dessous du numéro de table" uuid="308ece812a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="TEMPLATE" text="Template" uuid="308ece852a0711e48266ecf4bb47d31e" type="bool" flags="1" />
+        </cwProperties>
+      </cwObjectType>
+    </cwAssociationType>
+    <cwAssociationType name="describes" reversename="is described by" sourceobjecttype="CWCONTEXTNODE" targetobjecttype="DIAGRAM" flags="8">
+      <cwObjectType scriptname="ASSOCIATIONCWCONTEXTNODEDIAGRAMDESCRIBES" text="Association Context Node - Diagram (Describes)" uuid="3d26bbdd2a0711e48266ecf4bb47d31e">
+        <cwPanes>
+          <cwPane scriptname="DESCRIPTION" text="Description" uuid="3d26bbdf2a0711e48266ecf4bb47d31e" sequence="2"/>
+          <cwPane scriptname="STATUS" text="Etat" uuid="3d26bbe02a0711e48266ecf4bb47d31e" sequence="997"/>
+          <cwPane scriptname="GENERAL" text="General" uuid="3d26bbde2a0711e48266ecf4bb47d31e" sequence="1"/>
+          <cwPane scriptname="VERSION" text="Version" uuid="3d26bbe12a0711e48266ecf4bb47d31e" sequence="998"/>
+        </cwPanes>
+        <cwProperties>
+          <cwProperty scriptname="NAME" text="Nom" uuid="3d26bbe22a0711e48266ecf4bb47d31e" type="string" paneid="1"/>
+          <cwProperty scriptname="TYPE" text="Catégorie" uuid="3d26bbe32a0711e48266ecf4bb47d31e" type="lookup" paneid="1"/>
+          <cwProperty scriptname="DESCRIPTION" text="Description" uuid="3d26bbe52a0711e48266ecf4bb47d31e" type="multi" paneid="2"/>
+          <cwProperty scriptname="WHOOWNS" text="Propriétaire" uuid="3d26bbe62a0711e48266ecf4bb47d31e" type="int" paneid="997"/>
+          <cwProperty scriptname="EXPORTFLAG" text="Niveau de protection" uuid="3d26bbe72a0711e48266ecf4bb47d31e" type="int" paneid="997"/>
+          <cwProperty scriptname="VALIDATED" text="Validé" uuid="3d26bbe82a0711e48266ecf4bb47d31e" type="bool" paneid="997"/>
+          <cwProperty scriptname="DATEVALIDATED" text="Date validation" uuid="3d26bbe92a0711e48266ecf4bb47d31e" type="date" paneid="997"/>
+          <cwProperty scriptname="ALLOWAUTOMATICDELETION" text="Autoriser suppression automatique" uuid="3d26bbe42a0711e48266ecf4bb47d31e" type="bool" paneid="997"/>
+          <cwProperty scriptname="ID" text="Id" uuid="3d26bbea2a0711e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHOCREATED" text="Créé par" uuid="3d26bbeb2a0711e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHENCREATED" text="Date création" uuid="3d26bbec2a0711e48266ecf4bb47d31e" type="date" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHOUPDATED" text="Mis à jour par" uuid="3d26bbed2a0711e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHENUPDATED" text="Date mise à jour" uuid="3d26bbee2a0711e48266ecf4bb47d31e" type="date" flags="2" paneid="998"/>
+          <cwProperty scriptname="UNIQUEIDENTIFIER" text="Uuid" uuid="3d26bbef2a0711e48266ecf4bb47d31e" type="string" flags="2" paneid="998"/>
+          <cwProperty scriptname="ABOVEOBJECTID" text="Au-dessus de l'Id. d'objet" uuid="3d26bbf32a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="ABOVETABLENUMBER" text="Au-dessus du numéro de table" uuid="3d26bbf22a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="BELOWOBJECTID" text="Au-dessous de l'Id. d'objet" uuid="3d26bbf12a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="BELOWTABLENUMBER" text="Au-dessous du numéro de table" uuid="3d26bbf02a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="TEMPLATE" text="Template" uuid="3d26bbf42a0711e48266ecf4bb47d31e" type="bool" flags="1" />
+        </cwProperties>
+      </cwObjectType>
+    </cwAssociationType>
+    <cwAssociationType name="has start object" reversename="is a start object of" sourceobjecttype="CWCONTEXTNODE" targetobjecttype="ANYOBJECT" flags="8">
+      <cwObjectType scriptname="ASSOCIATIONCWCONTEXTNODEANYOBJECTHASSTARTOBJECT" text="Association Context Node - Any Object (has start object)" uuid="542b80ad2a0711e48266ecf4bb47d31e">
+        <cwPanes>
+          <cwPane scriptname="DESCRIPTION" text="Description" uuid="542b80af2a0711e48266ecf4bb47d31e" sequence="2"/>
+          <cwPane scriptname="STATUS" text="Etat" uuid="542b80b02a0711e48266ecf4bb47d31e" sequence="997"/>
+          <cwPane scriptname="GENERAL" text="General" uuid="542b80ae2a0711e48266ecf4bb47d31e" sequence="1"/>
+          <cwPane scriptname="VERSION" text="Version" uuid="542b80b12a0711e48266ecf4bb47d31e" sequence="998"/>
+        </cwPanes>
+        <cwProperties>
+          <cwProperty scriptname="NAME" text="Nom" uuid="542b80b22a0711e48266ecf4bb47d31e" type="string" paneid="1"/>
+          <cwProperty scriptname="TYPE" text="Catégorie" uuid="542b80b32a0711e48266ecf4bb47d31e" type="lookup" paneid="1"/>
+          <cwProperty scriptname="DESCRIPTION" text="Description" uuid="542b80b52a0711e48266ecf4bb47d31e" type="multi" paneid="2"/>
+          <cwProperty scriptname="WHOOWNS" text="Propriétaire" uuid="542b80b62a0711e48266ecf4bb47d31e" type="int" paneid="997"/>
+          <cwProperty scriptname="EXPORTFLAG" text="Niveau de protection" uuid="542b80b72a0711e48266ecf4bb47d31e" type="int" paneid="997"/>
+          <cwProperty scriptname="VALIDATED" text="Validé" uuid="542b80b82a0711e48266ecf4bb47d31e" type="bool" paneid="997"/>
+          <cwProperty scriptname="DATEVALIDATED" text="Date validation" uuid="542b80b92a0711e48266ecf4bb47d31e" type="date" paneid="997"/>
+          <cwProperty scriptname="ALLOWAUTOMATICDELETION" text="Autoriser suppression automatique" uuid="542b80b42a0711e48266ecf4bb47d31e" type="bool" paneid="997"/>
+          <cwProperty scriptname="ID" text="Id" uuid="542b80ba2a0711e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHOCREATED" text="Créé par" uuid="542b80bb2a0711e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHENCREATED" text="Date création" uuid="542b80bc2a0711e48266ecf4bb47d31e" type="date" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHOUPDATED" text="Mis à jour par" uuid="542b80bd2a0711e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHENUPDATED" text="Date mise à jour" uuid="542b80be2a0711e48266ecf4bb47d31e" type="date" flags="2" paneid="998"/>
+          <cwProperty scriptname="UNIQUEIDENTIFIER" text="Uuid" uuid="542b80bf2a0711e48266ecf4bb47d31e" type="string" flags="2" paneid="998"/>
+          <cwProperty scriptname="ABOVEOBJECTID" text="Au-dessus de l'Id. d'objet" uuid="542b80c32a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="ABOVETABLENUMBER" text="Au-dessus du numéro de table" uuid="542b80c22a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="BELOWOBJECTID" text="Au-dessous de l'Id. d'objet" uuid="542b80c12a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="BELOWTABLENUMBER" text="Au-dessous du numéro de table" uuid="542b80c02a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="TEMPLATE" text="Template" uuid="542b80c42a0711e48266ecf4bb47d31e" type="bool" flags="1" />
+        </cwProperties>
+      </cwObjectType>
+    </cwAssociationType>
+    <cwAssociationType name="has end object" reversename="is an end object of" sourceobjecttype="CWCONTEXTNODE" targetobjecttype="ANYOBJECT" flags="8">
+      <cwObjectType scriptname="ASSOCIATIONCWCONTEXTNODEANYOBJECTHASENDOBJECT" text="Association Context Node - Any Object (has end object)" uuid="911efa312a0711e48266ecf4bb47d31e">
+        <cwPanes>
+          <cwPane scriptname="DESCRIPTION" text="Description" uuid="911efa332a0711e48266ecf4bb47d31e" sequence="2"/>
+          <cwPane scriptname="STATUS" text="Etat" uuid="911efa342a0711e48266ecf4bb47d31e" sequence="997"/>
+          <cwPane scriptname="GENERAL" text="General" uuid="911efa322a0711e48266ecf4bb47d31e" sequence="1"/>
+          <cwPane scriptname="VERSION" text="Version" uuid="911efa352a0711e48266ecf4bb47d31e" sequence="998"/>
+        </cwPanes>
+        <cwProperties>
+          <cwProperty scriptname="NAME" text="Nom" uuid="911efa362a0711e48266ecf4bb47d31e" type="string" paneid="1"/>
+          <cwProperty scriptname="TYPE" text="Catégorie" uuid="911efa372a0711e48266ecf4bb47d31e" type="lookup" paneid="1"/>
+          <cwProperty scriptname="DESCRIPTION" text="Description" uuid="911efa392a0711e48266ecf4bb47d31e" type="multi" paneid="2"/>
+          <cwProperty scriptname="WHOOWNS" text="Propriétaire" uuid="911efa3a2a0711e48266ecf4bb47d31e" type="int" paneid="997"/>
+          <cwProperty scriptname="EXPORTFLAG" text="Niveau de protection" uuid="911efa3b2a0711e48266ecf4bb47d31e" type="int" paneid="997"/>
+          <cwProperty scriptname="VALIDATED" text="Validé" uuid="911efa3c2a0711e48266ecf4bb47d31e" type="bool" paneid="997"/>
+          <cwProperty scriptname="DATEVALIDATED" text="Date validation" uuid="911efa3d2a0711e48266ecf4bb47d31e" type="date" paneid="997"/>
+          <cwProperty scriptname="ALLOWAUTOMATICDELETION" text="Autoriser suppression automatique" uuid="911efa382a0711e48266ecf4bb47d31e" type="bool" paneid="997"/>
+          <cwProperty scriptname="ID" text="Id" uuid="911efa3e2a0711e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHOCREATED" text="Créé par" uuid="911efa3f2a0711e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHENCREATED" text="Date création" uuid="911efa402a0711e48266ecf4bb47d31e" type="date" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHOUPDATED" text="Mis à jour par" uuid="911efa412a0711e48266ecf4bb47d31e" type="int" flags="2" paneid="998"/>
+          <cwProperty scriptname="WHENUPDATED" text="Date mise à jour" uuid="911efa422a0711e48266ecf4bb47d31e" type="date" flags="2" paneid="998"/>
+          <cwProperty scriptname="UNIQUEIDENTIFIER" text="Uuid" uuid="911efa432a0711e48266ecf4bb47d31e" type="string" flags="2" paneid="998"/>
+          <cwProperty scriptname="ABOVEOBJECTID" text="Au-dessus de l'Id. d'objet" uuid="911efa472a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="ABOVETABLENUMBER" text="Au-dessus du numéro de table" uuid="911efa462a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="BELOWOBJECTID" text="Au-dessous de l'Id. d'objet" uuid="911efa452a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="BELOWTABLENUMBER" text="Au-dessous du numéro de table" uuid="911efa442a0711e48266ecf4bb47d31e" type="int" flags="3" />
+          <cwProperty scriptname="TEMPLATE" text="Template" uuid="911efa482a0711e48266ecf4bb47d31e" type="bool" flags="1" />
+        </cwProperties>
+      </cwObjectType>
+    </cwAssociationType>
+  </cwAssociationTypes>
+</cwMetaModel>
