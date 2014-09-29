@@ -41,11 +41,6 @@ namespace cwContextGenerator.Configuration
             this.Model = model;
         }
 
-
-        public void SetModel(cwLightModel model)
-        {
-            this.Model = model;
-        }
         /// <summary>
         /// Sets the model for all nodes.
         /// </summary>
@@ -90,9 +85,9 @@ namespace cwContextGenerator.Configuration
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public cwLightAssociationType GetAssociationType(cwLightModel model)
+        public cwLightAssociationType GetAssociationType()
         {
-            cwLightObjectType sourceOt = model.getObjectTypeByScriptName(this.ObjectTypeScriptName);
+            cwLightObjectType sourceOt = this.Model.getObjectTypeByScriptName(this.ObjectTypeScriptName);
             cwLightAssociationType at = sourceOt.getAssociationTypeByScriptName(this.AssociationTypeScriptName);
             return at;
         }

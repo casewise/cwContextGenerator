@@ -37,9 +37,9 @@ namespace cwContextGenerator.Configuration
         public cwLightNodeObjectType GetDiagramNode()
         {
             cwLightObjectType ot = this.Model.getObjectTypeByScriptName("DIAGRAM");
-            cwLightNodeObjectType node = new cwLightNodeObjectType(ot);
-
-            node.selectedPropertiesScriptName = new string[] { "ID", "NAME" }.ToList();
+          //  cwLightNodeObjectType node = new cwLightNodeObjectType(ot);
+            cwLightNodeObjectType node = this.Model.GetObjectTypeNode("DIAGRAM");
+            node.selectedPropertiesScriptName = new string[] { "ID", "NAME", "TYPE" }.ToList();
             node.attributeFiltersKeep = this.Filters;
 
             return node;

@@ -122,7 +122,7 @@ namespace cwContextGenerator.DataAnalysis
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public cwLightObject GetOnObject(cwLightModel model)
+        public cwLightObject GetObject(cwLightModel model)
         {
             return model.getObjectTypeByID(this.ObjectTypeId).getObjectByID(this.ObjectId);
         }
