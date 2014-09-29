@@ -76,9 +76,26 @@ namespace cwContextGenerator.Configuration
             deleteItem.Click += deleteItem_Click;
         }
 
-        void deleteItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Handles the Click event of the deleteItem control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void deleteItem_Click(object sender, EventArgs e)
         {
-            this.Remove();
+            this.deleteNode();
+        }
+
+        /// <summary>
+        /// Deletes the node.
+        /// </summary>
+        public void deleteNode()
+        {
+            DialogResult r = MessageBox.Show("Voulez-vous vraiment supprimer ce noeud ?", "Delete Node ?", MessageBoxButtons.OKCancel);
+            if (r.Equals(DialogResult.OK))
+            {
+                this.Remove();
+            }
         }
 
         /// <summary>
@@ -86,7 +103,7 @@ namespace cwContextGenerator.Configuration
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        void pasteItem_Click(object sender, EventArgs e)
+        private void pasteItem_Click(object sender, EventArgs e)
         {
             LauncherTreeNodeObjectNode copy = this.Core.copiedNode;
             this.Nodes.Add(copy);
@@ -98,7 +115,7 @@ namespace cwContextGenerator.Configuration
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        void cloneItem_Click(object sender, EventArgs e)
+        private void cloneItem_Click(object sender, EventArgs e)
         {
             LauncherTreeNodeObjectNode copy = this.Clone() as LauncherTreeNodeObjectNode;
             copy.setCore(this.Core);

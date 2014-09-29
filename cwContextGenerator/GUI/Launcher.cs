@@ -265,13 +265,14 @@ namespace cwContextGenerator.GUI
         /// <summary>
         /// Loads the configuration in GUI.
         /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        public void LoadConfigurationInGUI(cwLightObject configuration)
+        /// <param name="configObject">The configuration.</param>
+        public void LoadConfigurationInGUI(cwLightObject configObject)
         {
             // create new window
-            EditModeGUI gui = new EditModeGUI(configuration, this.Core);
+            EditModeGUI gui = new EditModeGUI(configObject, this.Core);
             // build configuration node from configuration object
-            Configuration.ConfigurationRootNode root = this.Core.GetConfigurationNodeFromDescription(configuration);
+            Configuration.ConfigurationRootNode root = this.Core.GetConfigurationNodeFromDescription(configObject);
+            configObject = this.Core.GetConfigurationObjectFromId(configObject.ID); // update de l'objet
             Configuration.LauncherTreeNodeConfigurationNode node = this.Core.BuildTreeNode(root);
             node.SetGUI(gui);
             node.ExpandAll();

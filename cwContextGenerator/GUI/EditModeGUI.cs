@@ -31,7 +31,7 @@ namespace cwContextGenerator.GUI
         private ApplicationCore _core = null;
         private LauncherTreeNodeConfigurationNode rootNode = null;
 
-        
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="cwEditModeGUI"/> class.
@@ -124,6 +124,14 @@ namespace cwContextGenerator.GUI
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            this.SaveConfiguration();
+        }
+
+        /// <summary>
+        /// Saves the configuration.
+        /// </summary>
+        private void SaveConfiguration()
+        {
             Cursor.Current = Cursors.WaitCursor;
             this._core.SaveConfiguration(this.rootNode, this._cmObject);
             this.appendInfo("Configuration sauvegardée !");
@@ -136,6 +144,11 @@ namespace cwContextGenerator.GUI
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void executeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.ExecuteConfiguration();
+        }
+
+        private void ExecuteConfiguration()
         {
             Cursor.Current = Cursors.WaitCursor;
             this.appendInfo("Exécution de la configuration");
@@ -191,6 +204,43 @@ namespace cwContextGenerator.GUI
         public cwPSFTableLayoutPropertiesBoxes GetPanelOptions()
         {
             return this.tableLayoutOptions;
+        }
+
+        /// <summary>
+        /// Handles the KeyDown event of the EditModeGUI control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
+        private void EditModeGUI_KeyDown(object sender, KeyEventArgs e)
+        {
+            LauncherTreeNodeObjectNode node = this.treeViewConfigurations.SelectedNode as LauncherTreeNodeObjectNode;
+            if (node != null)
+            {
+                switch (e.KeyData)
+                {
+                    case Keys.Space:
+                        node.DisplayOptions();
+                        break;
+
+                    case Keys.Delete:
+                        if (!(node is LauncherTreeNodeConfigurationNode))
+                        {
+                            node.deleteNode();
+                        }
+                        break;
+
+                    default:
+                        if (e.KeyData == (Keys.Control | Keys.S))
+                        {
+                            this.SaveConfiguration();
+                        }
+                        else if (e.KeyData == (Keys.Control | Keys.R))
+                        {
+                            this.ExecuteConfiguration();
+                        }
+                        break;
+                }
+            }
         }
 
 

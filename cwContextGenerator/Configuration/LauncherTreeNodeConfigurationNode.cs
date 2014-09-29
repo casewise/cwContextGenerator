@@ -90,6 +90,10 @@ namespace cwContextGenerator.Configuration
                 base.SetupConfigurationObject(node);
                 node.DiagramId = this.bTemplate.ToString();
             }
+            else
+            {
+                node.Name = this.Text;
+            }
         }
 
         /// <summary>
