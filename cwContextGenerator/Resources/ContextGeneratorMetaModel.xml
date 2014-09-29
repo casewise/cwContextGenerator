@@ -11,6 +11,7 @@
       <cwProperties>
         <cwProperty scriptname="NAME" text="Nom" uuid="d95a4a162a0611e48266ecf4bb47d31e" type="string" flags="512" paneid="1"/>
         <cwProperty scriptname="TYPE" text="Catégorie" uuid="d95a4a172a0611e48266ecf4bb47d31e" type="lookup" paneid="1"/>
+        <cwProperty scriptname="READINGMODE" text="Reading Mode" uuid="9b094ac32a0711e58266ecf4bb47d31e" type="string" flags="32" paneid="1"/>
         <cwProperty scriptname="ATNAME" text="Association Type Name" uuid="9b094ac32a0711e48266ecf4bb47d31e" type="string" flags="32" paneid="1"/>
         <cwProperty scriptname="ATSCRIPTNAME" text="Association Type Scriptname" uuid="a2f2295a2a0711e48266ecf4bb47d31e" type="string" flags="32" paneid="1"/>
         <cwProperty scriptname="DESCRIPTION" text="Description" uuid="d95a4a182a0611e48266ecf4bb47d31e" type="multi" paneid="2"/>
