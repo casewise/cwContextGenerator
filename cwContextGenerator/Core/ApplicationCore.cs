@@ -84,7 +84,13 @@ namespace cwContextGenerator.Core
                 this._connection = new cwConnection();
             }
             log.Debug("Connection open. Loading models...");
-            this._allModels = this._connection.getModels();
+
+            List<cwLightModel> allmodels = this._connection.getModels();
+            this._allModels = new List<cwLightModel>();
+            foreach (cwLightModel m in allmodels)
+            {
+                this._allModels.Add(this._connection.getModel(m.FileName));
+            }
 
             this._notEnabledModels = new List<cwLightModel>();
             this._enabledModels = new List<cwLightModel>();
@@ -369,8 +375,10 @@ namespace cwContextGenerator.Core
             this.ReturnValue = -1;
             try
             {
-
+                
                 DateTime start = DateTime.Now;
+                this.SelectedModel = this._connection.getModel(this.SelectedModel.FileName);
+                this.SelectedModel.loadLightModelContent();
                 log.Debug("Start operation");
                 //cwLightModel m = this._selectedModel;
                 CwDiagramContextManager diagramContextManager = new CwDiagramContextManager(this.SelectedModel, config);

@@ -27,21 +27,28 @@ namespace cwContextGenerator.Configuration
         {
         }
 
+        /// <summary>
+        /// get object type
+        /// </summary>
+        /// <returns></returns>
         public new cwLightNodeObjectType GetNode()
         {
-            cwLightObjectType ot = this.Model.getObjectTypeByScriptName(this.ObjectTypeScriptName);
-            cwLightNodeObjectType node = new cwLightNodeObjectType(ot);
+            cwLightNodeObjectType node = this.Model.GetObjectTypeNode(this.ObjectTypeScriptName);
+            node.selectedPropertiesScriptName = new string[] { "ID", "NAME" }.ToList();
+            node.preloadLightObjects();
             return node;
         }
 
+        /// <summary>
+        /// get diagram node
+        /// </summary>
+        /// <returns></returns>
         public cwLightNodeObjectType GetDiagramNode()
         {
-            cwLightObjectType ot = this.Model.getObjectTypeByScriptName("DIAGRAM");
-          //  cwLightNodeObjectType node = new cwLightNodeObjectType(ot);
             cwLightNodeObjectType node = this.Model.GetObjectTypeNode("DIAGRAM");
-            node.selectedPropertiesScriptName = new string[] { "ID", "NAME", "TYPE" }.ToList();
+            node.selectedPropertiesScriptName = new string[] { "ID", "NAME", "TYPE", "TABLENUMBER", "OBJECTID" }.ToList();
             node.attributeFiltersKeep = this.Filters;
-
+            node.preloadLightObjects();
             return node;
         }
 

@@ -12,7 +12,8 @@ namespace cwContextGenerator.DataAnalysis
         private int _tableNumber;
         private int _objectId;
         private cwLightModel _model;
-        public cwLightPropertyType Type{get;private set;}
+        public string Type{get;private set;}
+        private string name;
         public cwLightObject Parent
         {
             get
@@ -32,9 +33,14 @@ namespace cwContextGenerator.DataAnalysis
         {
             this._tableNumber = Convert.ToInt32(diagramData.properties["TABLENUMBER"].Value);
             this._objectId = Convert.ToInt32(diagramData.properties["OBJECTID"].Value);
-
-        //    this.Type = diagramData.properties["TYPE"].Value;
+            this.Type = Convert.ToString(diagramData.properties["TYPE"].Value);
+            this.name = Convert.ToString(diagramData.properties["NAME"].Value);
             this._model = model;
+        }
+
+        public override string ToString()
+        {
+            return this.name.ToString();
         }
     }
 }

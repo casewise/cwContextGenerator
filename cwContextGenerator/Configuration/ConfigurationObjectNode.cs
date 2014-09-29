@@ -67,18 +67,57 @@ namespace cwContextGenerator.Configuration
         /// 
         /// </summary>
         /// <returns></returns>
+        //public cwLightNodeAssociationType GetNode()
+        //{
+        //    cwLightObjectType sourceOt = this.Model.ObjectTypeManager.GetObjectTypeByScriptName(this.ObjectTypeScriptName);
+        //    cwLightAssociationType at = sourceOt.getAssociationTypeByScriptName(this.AssociationTypeScriptName);
+        //    cwLightNodeAssociationType node = new cwLightNodeAssociationType(sourceOt, at);
+
+        //    node.selectedPropertiesScriptName = new string[] { "ID", "NAME" }.ToList();
+        //    node.attributeFiltersKeep = this.Filters;
+           
+        //    node.preloadLightObjects();
+        //    //node.preloadLightObjects_Rec();
+
+        //    return node;
+        //}
+
+
         public cwLightNodeAssociationType GetNode()
         {
-            cwLightObjectType sourceOt = this.Model.ObjectTypeManager.GetObjectTypeByScriptName(this.ObjectTypeScriptName);
-            cwLightAssociationType at = sourceOt.getAssociationTypeByScriptName(this.AssociationTypeScriptName);
-            cwLightNodeAssociationType node = new cwLightNodeAssociationType(sourceOt, at);
+            //cwLightObjectType sourceOT = this.Model.GetObjectTypeNode(this.ObjectTypeScriptName);
+            try
+            {
 
-            node.selectedPropertiesScriptName = new string[] { "ID", "NAME" }.ToList();
-            node.attributeFiltersKeep = this.Filters;
-            node.preloadLightObjects_Rec();
-            return node;
+                //cwConnection c = new cwConnection();
+                //cwLightModel m = c.getModel(this.Model.FileName);
+                //m.loadLightModelContent();
+                cwLightNodeObjectType OTNode = this.Model.GetObjectTypeNode(this.ObjectTypeScriptName); ;
+
+
+                OTNode.addPropertiesToSelect(new string[] { "ID", "NAME" });
+                //cwLightAssociationType at = sourceOT.getAssociationTypeByScriptName();
+                cwLightNodeAssociationType ATNode = OTNode.createAssociationNode(this.AssociationTypeScriptName);
+                // List<string> propertiesATTargetScriptNames = at.Target.getProperties().Select(p => p.ScriptName).ToList<string>();
+                //ATNode.addPropertiesToSelect(propertiesATTargetScriptNames.ToArray());
+
+                ATNode.addPropertiesToSelect(new string[] { "ID" });
+                //  ATNode.attributeFiltersKeep = this.Filters;
+
+
+                // ATNode.selectedObjectType = at.Target;
+                //OTNode.preloadLightObjects();
+
+                //ATNode.preloadLightObjects();
+                //  OTNode.preloadLightObjects_Rec(this.Model);
+                OTNode.preloadLightObjects_Rec();
+            }
+            catch (Exception e)
+            {
+                
+            }
+            return null;
         }
-
 
         /// <summary>
         /// Get Association Type
