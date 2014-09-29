@@ -152,7 +152,9 @@ namespace cwContextGenerator.GUI
         {
             Cursor.Current = Cursors.WaitCursor;
             this.appendInfo("Exécution de la configuration");
-            this._core.GenerateContextTree(this.rootNode.config as ConfigurationRootNode);
+            cwLightObject obj = this._core.GetConfigurationObjectFromId(this._cmObject.ID);
+            ConfigurationRootNode root = this._core.GetConfigurationNodeFromDescription(obj);
+            this._core.GenerateContextTree(root);
             this.appendInfo("Fin de l'opération");
             Cursor.Current = Cursors.Default;
         }
