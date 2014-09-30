@@ -27,7 +27,8 @@ namespace cwContextGenerator.DataAnalysis
             }
         }
 
-        public cwLightObjectType ContextPathOT {
+        public cwLightObjectType ContextPathOT
+        {
             get { return this.Model.getObjectTypeByScriptName(OtCwContextPathScriptName); }
         }
         public cwLightAssociationType AtContextEndWith
@@ -62,8 +63,6 @@ namespace cwContextGenerator.DataAnalysis
             }
         }
 
-
-       
         public CwContextMataModelManager(cwLightModel model)
         {
             this.Model = model;

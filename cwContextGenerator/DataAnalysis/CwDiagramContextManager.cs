@@ -11,12 +11,12 @@ namespace cwContextGenerator.DataAnalysis
 {
     public class CwDiagramContextManager
     {
-        private static string PropertyTypeRootLevelScriptName = "ROOTLEVEL";
-       // private static string PropertyTypeAtName = "ATNAME";
-        //private static string PropertyTypeAtScriptName = "ATSCRIPTNAME";
+        private static string PropertyTypeRootLevel = "ROOTLEVEL";
+       private static string PropertyTypeAtName = "ATNAME";
+       private static string PropertyTypeAtScriptName = "ATSCRIPTNAME";
         public string[] PropertiesToBySelected
         {
-            get { return new string[] { PropertyTypeRootLevelScriptName, "ATNAME", "ATSCRIPTNAME" }; }
+            get { return new string[] { "NAME",PropertyTypeRootLevel, PropertyTypeAtName, PropertyTypeAtScriptName }; }
         }
 
         private CwContextMataModelManager ContextMetaModel { get; set; }
@@ -85,7 +85,7 @@ namespace cwContextGenerator.DataAnalysis
 
             foreach (CwShape parentShape in parentShapes)
             {
-                cwLightObject newContextObject = CreateContext(parentShape, diagram);
+                cwLightObject newContextObject = CreateContext(parentShape, diagram, this.Config);
 
                 foreach (ConfigurationObjectNode childNode in Config.ChildrenNodes)
                 {
@@ -105,7 +105,7 @@ namespace cwContextGenerator.DataAnalysis
         /// <param name="shape"></param>
         /// <param name="diagram"></param>
         /// <returns></returns>
-        private cwLightObject CreateContext(CwShape shape, CwDiagram diagram)
+        private cwLightObject CreateContext(CwShape shape, CwDiagram diagram, ConfigurationRootNode rootNode)
         {
             cwLightObject parentObject = shape.GetObject(this.SelectedModel);
 
@@ -118,14 +118,16 @@ namespace cwContextGenerator.DataAnalysis
             contextOTNode.preloadLightObjects();
 
             cwLightObject newContextObject = contextOTNode.usedOTLightObjectsByID[newContextObjectId];
-            newContextObject.properties[PropertyTypeRootLevelScriptName].Value = new CwPropertyBoolean(true);
+            newContextObject.properties[PropertyTypeRootLevel].Value = new CwPropertyBoolean(true);
+            newContextObject.properties["NAME"].Value = contextObjectName + "_" + newContextObjectId.ToString();
+
             newContextObject.updatePropertiesInModel();
             newContextObject.AssociateToWithTransaction(this.ContextMetaModel.AtContextEndWith, parentObject);
-            cwLightObject pathObject = this.ContextMetaModel.ContextPathOT.getObjectByID(Config.ConfigurationId);
+
+            cwLightObject pathObject = this.ContextMetaModel.ContextPathOT.getObjectByID(rootNode.ConfigurationId);
             newContextObject.AssociateToWithTransaction(this.ContextMetaModel.AtContextPartOfPath, pathObject);
             return newContextObject;
         }
-
         
         /// <summary>
         /// child level
@@ -168,8 +170,21 @@ namespace cwContextGenerator.DataAnalysis
 
             if (endObjects.Count > 0)
             {
+                
                 string contextObjectName = this.SetContextObjectName(diagram, parentObject, childNode.ReadingMode);
-                newContextObject = this.ContextMetaModel.ContextOT.createUsingNameAndGet(contextObjectName);
+
+
+                int newContextObjectId = this.ContextMetaModel.ContextOT.createObjectWithName(contextObjectName);
+                cwLightNodeObjectType contextOTNode = this.ContextMetaModel.ContextOT.getNewNode();
+                contextOTNode.addPropertiesToSelect(PropertiesToBySelected);
+                contextOTNode.preloadLightObjects();
+
+                newContextObject = contextOTNode.usedOTLightObjectsByID[newContextObjectId];
+                newContextObject.properties[PropertyTypeAtName].Value = new CwPropertyString(associationType.ToString());
+                newContextObject.properties[PropertyTypeAtScriptName].Value = new CwPropertyString(associationType.ScriptName);
+                newContextObject.properties["NAME"].Value = contextObjectName +"_"+ newContextObjectId.ToString();
+                newContextObject.updatePropertiesInModel();
+
                 parentContextObject.AssociateToWithTransaction(this.ContextMetaModel.AtContextToContext, newContextObject);
                 newContextObject.AssociateToWithTransaction(this.ContextMetaModel.AtContextStartFrom, parentObject);
                 foreach (cwLightObject endObject in endObjects)
