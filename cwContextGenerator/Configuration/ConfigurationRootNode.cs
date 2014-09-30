@@ -13,7 +13,7 @@ namespace cwContextGenerator.Configuration
     public class ConfigurationRootNode : ConfigurationObjectNode
     {
         public string DiagramId { get; set; }
-
+        public int ConfigurationId { get; set; }
         public ConfigurationRootNode()
             : base()
         {
@@ -22,9 +22,10 @@ namespace cwContextGenerator.Configuration
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigurationRootNode"/> class.
         /// </summary>
-        public ConfigurationRootNode(cwLightModel model)
+        public ConfigurationRootNode(cwLightModel model, int id)
             : base(model)
         {
+            this.ConfigurationId = id;
         }
 
         /// <summary>
@@ -51,6 +52,5 @@ namespace cwContextGenerator.Configuration
             node.preloadLightObjects();
             return node;
         }
-
     }
 }

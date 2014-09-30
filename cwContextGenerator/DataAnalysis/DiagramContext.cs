@@ -209,7 +209,7 @@ namespace cwContextGenerator.DataAnalysis
         /// </summary>
         private void AnalyzeAllJoiners()
         {
-            Dictionary<int, Dictionary<int, List<int>>> toShapesByFromShapeAndIntersectionId = new Dictionary<int, Dictionary<int, List<int>>>();
+            Dictionary<int, Dictionary<int, List<CwShape>>> toShapesByFromShapeAndIntersectionId = new Dictionary<int, Dictionary<int, List<CwShape>>>();
             //init Dictionary
             foreach (cwLightObject joinerData in this.AllJoiners)
             {
@@ -217,19 +217,20 @@ namespace cwContextGenerator.DataAnalysis
 
                 if (!toShapesByFromShapeAndIntersectionId.ContainsKey(joiner.FromShapeId))
                 {
-                    toShapesByFromShapeAndIntersectionId[joiner.FromShapeId] = new Dictionary<int, List<int>>();
+                    toShapesByFromShapeAndIntersectionId[joiner.FromShapeId] = new Dictionary<int, List<CwShape>>();
                 }
                 if (!toShapesByFromShapeAndIntersectionId[joiner.FromShapeId].ContainsKey(joiner.IntersectionId))
                 {
-                    toShapesByFromShapeAndIntersectionId[joiner.FromShapeId][joiner.IntersectionId] = new List<int>();
+                    toShapesByFromShapeAndIntersectionId[joiner.FromShapeId][joiner.IntersectionId] = new List<CwShape>();
                 }
-                toShapesByFromShapeAndIntersectionId[joiner.FromShapeId][joiner.IntersectionId].Add(joiner.ToShapeId);
+
+                toShapesByFromShapeAndIntersectionId[joiner.FromShapeId][joiner.IntersectionId].Add(this.ShapesById[joiner.ToShapeId]);
             }
 
             //fill to shapes by intersection id
             foreach (var fromShape in toShapesByFromShapeAndIntersectionId)
             {
-                this.ShapesById[fromShape.Key].ToShapesByIntersectionId = toShapesByFromShapeAndIntersectionId[fromShape.Key];
+                this.ShapesById[fromShape.Key].ToShapesByIntersectionId =toShapesByFromShapeAndIntersectionId[fromShape.Key];
             }
         }
 

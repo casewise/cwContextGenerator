@@ -105,6 +105,7 @@
     <Compile Include="Configuration\LauncherTreeNodeConfigurationNode.cs" />
     <Compile Include="Core\ApplicationCore.cs" />
     <Compile Include="Core\BatchManager.cs" />
+    <Compile Include="DataAnalysis\CwContextMataModelManager.cs" />
     <Compile Include="DataAnalysis\CwDiagram.cs" />
     <Compile Include="DataAnalysis\CwDiagramContextManager.cs" />
     <Compile Include="DataAnalysis\CwDiagramDataStore.cs" />

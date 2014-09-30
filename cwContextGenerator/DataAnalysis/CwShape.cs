@@ -74,7 +74,7 @@ namespace cwContextGenerator.DataAnalysis
         public Dictionary<int, List<CwShape>> ChildrenShapesByObjectTypeId { get; set; }
         public Dictionary<int, List<CwShape>> ParentsShapesByObjectTypeId { get; set; }
 
-        public Dictionary<int, List<int>> ToShapesByIntersectionId { get; set; }
+        public Dictionary<int, List<CwShape>> ToShapesByIntersectionId { get; set; }
         
         /// <summary>
         /// Constructor Shape on a diagram

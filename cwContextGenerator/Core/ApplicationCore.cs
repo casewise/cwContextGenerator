@@ -232,12 +232,13 @@ namespace cwContextGenerator.Core
         public cwLightObject CreateConfiguration(cwLightObjectType ot, string newName)
         {
             log.Debug("Create new configuration \"" + newName + "\"");
+            cwLightObject o = ot.createUsingNameAndGet(newName);
             // ajouter les éléments nécessaire au root node
-            ConfigurationRootNode root = new ConfigurationRootNode(this.SelectedModel);
+            ConfigurationRootNode root = new ConfigurationRootNode(this.SelectedModel, o.ID);
             root.Name = newName;
 
             StringBuilder serialize = this.SerializeConfiguration(root);
-            cwLightObject o = ot.createUsingNameAndGet(newName);
+            
             o.getProperty<CwPropertyMemo>("DESCRIPTION").Value = serialize.ToString();
             o.updatePropertiesInModel();
             log.Debug("Configuration created");
@@ -267,6 +268,10 @@ namespace cwContextGenerator.Core
             CwPropertyMemo memo = o.getProperty<CwPropertyMemo>("DESCRIPTION");
             JavaScriptSerializer s = new JavaScriptSerializer();
             ConfigurationRootNode root = s.Deserialize(memo.DisplayValue, typeof(ConfigurationRootNode)) as ConfigurationRootNode;
+            if (root.ConfigurationId == 0)
+            {
+                root.ConfigurationId = o.ID;
+            }
             cwLightModel model = o.GetObjectType().Model;
             root.SetModelForAllNodes(model);
             return root;
@@ -329,7 +334,7 @@ namespace cwContextGenerator.Core
         {
 
             log.Debug("Creating configuration from ui treenode");
-            ConfigurationRootNode config = new ConfigurationRootNode(this.SelectedModel);
+            ConfigurationRootNode config = new ConfigurationRootNode(this.SelectedModel, o.ID);
 
             rootNode.SetupConfigurationObject(config);
 
