@@ -58,13 +58,11 @@ namespace cwContextGenerator.GUI
         private void cwButtonItem_MouseLeave(object sender, EventArgs e)
         {
             Cursor = Cursors.Default;
-            //pb.Image = mainGUI.options.itemIcon;
         }
 
         private void cwButtonItem_MouseEnter(object sender, EventArgs e)
         {
             Cursor = Cursors.Hand;
-            //pb.Image = mainGUI.options.itemIconAnimated;
         }
 
 
