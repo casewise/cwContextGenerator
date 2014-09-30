@@ -180,8 +180,8 @@ namespace cwContextGenerator.DataAnalysis
                 contextOTNode.preloadLightObjects();
 
                 newContextObject = contextOTNode.usedOTLightObjectsByID[newContextObjectId];
-                newContextObject.properties[PropertyTypeAtName].Value = new CwPropertyString(associationType.ToString());
-                newContextObject.properties[PropertyTypeAtScriptName].Value = new CwPropertyString(associationType.ScriptName);
+                newContextObject.properties[PropertyTypeAtName].Value =associationType.ToString();
+                newContextObject.properties[PropertyTypeAtScriptName].Value =associationType.ScriptName;
                 newContextObject.properties["NAME"].Value = contextObjectName +"_"+ newContextObjectId.ToString();
                 newContextObject.updatePropertiesInModel();
 
