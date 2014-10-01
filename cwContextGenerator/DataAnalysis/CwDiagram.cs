@@ -14,6 +14,7 @@ namespace cwContextGenerator.DataAnalysis
         private cwLightModel _model;
         public string Type{get;private set;}
         private string name;
+        public cwLightObject CmObject;
         public cwLightObject Parent
         {
             get
@@ -36,6 +37,7 @@ namespace cwContextGenerator.DataAnalysis
             this.Type = Convert.ToString(diagramData.properties["TYPE"].Value);
             this.name = Convert.ToString(diagramData.properties["NAME"].Value);
             this._model = model;
+            this.CmObject = diagramData;
         }
 
         public override string ToString()

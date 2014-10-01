@@ -16,6 +16,7 @@ namespace cwContextGenerator.DataAnalysis
         private static string AtCwContextStartByAnyObjectScriptName = "CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODEANYOBJECTHASSTARTOBJECTFORWARDTOANYOBJECT";
         private static string AtCwContextPartOfCwContextPathScriptName = "CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODECWCPATHPARTOFFORWARDTOCWCONTEXTPATH";
         private static string OtCwContextPathScriptName = "CWCONTEXTPATH";
+        private static string AtCwContextDescribesDiagramScriptName = "CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODEDIAGRAMDESCRIBESFORWARDTODIAGRAM";
 
 
         private cwLightModel Model { get; set; }
@@ -60,6 +61,11 @@ namespace cwContextGenerator.DataAnalysis
             get
             {
                 return ContextOT.getAssociationTypeByScriptName(AtCwContextPartOfCwContextPathScriptName);
+            }
+        }
+        public cwLightAssociationType AtContextDiscribesDiagram {
+            get {
+                return ContextOT.getAssociationTypeByScriptName(AtCwContextDescribesDiagramScriptName);
             }
         }
 

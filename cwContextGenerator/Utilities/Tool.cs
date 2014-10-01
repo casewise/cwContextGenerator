@@ -18,7 +18,5 @@ namespace cwContextGenerator
             conn.LoadModels();
             return conn.Models[m.FileName];
         }
-
-
     }
 }

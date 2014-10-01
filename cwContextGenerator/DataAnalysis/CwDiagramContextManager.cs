@@ -1,22 +1,40 @@
 ﻿using Casewise.GraphAPI.API;
 using Casewise.GraphAPI.API.Graph;
 using cwContextGenerator.Configuration;
+using log4net;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace cwContextGenerator.DataAnalysis
 {
+
+    public class ContextPackage
+    {
+        public cwLightObject ContextObject { get; set; }
+        public List<CwShape> RelatedShapes { get; set; }
+        public List<cwLightObject> RelatedObjects { get; set; }
+        public ContextPackage()
+        {
+            ContextObject = null;
+            RelatedShapes = new List<CwShape>();
+            RelatedObjects = new List<cwLightObject>();
+        }
+    }
+
+
     public class CwDiagramContextManager
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(CwDiagramContextManager));
         private static string PropertyTypeRootLevel = "ROOTLEVEL";
-       private static string PropertyTypeAtName = "ATNAME";
-       private static string PropertyTypeAtScriptName = "ATSCRIPTNAME";
+        private static string PropertyTypeAtName = "ATNAME";
+        private static string PropertyTypeAtScriptName = "ATSCRIPTNAME";
         public string[] PropertiesToBySelected
         {
-            get { return new string[] { "NAME",PropertyTypeRootLevel, PropertyTypeAtName, PropertyTypeAtScriptName }; }
+            get { return new string[] { "NAME", PropertyTypeRootLevel, PropertyTypeAtName, PropertyTypeAtScriptName }; }
         }
 
         private CwContextMataModelManager ContextMetaModel { get; set; }
@@ -78,6 +96,11 @@ namespace cwContextGenerator.DataAnalysis
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="diagram"></param>
+        /// <param name="diagramContext"></param>
         private void CreateContextHierarchy(CwDiagram diagram, DiagramContext diagramContext)
         {
             List<CwShape> parentShapes = new List<CwShape>();
@@ -85,15 +108,34 @@ namespace cwContextGenerator.DataAnalysis
 
             foreach (CwShape parentShape in parentShapes)
             {
-                cwLightObject newContextObject = CreateContext(parentShape, diagram, this.Config);
+                ContextPackage newContextObject = CreateContext(parentShape, diagram, this.Config);
 
                 foreach (ConfigurationObjectNode childNode in Config.ChildrenNodes)
                 {
-                    CreateContext(parentShape, childNode, newContextObject, diagram);
+                    CreateContextHierarchyRec(parentShape, childNode, newContextObject.ContextObject, diagram);
                 }
             }
         }
 
+        private void CreateContextHierarchyRec(CwShape parentShape, ConfigurationObjectNode node, cwLightObject newContextObject, CwDiagram diagram)
+        {
+            ContextPackage contextObject = CreateContext(parentShape, node, newContextObject, diagram);
+            foreach (ConfigurationObjectNode childNode in node.ChildrenNodes)
+            {
+                foreach (CwShape shape in contextObject.RelatedShapes)
+                {
+                    CreateContextHierarchyRec(shape, childNode, contextObject.ContextObject, diagram);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Name convention  
+        /// </summary>
+        /// <param name="diagram"></param>
+        /// <param name="sourceObjectName"></param>
+        /// <param name="readingMode"></param>
+        /// <returns></returns>
         private string SetContextObjectName(CwDiagram diagram, cwLightObject sourceObjectName, ReadingMode readingMode)
         {
             return diagram.Type.ToString() + "_" + diagram.ToString() + "_" + sourceObjectName.ToString() + "_" + readingMode.ToString();
@@ -105,7 +147,7 @@ namespace cwContextGenerator.DataAnalysis
         /// <param name="shape"></param>
         /// <param name="diagram"></param>
         /// <returns></returns>
-        private cwLightObject CreateContext(CwShape shape, CwDiagram diagram, ConfigurationRootNode rootNode)
+        private ContextPackage CreateContext(CwShape shape, CwDiagram diagram, ConfigurationRootNode rootNode)
         {
             cwLightObject parentObject = shape.GetObject(this.SelectedModel);
 
@@ -126,9 +168,15 @@ namespace cwContextGenerator.DataAnalysis
 
             cwLightObject pathObject = this.ContextMetaModel.ContextPathOT.getObjectByID(rootNode.ConfigurationId);
             newContextObject.AssociateToWithTransaction(this.ContextMetaModel.AtContextPartOfPath, pathObject);
-            return newContextObject;
+
+            newContextObject.AssociateToWithTransaction(this.ContextMetaModel.AtContextDiscribesDiagram, diagram.CmObject);
+
+            ContextPackage contextPackage = new ContextPackage();
+            contextPackage.ContextObject = newContextObject;
+            //contextPackage.RelatedShapes = targetShapesForTargetObjects;
+            return contextPackage;
         }
-        
+
         /// <summary>
         /// child level
         /// </summary>
@@ -137,7 +185,7 @@ namespace cwContextGenerator.DataAnalysis
         /// <param name="parentContextObject"></param>
         /// <param name="diagram"></param>
         /// <returns></returns>
-        private cwLightObject CreateContext(CwShape shape, ConfigurationObjectNode childNode, cwLightObject parentContextObject, CwDiagram diagram)
+        private ContextPackage CreateContext(CwShape shape, ConfigurationObjectNode childNode, cwLightObject parentContextObject, CwDiagram diagram)
         {
             cwLightNodeAssociationType atNode = childNode.GetNode();
             List<cwLightObject> targetObjects = atNode.GetAllTargetObjects();
@@ -164,15 +212,16 @@ namespace cwContextGenerator.DataAnalysis
                 default:
                     break;
             }
-            endObjects = this.GetTargetObjectsOnDiagram(targetShapes, targetObjects);
+            ContextPackage contextPackage = new ContextPackage();
+            this.GetTargetObjectsOnDiagram(targetShapes, targetObjects, ref contextPackage);
+            endObjects = contextPackage.RelatedObjects;
+            List<CwShape> targetShapesForTargetObjects = contextPackage.RelatedShapes;
 
             cwLightObject newContextObject = null;
 
             if (endObjects.Count > 0)
             {
-                
                 string contextObjectName = this.SetContextObjectName(diagram, parentObject, childNode.ReadingMode);
-
 
                 int newContextObjectId = this.ContextMetaModel.ContextOT.createObjectWithName(contextObjectName);
                 cwLightNodeObjectType contextOTNode = this.ContextMetaModel.ContextOT.getNewNode();
@@ -180,9 +229,9 @@ namespace cwContextGenerator.DataAnalysis
                 contextOTNode.preloadLightObjects();
 
                 newContextObject = contextOTNode.usedOTLightObjectsByID[newContextObjectId];
-                newContextObject.properties[PropertyTypeAtName].Value =associationType.ToString();
-                newContextObject.properties[PropertyTypeAtScriptName].Value =associationType.ScriptName;
-                newContextObject.properties["NAME"].Value = contextObjectName +"_"+ newContextObjectId.ToString();
+                newContextObject.properties[PropertyTypeAtName].Value = associationType.ToString();
+                newContextObject.properties[PropertyTypeAtScriptName].Value = associationType.ScriptName;
+                newContextObject.properties["NAME"].Value = contextObjectName + "_" + newContextObjectId.ToString();
                 newContextObject.updatePropertiesInModel();
 
                 parentContextObject.AssociateToWithTransaction(this.ContextMetaModel.AtContextToContext, newContextObject);
@@ -192,12 +241,22 @@ namespace cwContextGenerator.DataAnalysis
                     newContextObject.AssociateToWithTransaction(this.ContextMetaModel.AtContextEndWith, endObject);
                 }
             }
-            return newContextObject;
+
+            contextPackage.ContextObject = newContextObject;
+            contextPackage.RelatedShapes = targetShapesForTargetObjects;
+            return contextPackage;
         }
 
-        private List<cwLightObject> GetTargetObjectsOnDiagram(List<CwShape> targetShapes, List<cwLightObject> targetObjects)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="targetShapes"></param>
+        /// <param name="targetObjects"></param>
+        /// <returns></returns>
+        private void GetTargetObjectsOnDiagram(List<CwShape> targetShapes, List<cwLightObject> targetObjects, ref ContextPackage contextPackage)
         {
             List<cwLightObject> targetObjectsOnDiagram = new List<cwLightObject>();
+            List<CwShape> targetShapesForTargetObjects = new List<CwShape>();
 
             foreach (CwShape targetShape in targetShapes)
             {
@@ -205,12 +264,14 @@ namespace cwContextGenerator.DataAnalysis
                 if (targetObjects.Contains(childObject))
                 {
                     targetObjectsOnDiagram.Add(childObject);
+                    targetShapesForTargetObjects.Add(targetShape);
                 }
             }
-
-            return targetObjectsOnDiagram;
+            contextPackage.RelatedObjects = targetObjectsOnDiagram;
+            contextPackage.RelatedShapes = targetShapesForTargetObjects;
+            return;
         }
 
-      
+       
     }
 }
