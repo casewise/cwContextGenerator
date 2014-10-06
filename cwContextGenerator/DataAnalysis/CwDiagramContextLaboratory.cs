@@ -7,76 +7,67 @@ using System.Threading.Tasks;
 
 namespace cwContextGenerator.DataAnalysis
 {
-    public class DiagramContext
+    public class CwDiagramContextLaboratory
     {
         private List<cwLightObject> AllShapes = new List<cwLightObject>();
         private List<cwLightObject> AllJoiners = new List<cwLightObject>();
-
         private List<CwShape> shapeList = new List<CwShape>();
+
         public int DiagramId { get; set; }
-
         public Dictionary<int, CwShape> ShapesById { get; set; }
-
-        private Dictionary<int, Dictionary<int, List<CwShape>>> AllShapesByObjectTypeAndObjectId
+        public Dictionary<int, Dictionary<int, List<CwShape>>> ShapesByObjectTypeAndObjectId
         {
             get
             {
-                return this.SetShapesByObjectTypeAndObjectIdDictionary(this.shapeList);
+                return CwDiagramContextLaboratory.ShapeListToShapeDictionaryByObjectTypeAndObjectId(this.shapeList);
             }
             set { }
         }
-
         public Dictionary<int, List<CwShape>> ShapesByObjectTypeId
         {
             get
             {
-                return DiagramContext.SetShapesByObjectTypeId(this.shapeList);
+                return CwDiagramContextLaboratory.ShapesListToDictionaryByObjectTypeId(this.shapeList);
             }
             set { }
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="diagramId"></param>
-        public DiagramContext(int diagramId)
+        public CwDiagramContextLaboratory(int diagramId)
         {
             this.DiagramId = diagramId;
+
+            // relationship data container//shapes container
             this.ShapesById = new Dictionary<int, CwShape>();
-            this.AllShapesByObjectTypeAndObjectId = new Dictionary<int, Dictionary<int, List<CwShape>>>();
+            this.ShapesByObjectTypeAndObjectId = new Dictionary<int, Dictionary<int, List<CwShape>>>();
+
         }
 
-        public DiagramContext(int diagramId, List<cwLightObject> allJoiners)
+        /// <summary>
+        /// overridded Constructor
+        /// </summary>
+        /// <param name="diagramId"></param>
+        /// <param name="allJoinersData"></param>
+        /// <param name="allShapesData"></param>
+        public CwDiagramContextLaboratory(int diagramId, List<cwLightObject> allJoinersData, List<cwLightObject> allShapesData)
             : this(diagramId)
         {
-            this.AllJoiners = allJoiners;
-        }
+            // self data
+            this.AllJoiners = allJoinersData;
+            this.AllShapes = allShapesData;
 
-        public DiagramContext(int diagramId, List<cwLightObject> allJoiners, List<cwLightObject> allShapes)
-            : this(diagramId, allJoiners)
-        {
-            this.AllShapes = allShapes;
-        }
-
-        public void LoadShapesDirectory()
-        {
-            this.AnalyzeAllShapes();
-            this.AnalyzeAllJoiners();
-        }
-
-        private void AnalyzeAllShapes()
-        {
-            //init
+            // if the data available, init shapes container
             this.InitShapesDirectory();
-
-            //fill shapes' descendants 
-            //fill shapes' children
-            //fill shapes' parent
-            this.FillShapesDescendants();
-            this.FillShapesChildren();
-            this.FilShapesParents();
         }
 
+
+        /// <summary>
+        /// initilize the shapes directory 
+        /// set a shape list
+        /// </summary>
         private void InitShapesDirectory()
         {
             Dictionary<int, CwShape> shapes = new Dictionary<int, CwShape>();
@@ -92,10 +83,36 @@ namespace cwContextGenerator.DataAnalysis
                 }
             }
             this.ShapesById = shapes;
-            shapeList = this.ShapesById.Values.ToList();
+            this.shapeList = this.ShapesById.Values.ToList();
         }
 
-        private Dictionary<int, Dictionary<int, List<CwShape>>> SetShapesByObjectTypeAndObjectIdDictionary(List<CwShape> shapes)
+        /// <summary>
+        /// By analyzing the shapes data and joiners data,  
+        /// determine the relationship with other shapes on the same diagram 
+        /// </summary>
+        public void AnalyzeShapesRelationship()
+        {
+            this.AnalyzeAllShapes();
+            this.AnalyzeAllJoiners();
+        }
+
+        private void AnalyzeAllShapes()
+        {
+            //fill shapes' descendants 
+            //fill shapes' children
+            //fill shapes' parent
+            this.FillShapesDescendants();
+            this.FillShapesChildren();
+            this.FilShapesParents();
+        }
+
+
+        /// <summary>
+        /// turn shape list collection to shape dictionary collection by object type id and object id
+        /// </summary>
+        /// <param name="shapes">Shape list</param>
+        /// <returns> Two dimension dictionary -> Shapes by object type id and object id </returns>
+        private static Dictionary<int, Dictionary<int, List<CwShape>>> ShapeListToShapeDictionaryByObjectTypeAndObjectId(List<CwShape> shapes)
         {
             Dictionary<int, Dictionary<int, List<CwShape>>> shapesByObjectTypeAndObjectIdDictionary = new Dictionary<int, Dictionary<int, List<CwShape>>>();
             foreach (CwShape shape in shapes)
@@ -117,7 +134,15 @@ namespace cwContextGenerator.DataAnalysis
             return shapesByObjectTypeAndObjectIdDictionary;
         }
 
-        private static Dictionary<int, List<CwShape>> SetShapesByObjectTypeId(List<CwShape> shapes)
+
+        /// <summary>
+        /// Turn shape list collection to dictionary collection
+        /// Key : object type id of a shape
+        /// Value : CwShape
+        /// </summary>
+        /// <param name="shapes">Shape list</param>
+        /// <returns> Shape Dictionary by object type id</returns>
+        private static Dictionary<int, List<CwShape>> ShapesListToDictionaryByObjectTypeId(List<CwShape> shapes)
         {
             Dictionary<int, List<CwShape>> shapesByObjectTypeId = new Dictionary<int, List<CwShape>>();
             foreach (CwShape shape in shapes)
@@ -125,12 +150,14 @@ namespace cwContextGenerator.DataAnalysis
                 if (!shapesByObjectTypeId.ContainsKey(shape.ObjectTypeId))
                 {
                     shapesByObjectTypeId[shape.ObjectTypeId] = new List<CwShape>();
-                } shapesByObjectTypeId[shape.ObjectTypeId].Add(shape);
+                }
+                shapesByObjectTypeId[shape.ObjectTypeId].Add(shape);
             }
             return shapesByObjectTypeId;
         }
+        #region shape's relationship analysis
         /// <summary>
-        /// fill shapes' desendants
+        //  shape's descendants
         /// </summary>
         private void FillShapesDescendants()
         {
@@ -141,7 +168,7 @@ namespace cwContextGenerator.DataAnalysis
                     CwShape shapeA = shapeList[i];
                     CwShape shapeB = shapeList[j];
 
-                    ShapeCouple shapeCouple = new ShapeCouple(shapeA, shapeB);
+                    CwShapeCouple shapeCouple = new CwShapeCouple(shapeA, shapeB);
 
                     //check if two shapes have including relation 
                     //shapeCouple. CoupleId is the acendant shape id
@@ -154,7 +181,7 @@ namespace cwContextGenerator.DataAnalysis
         }
 
         /// <summary>
-        /// 
+        /// shape's children
         /// </summary>
         private void FillShapesChildren()
         {
@@ -179,7 +206,7 @@ namespace cwContextGenerator.DataAnalysis
                 var result = ancestor.Descendants.Except(descendantsOfAllDescendants).ToList();
                 //  ascendantShape.Children = result.ToList();
                 ancestor.Children = result.ToList();
-                ancestor.ChildrenShapesByObjectTypeId = DiagramContext.SetShapesByObjectTypeId(ancestor.Children);
+                ancestor.ChildrenShapesByObjectTypeId = CwDiagramContextLaboratory.ShapesListToDictionaryByObjectTypeId(ancestor.Children);
             }
         }
 
@@ -200,7 +227,7 @@ namespace cwContextGenerator.DataAnalysis
 
             foreach (var shape in this.ShapesById)
             {
-                shape.Value.ParentsShapesByObjectTypeId = DiagramContext.SetShapesByObjectTypeId(shape.Value.Parents);
+                shape.Value.ParentsShapesByObjectTypeId = CwDiagramContextLaboratory.ShapesListToDictionaryByObjectTypeId(shape.Value.Parents);
             }
         }
 
@@ -210,44 +237,44 @@ namespace cwContextGenerator.DataAnalysis
         private void AnalyzeAllJoiners()
         {
             Dictionary<int, Dictionary<int, List<CwShape>>> toShapesByFromShapeAndIntersectionId = new Dictionary<int, Dictionary<int, List<CwShape>>>();
+
             //init Dictionary
             foreach (cwLightObject joinerData in this.AllJoiners)
             {
                 CwJoiner joiner = new CwJoiner(joinerData);
 
-                if (!toShapesByFromShapeAndIntersectionId.ContainsKey(joiner.FromShapeId))
-                {
-                    toShapesByFromShapeAndIntersectionId[joiner.FromShapeId] = new Dictionary<int, List<CwShape>>();
-                }
-                if (!toShapesByFromShapeAndIntersectionId[joiner.FromShapeId].ContainsKey(joiner.IntersectionId))
-                {
-                    toShapesByFromShapeAndIntersectionId[joiner.FromShapeId][joiner.IntersectionId] = new List<CwShape>();
-                }
+                int fromId = joiner.FromShapeId;
+                int toId = joiner.ToShapeId;
+                int intersectionId = joiner.IntersectionId;
+                CwShape fromShape = this.ShapesById[fromId];
+                CwShape toShape = this.ShapesById[toId];
 
-                toShapesByFromShapeAndIntersectionId[joiner.FromShapeId][joiner.IntersectionId].Add(this.ShapesById[joiner.ToShapeId]);
+
+                this.FillToShapesByFromShapeAndIntersectionIdDictionary(ref toShapesByFromShapeAndIntersectionId, fromId, intersectionId, toShape);
+                this.FillToShapesByFromShapeAndIntersectionIdDictionary(ref  toShapesByFromShapeAndIntersectionId, toId, intersectionId, fromShape);
+
+                //fill to shapes by intersection id
+                foreach (var fromItem in toShapesByFromShapeAndIntersectionId)
+                {
+                    this.ShapesById[fromItem.Key].ToShapesByIntersectionId = toShapesByFromShapeAndIntersectionId[fromItem.Key];
+                }
             }
+        }
 
-            //fill to shapes by intersection id
-            foreach (var fromShape in toShapesByFromShapeAndIntersectionId)
+        private void FillToShapesByFromShapeAndIntersectionIdDictionary(ref Dictionary<int, Dictionary<int, List<CwShape>>> toShapesByFromShapeAndIntersectionId, int fromShapeId, int intersectionId, CwShape toShape)
+        {
+            if (!toShapesByFromShapeAndIntersectionId.ContainsKey(fromShapeId))
             {
-                this.ShapesById[fromShape.Key].ToShapesByIntersectionId =toShapesByFromShapeAndIntersectionId[fromShape.Key];
+                toShapesByFromShapeAndIntersectionId[fromShapeId] = new Dictionary<int, List<CwShape>>();
             }
-        }
 
-        public List<CwShape> GetShapesByObject(cwLightObject cwObject)
-        {
-            List<CwShape> shapes = new List<CwShape>();
-            this.GetShapesByObjectType(cwObject.GetObjectType()).TryGetValue(cwObject.ID, out shapes);
-            return shapes;
-        }
+            if (!toShapesByFromShapeAndIntersectionId[fromShapeId].ContainsKey(intersectionId))
+            {
+                toShapesByFromShapeAndIntersectionId[fromShapeId][intersectionId] = new List<CwShape>();
+            }
 
-        private Dictionary<int, List<CwShape>> GetShapesByObjectType(cwLightObjectType cwObjectType)
-        {
-            Dictionary<int, Dictionary<int, List<CwShape>>> shapesByObjectTypeAndObjectId = this.AllShapesByObjectTypeAndObjectId;
-            
-            Dictionary<int, List<CwShape>> shapeByObjectId = new Dictionary<int, List<CwShape>>();
-            shapesByObjectTypeAndObjectId.TryGetValue(cwObjectType.ID, out shapeByObjectId);
-            return shapeByObjectId;
+            toShapesByFromShapeAndIntersectionId[fromShapeId][intersectionId].Add(toShape);
         }
+        #endregion
     }
 }

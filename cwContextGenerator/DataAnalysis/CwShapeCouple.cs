@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace cwContextGenerator.DataAnalysis
 {
-    public class ShapeCouple
+    public class CwShapeCouple
     {
         public CwShape Ancestor { get; set; }
         public CwShape Descendant { get; set; }
@@ -26,7 +26,7 @@ namespace cwContextGenerator.DataAnalysis
             }
         }
 
-        public ShapeCouple(CwShape shapeA, CwShape shapeB)
+        public CwShapeCouple(CwShape shapeA, CwShape shapeB)
         {
             if (shapeA.Includes(shapeB))
             {

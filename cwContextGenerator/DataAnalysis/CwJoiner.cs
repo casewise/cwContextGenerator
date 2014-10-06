@@ -42,46 +42,6 @@ namespace cwContextGenerator.DataAnalysis
             this.tableNumberId = Convert.ToInt32(data.properties["TABLENUMBER"].Value);
             this.objectId = Convert.ToInt32(data.properties["OBJECTID"].Value);
         }
-        //public cwLightAssociationType AssociationType;
 
-        //public cwLightAssociationType getAssociationType(cwLightModel model, ShapeManager shapeManager)
-        //{
-        //    //Dictionary<int, Dictionary<int, cwLightAssociationType>> associationTypeByIntersectionAndSourceObjectId = new Dictionary<int,Dictionary<int,cwLightAssociationType>>();
-        //    //foreach (cwLightObjectType ot in model.getObjectTypes())
-        //    //{
-        //    //    if (ot.isIntersectionObjectType)
-        //    //    {
-        //    //       // ot.isIntersectionObjectType
-
-        //    //    }
-        //    //}
-        //    cwLightObjectType otSource = shapeManager.GetShapeObjectByShapeId(this._fromShapeId).GetObjectType();
-        //    SortedDictionary<cwLightObjectType, List<cwLightAssociationType>> associationTypesByTargetObjectType = otSource.getAssociationTypesByTargetObjectType();
-        //    List<cwLightAssociationType> assocationTypes = associationTypesByTargetObjectType[shapeManager.GetShapeObjectByShapeId(this._toShapeId).GetObjectType()];
-
-        //    foreach (cwLightAssociationType at in assocationTypes)
-        //    {
-        //        if (at.Intersection.ID == this._tableNumberId)
-        //        {
-        //            return at;
-        //        }
-        //    }
-        //    return null;
-        //}
-        /// <summary>
-        /// if the joiner is an association type on the diagram
-        /// </summary>
-        //public bool IsAssicationTypeLine
-        //{
-        //    get { return (this._tableNumberId != ConnectorTableNumberId && this._tableNumberId != HierarchyLineTableNumberId); }
-        //}
-
-        ///// <summary>
-        ///// if the joiner is a connector on the diagram
-        ///// </summary>
-        //public bool IsConnector
-        //{
-        //    get { return this._tableNumberId == ConnectorTableNumberId; }
-        //}
     }
 }

@@ -11,17 +11,6 @@ namespace cwContextGenerator.Data
 {
     public static class CwDiagramDataLoader
     {
-
-        public static Dictionary<int, cwLightObject> GetFilteredDiagrams(Dictionary<string, List<cwLightNodePropertyFilter>> filters, cwLightModel model)
-        {
-            string[] propertiesToLoad = new string[] { "NAME", "ID", "UNIQUEIDENTIFIER", "TABLENUMBER", "OBJECTID", "TYPE"};
-            cwLightNodeObjectType node = model.GetObjectTypeNode("DIAGRAM");
-            node.addPropertiesToSelect(propertiesToLoad);
-            node.attributeFiltersKeep = filters;
-            node.preloadLightObjects();
-            return node.usedOTLightObjectsByID;
-        }
-
         /// <summary>
         /// get all shapes on a diagram
         /// </summary>
@@ -46,6 +35,7 @@ namespace cwContextGenerator.Data
             node.addPropertiesToSelect(propertiesToLoad);
             node.addAttributeForFilterAND("DIAGRAMID", diagramIdList, Casewise.GraphAPI.Definitions.EnumCWPropertyFilterOperator.IN);
             node.preloadLightObjects();
+
             return node.usedOTLightObjects;
         }
     }

@@ -25,13 +25,14 @@ namespace cwContextGenerator.DataAnalysis
         }
     }
 
-
     public class CwDiagramContextManager
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(CwDiagramContextManager));
+
         private static string PropertyTypeRootLevel = "ROOTLEVEL";
         private static string PropertyTypeAtName = "ATNAME";
         private static string PropertyTypeAtScriptName = "ATSCRIPTNAME";
+
         public string[] PropertiesToBySelected
         {
             get { return new string[] { "NAME", PropertyTypeRootLevel, PropertyTypeAtName, PropertyTypeAtScriptName }; }
@@ -41,38 +42,23 @@ namespace cwContextGenerator.DataAnalysis
         private cwLightModel SelectedModel { get; set; }
         private ConfigurationRootNode Config { get; set; }
         private Dictionary<int, cwLightObject> ApprovedLightDiagramsById { get; set; }
-
+        public Dictionary<int, CwDiagramContext> DiagramContextByDiagramId { get; private set; }
         public CwDiagramContextManager(cwLightModel model, ConfigurationRootNode config)
         {
             this.SelectedModel = model;
             this.Config = config;
             this.ContextMetaModel = new CwContextMataModelManager(model);
             this.ApprovedLightDiagramsById = new Dictionary<int, cwLightObject>();
+            this.GetDiagramContextsFromDataStore();
         }
 
-        public void DoAnalysis()
+
+        public void GetDiagramContextsFromDataStore()
         {
             Dictionary<int, cwLightObject> lightDiagramById = this.GetLightDiagramById();
-
             this.CheckDiagram(lightDiagramById);
-
-            DiagramContextDataStore contextDataStore = new DiagramContextDataStore(this.ApprovedLightDiagramsById.Keys.ToList(), this.SelectedModel);
-
-            foreach (var d in this.ApprovedLightDiagramsById)
-            {
-                int diagramId = d.Key;
-                cwLightObject approvedDiagram = d.Value;
-                if (!contextDataStore.DiagramContextByDiagramId.ContainsKey(diagramId))
-                {
-                    continue;
-                }
-                else
-                {
-                    CwDiagram diagram = new CwDiagram(approvedDiagram, this.SelectedModel);
-                    DiagramContext diagramContext = contextDataStore.DiagramContextByDiagramId[diagramId];
-                    this.CreateContextHierarchy(diagram, diagramContext);
-                }
-            }
+            CwDiagramContextDataStore contextDataStore = new CwDiagramContextDataStore(this.ApprovedLightDiagramsById.Keys.ToList(), this.SelectedModel);
+            this.DiagramContextByDiagramId = contextDataStore.DiagramContextByDiagramId;
         }
 
         private Dictionary<int, cwLightObject> GetLightDiagramById()
@@ -96,19 +82,40 @@ namespace cwContextGenerator.DataAnalysis
             }
         }
 
+
+        public void DoAnalysis()
+        {
+            foreach (var d in this.ApprovedLightDiagramsById)
+            {
+                int diagramId = d.Key;
+                cwLightObject approvedDiagram = d.Value;
+                if (!this.DiagramContextByDiagramId.ContainsKey(diagramId))
+                {
+                    continue;
+                }
+                else
+                {
+                    CwDiagram diagram = new CwDiagram(approvedDiagram, this.SelectedModel);
+                    CwDiagramContext diagramContext = this.DiagramContextByDiagramId[diagramId];
+                    this.CreateContextHierarchy(diagram, diagramContext);
+                }
+            }
+        }
+
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="diagram"></param>
         /// <param name="diagramContext"></param>
-        private void CreateContextHierarchy(CwDiagram diagram, DiagramContext diagramContext)
+        private void CreateContextHierarchy(CwDiagram diagram, CwDiagramContext diagramContext)
         {
             List<CwShape> parentShapes = new List<CwShape>();
             parentShapes = diagramContext.GetShapesByObject(diagram.Parent);
 
             foreach (CwShape parentShape in parentShapes)
             {
-                ContextPackage newContextObject = CreateContext(parentShape, diagram, this.Config);
+                ContextPackage newContextObject = this.CreateContext(parentShape, diagram, this.Config);
 
                 foreach (ConfigurationObjectNode childNode in Config.ChildrenNodes)
                 {
@@ -149,21 +156,30 @@ namespace cwContextGenerator.DataAnalysis
         /// <returns></returns>
         private ContextPackage CreateContext(CwShape shape, CwDiagram diagram, ConfigurationRootNode rootNode)
         {
+            //root object
             cwLightObject parentObject = shape.GetObject(this.SelectedModel);
-
-            string contextObjectName = SetContextObjectName(diagram, parentObject, Config.ReadingMode);
-
+            
+            //set a name
+            string contextObjectName = this.SetContextObjectName(diagram, parentObject, Config.ReadingMode);
+            
+            //create object
             int newContextObjectId = this.ContextMetaModel.ContextOT.createObjectWithName(contextObjectName);
 
+            //get object node
             cwLightNodeObjectType contextOTNode = this.ContextMetaModel.ContextOT.getNewNode();
             contextOTNode.addPropertiesToSelect(PropertiesToBySelected);
             contextOTNode.preloadLightObjects();
 
+            //get contextObject
             cwLightObject newContextObject = contextOTNode.usedOTLightObjectsByID[newContextObjectId];
+            //update root level
             newContextObject.properties[PropertyTypeRootLevel].Value = new CwPropertyBoolean(true);
+            //update name
             newContextObject.properties["NAME"].Value = contextObjectName + "_" + newContextObjectId.ToString();
 
             newContextObject.updatePropertiesInModel();
+            
+            //create associations
             newContextObject.AssociateToWithTransaction(this.ContextMetaModel.AtContextEndWith, parentObject);
 
             cwLightObject pathObject = this.ContextMetaModel.ContextPathOT.getObjectByID(rootNode.ConfigurationId);
@@ -271,7 +287,5 @@ namespace cwContextGenerator.DataAnalysis
             contextPackage.RelatedShapes = targetShapesForTargetObjects;
             return;
         }
-
-       
     }
 }

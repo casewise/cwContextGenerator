@@ -11,7 +11,7 @@ namespace cwContextGenerator.DataAnalysis
     /// <summary>
     /// 
     /// </summary>
-    public class DiagramContextDataStore
+    public class CwDiagramContextDataStore
     {
         private List<int> _diagramIdList;
         private cwLightModel _model;
@@ -22,14 +22,14 @@ namespace cwContextGenerator.DataAnalysis
         private Dictionary<int, List<cwLightObject>> ShapesByDiagramId { get; set; }
         private Dictionary<int, List<cwLightObject>> JoinerByDiagramId { get; set; }
 
-        public Dictionary<int, DiagramContext> DiagramContextByDiagramId { get; private set; }
+        public Dictionary<int, CwDiagramContext> DiagramContextByDiagramId { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="diagramIdList"></param>
         /// <param name="model"></param>
-        public DiagramContextDataStore(List<int> diagramIdList, cwLightModel model)
+        public CwDiagramContextDataStore(List<int> diagramIdList, cwLightModel model)
         {
             this._diagramIdList = diagramIdList;
             this._model = model;
@@ -65,11 +65,12 @@ namespace cwContextGenerator.DataAnalysis
         /// </summary>
         private void FillDiagramContextData()
         {
-            Dictionary<int, DiagramContext> diagramContextDictionary = new Dictionary<int, DiagramContext>();
+            Dictionary<int, CwDiagramContext> diagramContextDictionary = new Dictionary<int, CwDiagramContext>();
             foreach (int diagramId in this._diagramIdList)
-            {  
+            {
                 List<cwLightObject> allJoinersByDiagramId = new List<cwLightObject>();
-                List<cwLightObject> allShapesByDiagramId = new List<cwLightObject>(); 
+                List<cwLightObject> allShapesByDiagramId = new List<cwLightObject>();
+
                 bool hasJoiner = this.JoinerByDiagramId.ContainsKey(diagramId);
                 bool hasShape = this.ShapesByDiagramId.ContainsKey(diagramId);
 
@@ -83,17 +84,16 @@ namespace cwContextGenerator.DataAnalysis
                     allShapesByDiagramId = this.ShapesByDiagramId[diagramId];
                 }
 
-                DiagramContext newDiagramContext = new DiagramContext(diagramId, allJoinersByDiagramId, allShapesByDiagramId);
-                newDiagramContext.LoadShapesDirectory();
+
+                CwDiagramContextLaboratory newDiagramContextLab = new CwDiagramContextLaboratory(diagramId, allJoinersByDiagramId, allShapesByDiagramId);
+                newDiagramContextLab.AnalyzeShapesRelationship();
 
                 if (hasJoiner || hasShape)
                 {
-                    diagramContextDictionary[diagramId] = newDiagramContext;
+                    diagramContextDictionary[diagramId] = new CwDiagramContext(newDiagramContextLab);
                 }
             }
-
             this.DiagramContextByDiagramId = diagramContextDictionary;
-
         }
 
         /// <summary>

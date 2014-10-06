@@ -18,55 +18,40 @@ namespace cwContextGenerator.DataAnalysis
         private static string OtCwContextPathScriptName = "CWCONTEXTPATH";
         private static string AtCwContextDescribesDiagramScriptName = "CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODEDIAGRAMDESCRIBESFORWARDTODIAGRAM";
 
-
         private cwLightModel Model { get; set; }
         public cwLightObjectType ContextOT
         {
-            get
-            {
-                return this.Model.getObjectTypeByScriptName(OtCwContextNodeScriptName);
-            }
+            get { return this.Model.getObjectTypeByScriptName(OtCwContextNodeScriptName); }
         }
 
         public cwLightObjectType ContextPathOT
         {
             get { return this.Model.getObjectTypeByScriptName(OtCwContextPathScriptName); }
         }
+
         public cwLightAssociationType AtContextEndWith
         {
-            get
-            {
-                return this.ContextOT.getAssociationTypeByScriptName(AtCwContextEndWithAnyObjectScriptName);
-            }
+            get { return this.ContextOT.getAssociationTypeByScriptName(AtCwContextEndWithAnyObjectScriptName); }
         }
 
         public cwLightAssociationType AtContextToContext
         {
-            get
-            {
-                return this.ContextOT.getAssociationTypeByScriptName(AtCwContextToCwContextScriptName);
-            }
+            get { return this.ContextOT.getAssociationTypeByScriptName(AtCwContextToCwContextScriptName); }
         }
 
         public cwLightAssociationType AtContextStartFrom
         {
-            get
-            {
-                return ContextOT.getAssociationTypeByScriptName(AtCwContextStartByAnyObjectScriptName);
-            }
+            get { return ContextOT.getAssociationTypeByScriptName(AtCwContextStartByAnyObjectScriptName); }
         }
 
         public cwLightAssociationType AtContextPartOfPath
         {
-            get
-            {
-                return ContextOT.getAssociationTypeByScriptName(AtCwContextPartOfCwContextPathScriptName);
-            }
+            get { return ContextOT.getAssociationTypeByScriptName(AtCwContextPartOfCwContextPathScriptName); }
         }
-        public cwLightAssociationType AtContextDiscribesDiagram {
-            get {
-                return ContextOT.getAssociationTypeByScriptName(AtCwContextDescribesDiagramScriptName);
-            }
+
+        public cwLightAssociationType AtContextDiscribesDiagram
+        {
+            get { return ContextOT.getAssociationTypeByScriptName(AtCwContextDescribesDiagramScriptName); }
         }
 
         public CwContextMataModelManager(cwLightModel model)

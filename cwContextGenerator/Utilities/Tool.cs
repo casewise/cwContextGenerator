@@ -10,13 +10,15 @@ using System.Threading.Tasks;
 
 namespace cwContextGenerator
 {
-    static class Tool
+    public static class Tool
     {
         public static CasewiseProfessionalServices.Data.cwModel GetModelFromLightModel(cwLightModel m)
         {
-            CasewiseProfessionalServices.Data.cwConnection conn = new CasewiseProfessionalServices.Data.cwConnection();
-            conn.LoadModels();
-            return conn.Models[m.FileName];
+            CasewiseProfessionalServices.Data.cwConnection connection = new CasewiseProfessionalServices.Data.cwConnection();
+            connection.LoadModels();
+            return connection.Models[m.FileName];
         }
     }
+    
+
 }

@@ -3,7 +3,7 @@
   <Class Name="cwContextGenerator.Data.CwDiagramDataLoader">
     <Position X="15.25" Y="5.75" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAACAAAAAAAAAAAAAACAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>Data\CwDiagramDataLoader.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -17,7 +17,7 @@
   <Class Name="cwContextGenerator.DataAnalysis.CwShape">
     <Position X="4.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QBhAAAQIAAAAIAUAQAAMAAQAAABAAAAQIABgACAKQAA=</HashCode>
+      <HashCode>QBhCAAQIAAAAIAUAQAAMAAQAAABAAAAAIABgACAKQAA=</HashCode>
       <FileName>DataAnalysis\CwShape.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -36,15 +36,8 @@
   <Class Name="cwContextGenerator.DataAnalysis.CwDiagram">
     <Position X="9" Y="4.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAgAAQAQIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAACAEAgAAQAQIAAAEAAAAAQAAAAAAAAA=</HashCode>
       <FileName>DataAnalysis\CwDiagram.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="cwContextGenerator.DataAnalysis.CwDiagramDataStore">
-    <Position X="9" Y="1.75" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAoBACAAAAAAAAAAAAQAAAAAAIAA=</HashCode>
-      <FileName>DataAnalysis\CwDiagramDataStore.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cwContextGenerator.DataAnalysis.DiagramContext">
