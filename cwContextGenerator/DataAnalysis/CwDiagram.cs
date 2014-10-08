@@ -15,6 +15,7 @@ namespace cwContextGenerator.DataAnalysis
         public string Type{get;private set;}
         private string name;
         public cwLightObject CmObject;
+        public int ID { get; set; }
         public cwLightObject Parent
         {
             get
@@ -36,6 +37,7 @@ namespace cwContextGenerator.DataAnalysis
             this._objectId = Convert.ToInt32(diagramData.properties["OBJECTID"].Value);
             this.Type = Convert.ToString(diagramData.properties["TYPE"].Value);
             this.name = Convert.ToString(diagramData.properties["NAME"].Value);
+            this.ID = Convert.ToInt32(diagramData.properties["ID"].Value);
             this._model = model;
             this.CmObject = diagramData;
         }

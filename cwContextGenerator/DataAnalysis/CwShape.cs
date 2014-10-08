@@ -89,6 +89,8 @@ namespace cwContextGenerator.DataAnalysis
             this.height = Convert.ToSingle(shapeData.properties["HEIGHT"].Value) / ACaseInGrid;
             this.xPlusWidth = (this.x + width);
             this.yPlusHeight = (this.y + height);
+
+            this.ToShapesByIntersectionId = new Dictionary<int, List<CwShape>>();
         }
 
         /// <summary>

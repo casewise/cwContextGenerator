@@ -131,7 +131,7 @@
     <Compile Include="DataAnalysis\CwDiagramContextManager.cs" />
     <Compile Include="DataAnalysis\CwDiagramContext.cs" />
     <Compile Include="DataAnalysis\CwJoiner.cs" />
-    <Compile Include="DataAnalysis\CwRootLevelContextObject.cs" />
+    <Compile Include="DataAnalysis\CwContextObjectRootLevel.cs" />
     <Compile Include="DataAnalysis\CwShape.cs" />
     <Compile Include="DataAnalysis\CwDiagramContextLaboratory.cs" />
     <Compile Include="DataAnalysis\CwDiagramContextDataStore.cs" />

@@ -13,7 +13,7 @@ using System.Web.Script.Serialization;
 namespace cwContextGenerator.Configuration
 {
     // public enum ReadingMode { _NONE_, INCLUDES, IS_INCLUDED_IN, IS_LINK_WITH_JOINER }
-    public enum ReadingMode { _NONE_, Includes, IsIncludedIn, LinkedTo }
+    public enum ReadingMode { _NONE_ , Includes, IsIncludedIn, LinkedTo }
 
     public class ConfigurationObjectNode
     {

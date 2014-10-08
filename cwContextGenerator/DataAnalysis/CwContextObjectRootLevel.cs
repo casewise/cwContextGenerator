@@ -9,49 +9,49 @@ using System.Threading.Tasks;
 
 namespace cwContextGenerator.DataAnalysis
 {
-    public class CwRootLevelContextObject : CwContextObject
-    {
-        // public bool IsRootLevel { get { return true; } }
-
-     
+    public class CwContextObjectRootLevel : CwContextObject
+    {    
         public ConfigurationRootNode RootConfig { get; set; }
 
-        public override string Name
+        protected override string Name
         {
             get
             {
-
-                return String.Format("{0}_{1}_{2}_{3}_{4}",
+                return String.Format("{0}_{1}_L{2}_{3}_RootLevel_{4}",
                                     Diagram.Type.ToString(),
                                     Diagram.ToString(),
+                                    Level.ToString(),
                                     FromObject.ToString(),
-                                    RootConfig.ReadingMode.ToString(),
                                     this.Id.ToString());
             }
             set { }
         }
 
-        public CwRootLevelContextObject(cwLightObject fromObject, CwShape fromShape, CwContextMataModelManager contextMetaModel, ConfigurationRootNode rootConfigurationNode, CwDiagram diagram)
-            : base(fromObject, fromShape, contextMetaModel, diagram)
+        #region Constructor
+        public CwContextObjectRootLevel(int level, cwLightObject fromObject, CwShape fromShape, CwContextMataModelManager contextMetaModel, ConfigurationRootNode rootConfigurationNode, CwDiagram diagram)
+            : base(level, fromObject, fromShape, contextMetaModel, diagram)
         {
             this.RootConfig = rootConfigurationNode;
-           
+            this.Create();
             //update 
             this.UpdateProperties();
             this.UpdateAssociations();
         }
-       
-        protected new void UpdateProperties()
+        #endregion
+
+        #region update related data
+        protected override void UpdateProperties()
         {
+            //update root level
             this.ContextContainer.properties[PropertyTypeRootLevel].Value = new CwPropertyBoolean(true);
             //update name
-            this.ContextContainer.properties["NAME"].Value = this.Name;
+            this.ContextContainer.properties[PropertyTypeName].Value = this.Name;
 
             this.ContextContainer.updatePropertiesInModel();
         }
 
 
-        protected new void UpdateAssociations()
+        protected override void UpdateAssociations()
         {
             //create associations
             this.ContextContainer.AssociateToWithTransaction(this.ContextMetaModel.AtContextEndWith, this.FromObject);
@@ -59,5 +59,6 @@ namespace cwContextGenerator.DataAnalysis
             this.ContextContainer.AssociateToWithTransaction(this.ContextMetaModel.AtContextPartOfPath, pathObject);
             this.ContextContainer.AssociateToWithTransaction(this.ContextMetaModel.AtContextDiscribesDiagram, this.Diagram.CmObject);
         }
+        #endregion
     }
 }

@@ -9,14 +9,37 @@ using System.Threading.Tasks;
 
 namespace cwContextGenerator.DataAnalysis
 {
+
+    public class Compare
+    {
+        public cwLightObject SourceObject{get;set;}
+        public CwShape TargetShape { get; set; }
+        public bool State
+        {
+            get
+            {
+                if (this.SourceObject != null & this.TargetShape != null)
+                {
+                    return true;
+                }
+                else { return false; }
+            }
+        }
+        public Compare() { }
+    }
+
     public class CwContextObject
     {
+        #region properties script name
         protected static string PropertyTypeRootLevel = "ROOTLEVEL";
         protected static string PropertyTypeAtName = "ATNAME";
         protected static string PropertyTypeAtScriptName = "ATSCRIPTNAME";
         protected static string PropertyTypeName = "NAME";
         protected static string[] PropertiesToBySelected = new string[] { PropertyTypeName, PropertyTypeRootLevel, PropertyTypeAtName, PropertyTypeAtScriptName };
+        #endregion
 
+        private List<CwShape> _targetShapes = new List<CwShape>();
+        private cwLightObject ParentContextObject { get; set; }
 
         protected CwContextMataModelManager ContextMetaModel { get; set; }
         protected CwDiagram Diagram { get; set; }
@@ -25,45 +48,50 @@ namespace cwContextGenerator.DataAnalysis
         private cwLightNodeAssociationType AtNode { get; set; }
 
         public cwLightObject ContextContainer { get; set; }
-        public int Id { get; set; }
+        protected int Id { get; set; }
 
-        public cwLightObject FromObject { get; set; }
-        public CwShape FromShape { get; set; }
+        public int Level { get; set; }
+
+        protected cwLightObject FromObject { get; set; }
+        protected CwShape FromShape { get; set; }
 
         public List<cwLightObject> ToObjects { get; set; }
         public List<CwShape> ToShapes { get; set; }
 
         
-        private cwLightObject ParentContextObject { get; set; }
 
         /// <summary>
         /// Context Object Name
         /// </summary>
-        public virtual string Name
+        protected virtual string Name
         {
             get
             {
-                return String.Format("{0}_{1}_{2}_{3}_{4}",
+                return String.Format("{0}_{1}_L{2}_{3}_{4}_{5}",
                                     Diagram.Type.ToString(),
                                     Diagram.ToString(),
+                                    Level.ToString(),
                                     FromObject.ToString(),
                                     ChildNode.ReadingMode.ToString(),
                                     this.Id.ToString());
             }
-            set { }
+            set
+            {
+            }
         }
 
-        public CwContextObject(cwLightObject fromObject, CwShape fromShape, CwContextMataModelManager contextMetaModel, CwDiagram diagram)
+        #region Constructor
+        public CwContextObject(int level, cwLightObject fromObject, CwShape fromShape, CwContextMataModelManager contextMetaModel, CwDiagram diagram)
         {
             this.ContextMetaModel = contextMetaModel;
             this.Diagram = diagram;
             this.FromObject = fromObject;
             this.FromShape = fromShape;
-            this.Create();
+            this.Level = level;
         }
 
-        public CwContextObject(cwLightObject fromObject, CwShape fromShape, CwContextMataModelManager contextMetaModel, ConfigurationObjectNode childNode, cwLightObject parentContextObject, CwDiagram diagram)
-            : this(fromObject, fromShape, contextMetaModel, diagram)
+        public CwContextObject(int level, cwLightObject fromObject, CwShape fromShape, CwContextMataModelManager contextMetaModel, ConfigurationObjectNode childNode, cwLightObject parentContextObject, CwDiagram diagram)
+            : this(level, fromObject, fromShape, contextMetaModel, diagram)
         {
             this.ParentContextObject = parentContextObject;
 
@@ -75,11 +103,18 @@ namespace cwContextGenerator.DataAnalysis
 
             this.GetToShapesAndToObjects();
 
-            this.UpdateProperties();
-            this.UpdateAssociations();
+            if (this.ToShapes.Count > 0)
+            {
+                this.Create();
+                this.UpdateProperties();
+                this.UpdateAssociations();
+            }
         }
+        #endregion
 
-        public void Create() {
+        #region create context object and update related data
+        protected void Create()
+        {
             //new context object, return context object id
             this.Id = this.ContextMetaModel.ContextOT.createObject();
 
@@ -98,13 +133,25 @@ namespace cwContextGenerator.DataAnalysis
             this.ContextContainer.updatePropertiesInModel();
         }
 
+        protected virtual void UpdateAssociations()
+        {
+            this.ParentContextObject.AssociateToWithTransaction(this.ContextMetaModel.AtContextToContext, this.ContextContainer);
+            this.ContextContainer.AssociateToWithTransaction(this.ContextMetaModel.AtContextStartFrom, FromObject);
+            foreach (cwLightObject toObject in this.ToObjects)
+            {
+                this.ContextContainer.AssociateToWithTransaction(this.ContextMetaModel.AtContextEndWith, toObject);
+            }
+        }
+        #endregion
+
+        #region Analysis
         private void GetToShapesAndToObjects()
         {
-            this.SetToShapes();
-            this.UnionTargetObjectsAndToShapes();
+            this.SetTargetShapes();
+            this.UnionTargetObjectsAndTargetShapes();
         }
 
-        private void SetToShapes()
+        private void SetTargetShapes()
         {
             cwLightAssociationType associationType = AtNode.AssociationType;
 
@@ -125,45 +172,51 @@ namespace cwContextGenerator.DataAnalysis
                 default:
                     break;
             }
-            this.ToShapes = targetShapes;
+
+            if (targetShapes != null)
+            {
+                this._targetShapes = targetShapes;
+            }
         }
 
-        private void UnionTargetObjectsAndToShapes()
+        private void UnionTargetObjectsAndTargetShapes()
         {
-            List<string> keys = new List<string>();
+            Dictionary<string, Compare> compareShapeAndObject = new Dictionary<string, Compare>();
+    
             List<cwLightObject> targetObjects = AtNode.getAllTargetObjectsDistinct();
 
-            foreach (CwShape toShape in this.ToShapes)
+            foreach (CwShape toShape in this._targetShapes)
             {
                 string key = toShape.ObjectTypeId.ToString() + toShape.ObjectId.ToString();
-                if (!keys.Contains(key))
+
+                if (!compareShapeAndObject.ContainsKey(key))
                 {
-                    keys.Add(key);
+                    compareShapeAndObject[key] = new Compare();
                 }
+                compareShapeAndObject[key].TargetShape = toShape;
             }
 
             foreach (cwLightObject targetObject in targetObjects)
             {
-                string newKey = targetObject.OTID.ToString() + targetObject.ID.ToString();
+                string key = targetObject.OTID.ToString() + targetObject.ID.ToString();
 
-                if (keys.Contains(newKey))
+                if (!compareShapeAndObject.ContainsKey(key))
                 {
-                    this.ToObjects.Add(targetObject);
+                    compareShapeAndObject[key] = new Compare();
                 }
+                compareShapeAndObject[key].SourceObject = targetObject;
             }
-        }
 
-        protected virtual void UpdateAssociations()
-        {
-            if (this.ToObjects.Count > 0)
+            foreach (var compare in compareShapeAndObject)
             {
-                this.ParentContextObject.AssociateToWithTransaction(this.ContextMetaModel.AtContextToContext, this.ContextContainer);
-                this.ContextContainer.AssociateToWithTransaction(this.ContextMetaModel.AtContextStartFrom, FromObject);
-                foreach (cwLightObject toObject in this.ToObjects)
+                if ( compare.Value.State==true)
                 {
-                    this.ContextContainer.AssociateToWithTransaction(this.ContextMetaModel.AtContextEndWith, toObject);
+                    this.ToObjects.Add(compare.Value.SourceObject);
+                    this.ToShapes.Add(compare.Value.TargetShape);
                 }
             }
         }
+        #endregion
+
     }
 }

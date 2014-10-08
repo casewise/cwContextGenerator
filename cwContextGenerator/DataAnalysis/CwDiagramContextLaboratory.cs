@@ -237,7 +237,7 @@ namespace cwContextGenerator.DataAnalysis
         private void AnalyzeAllJoiners()
         {
             Dictionary<int, Dictionary<int, List<CwShape>>> toShapesByFromShapeAndIntersectionId = new Dictionary<int, Dictionary<int, List<CwShape>>>();
-
+            //Dictionary<int, List<CwShape>> ToShapesByIntersectionId = new Dictionary<int, List<CwShape>>(); 
             //init Dictionary
             foreach (cwLightObject joinerData in this.AllJoiners)
             {
