@@ -120,14 +120,14 @@ namespace cwContextGenerator.DataAnalysis
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public cwLightObject GetObject(cwLightModel model)
-        {
-            return model.getObjectTypeByID(this.ObjectTypeId).getObjectByID(this.ObjectId);
-        }
+        //public cwLightObject GetObject(cwLightModel model)
+        //{
+        //    return model.getObjectTypeByID(this.ObjectTypeId).getObjectByID(this.ObjectId);
+        //}
 
-        public cwLightObjectType GetObjectType(cwLightModel model)
-        {
-            return model.getObjectTypeByID(this.ObjectTypeId);
-        }
+        //public cwLightObjectType GetObjectType(cwLightModel model)
+        //{
+        //    return model.getObjectTypeByID(this.ObjectTypeId);
+        //}
     }
 }

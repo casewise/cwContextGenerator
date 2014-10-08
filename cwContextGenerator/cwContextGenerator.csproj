@@ -125,11 +125,13 @@
     <Compile Include="Configuration\LauncherTreeNodeConfigurationNode.cs" />
     <Compile Include="Core\ApplicationCore.cs" />
     <Compile Include="Core\BatchManager.cs" />
+    <Compile Include="DataAnalysis\CwContextObject.cs" />
     <Compile Include="DataAnalysis\CwContextMataModelManager.cs" />
     <Compile Include="DataAnalysis\CwDiagram.cs" />
     <Compile Include="DataAnalysis\CwDiagramContextManager.cs" />
     <Compile Include="DataAnalysis\CwDiagramContext.cs" />
     <Compile Include="DataAnalysis\CwJoiner.cs" />
+    <Compile Include="DataAnalysis\CwRootLevelContextObject.cs" />
     <Compile Include="DataAnalysis\CwShape.cs" />
     <Compile Include="DataAnalysis\CwDiagramContextLaboratory.cs" />
     <Compile Include="DataAnalysis\CwDiagramContextDataStore.cs" />
