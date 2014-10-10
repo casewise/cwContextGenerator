@@ -11,6 +11,9 @@ namespace cwContextGenerator.DataAnalysis
         int ShapeId { get; }
 
         Dictionary<int, List<CwShape>> ChildrenShapesByObjectTypeId { get; set; }
+        Dictionary<int, List<CwShape>> DescendantsShapesByObjectTypeId { get; set; }
+        Dictionary<int, List<CwShape>> AncestorsShapesByObjectTypeId { get; set; }
+        
         Dictionary<int, List<CwShape>> ParentsShapesByObjectTypeId { get; set; }
         Dictionary<int, List<CwShape>> ToShapesByIntersectionId { get; set; }
 

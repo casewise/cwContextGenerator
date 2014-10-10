@@ -25,6 +25,7 @@ namespace cwContextGenerator.DataAnalysis
         #region relation fields
         private List<CwShape> descendants = new List<CwShape>();
         private List<CwShape> parents = new List<CwShape>();
+        private List<CwShape> ancestor = new List<CwShape>();
         private List<CwShape> children = new List<CwShape>();
         #endregion
         /// <summary>
@@ -60,6 +61,12 @@ namespace cwContextGenerator.DataAnalysis
             get { return this.parents; }
             set { this.parents = value; }
         }
+
+        public List<CwShape> Ancestor
+        {
+            get { return this.ancestor; }
+            set { this.ancestor = value; }
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -70,8 +77,11 @@ namespace cwContextGenerator.DataAnalysis
         }
 
         public Dictionary<int, List<CwShape>> ChildrenShapesByObjectTypeId { get; set; }
-        public Dictionary<int, List<CwShape>> ParentsShapesByObjectTypeId { get; set; }
+        public Dictionary<int, List<CwShape>> DescendantsShapesByObjectTypeId { get; set; }
+        public Dictionary<int, List<CwShape>> AncestorsShapesByObjectTypeId { get; set; }
 
+
+        public Dictionary<int, List<CwShape>> ParentsShapesByObjectTypeId { get; set; }
         public Dictionary<int, List<CwShape>> ToShapesByIntersectionId { get; set; }
 
         /// <summary>

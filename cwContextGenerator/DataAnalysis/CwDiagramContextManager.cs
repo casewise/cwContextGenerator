@@ -102,7 +102,17 @@ namespace cwContextGenerator.DataAnalysis
                 {
                     int level = 0;
 
-                    CwContextObjectRootLevel rootContextObject = new CwContextObjectRootLevel(level, parentObject, parentShape, ContextMetaModel, this.Config, diagram);
+                    CwContextObjectParameters parameters = new CwContextObjectParameters
+                    {
+                        Level = level,
+                        FromObject = parentObject,
+                        FromShape = parentShape,
+                        ContextMetaModel = this.ContextMetaModel,
+                        RootConfigurationNode = this.Config,
+                        Diagram = diagram
+                    };
+                    CwContextObjectRootLevel rootContextObject = new CwContextObjectRootLevel(parameters);
+                    //CwContextObjectRootLevel rootContextObject = new CwContextObjectRootLevel(level, parentObject, parentShape, ContextMetaModel, this.Config, diagram);
                     foreach (ConfigurationObjectNode childNode in Config.ChildrenNodes)
                     {
                         CreateContextHierarchyRec(rootContextObject.Level, parentObject, parentShape, childNode, rootContextObject.ContextContainer, diagram);
@@ -121,8 +131,20 @@ namespace cwContextGenerator.DataAnalysis
         private void CreateContextHierarchyRec(int count, cwLightObject fromObject, CwShape fromShape, ConfigurationObjectNode node, cwLightObject parentContextObject, CwDiagram diagram)
         {
             count += 1;
-            CwContextObject contextObject = new CwContextObject(count, fromObject, fromShape, ContextMetaModel, node, parentContextObject, diagram);
-         
+            CwContextObjectParameters parameters = new CwContextObjectParameters
+            {
+                Level = count,
+                FromObject = fromObject,
+                FromShape = fromShape,
+                ContextMetaModel = this.ContextMetaModel,
+                ChildNode = node,
+                ParentContextObject = parentContextObject,
+                Diagram = diagram
+
+            };
+            CwContextObject contextObject = new CwContextObject(parameters);
+            //CwContextObject contextObject = new CwContextObject(count, fromObject, fromShape, ContextMetaModel, node, parentContextObject, diagram);
+
             foreach (ConfigurationObjectNode childNode in node.ChildrenNodes)
             {
                 foreach (CwShape toShape in contextObject.ToShapes)

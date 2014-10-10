@@ -28,6 +28,20 @@ namespace cwContextGenerator.DataAnalysis
         public Compare() { }
     }
 
+
+    public class CwContextObjectParameters
+    {
+        public int Level { get; set; }
+        public CwShape FromShape { get; set; }
+        public cwLightObject FromObject { get; set; }
+        public CwContextMataModelManager ContextMetaModel { get; set; }
+        public ConfigurationRootNode RootConfigurationNode { get; set; }
+        public CwDiagram Diagram { get; set; }
+        public ConfigurationObjectNode ChildNode { get; set; }
+        public cwLightObject ParentContextObject { get; set; }
+    }
+
+
     public class CwContextObject
     {
         #region properties script name
@@ -57,9 +71,7 @@ namespace cwContextGenerator.DataAnalysis
 
         public List<cwLightObject> ToObjects { get; set; }
         public List<CwShape> ToShapes { get; set; }
-
-        
-
+     
         /// <summary>
         /// Context Object Name
         /// </summary>
@@ -88,6 +100,25 @@ namespace cwContextGenerator.DataAnalysis
             this.FromObject = fromObject;
             this.FromShape = fromShape;
             this.Level = level;
+        }
+
+
+        public CwContextObject(CwContextObjectParameters parameters)
+        {
+            this.ParentContextObject = parameters.ParentContextObject;
+            this.ChildNode = parameters.ChildNode;
+            this.AtNode = parameters.ChildNode.GetNode();
+            this.ToShapes = new List<CwShape>();
+            this.ToObjects = new List<cwLightObject>();
+
+            this.GetToShapesAndToObjects();
+
+            if (this.ToShapes.Count > 0)
+            {
+                this.Create();
+                this.UpdateProperties();
+                this.UpdateAssociations();
+            }
         }
 
         public CwContextObject(int level, cwLightObject fromObject, CwShape fromShape, CwContextMataModelManager contextMetaModel, ConfigurationObjectNode childNode, cwLightObject parentContextObject, CwDiagram diagram)
@@ -159,11 +190,17 @@ namespace cwContextGenerator.DataAnalysis
             List<CwShape> targetShapes = new List<CwShape>();
             switch (this.ChildNode.ReadingMode)
             {
-                case ReadingMode.Includes:
+                case ReadingMode.Directly_Includes:
                     this.FromShape.ChildrenShapesByObjectTypeId.TryGetValue(targetObjectType.ID, out targetShapes);
                     break;
-                case ReadingMode.IsIncludedIn:
+                case ReadingMode.Directly_IsIncludedIn:
                     this.FromShape.ParentsShapesByObjectTypeId.TryGetValue(targetObjectType.ID, out targetShapes);
+                    break;
+                case ReadingMode.Includes:
+                    this.FromShape.DescendantsShapesByObjectTypeId.TryGetValue(targetObjectType.ID, out targetShapes);
+                    break;
+                case ReadingMode.IsIncludedIn:
+                    this.FromShape.AncestorsShapesByObjectTypeId.TryGetValue(targetObjectType.ID, out targetShapes);
                     break;
                 case ReadingMode.LinkedTo:
                     List<CwShape> shapesLinkedByJoiner = new List<CwShape>();
@@ -172,7 +209,6 @@ namespace cwContextGenerator.DataAnalysis
                 default:
                     break;
             }
-
             if (targetShapes != null)
             {
                 this._targetShapes = targetShapes;

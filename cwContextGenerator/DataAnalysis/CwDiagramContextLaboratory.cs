@@ -176,7 +176,13 @@ namespace cwContextGenerator.DataAnalysis
                     {
                         this.ShapesById[shapeCouple.Ancestor.ShapeId].Descendants.Add(shapeCouple.Descendant);
                     }
+                    //ancestor.ChildrenShapesByObjectTypeId = CwDiagramContextLaboratory.ShapesListToDictionaryByObjectTypeId(ancestor.Children);
                 }
+            }
+
+            foreach (var shape in this.ShapesById)
+            {
+                shape.Value.DescendantsShapesByObjectTypeId = CwDiagramContextLaboratory.ShapesListToDictionaryByObjectTypeId(shape.Value.Descendants);
             }
         }
 
@@ -228,6 +234,24 @@ namespace cwContextGenerator.DataAnalysis
             foreach (var shape in this.ShapesById)
             {
                 shape.Value.ParentsShapesByObjectTypeId = CwDiagramContextLaboratory.ShapesListToDictionaryByObjectTypeId(shape.Value.Parents);
+            }
+        }
+
+        private void FillShapesAncentors()
+        {
+            foreach (var shape in this.ShapesById)
+            {
+                CwShape ancestor = shape.Value;
+                foreach (CwShape descendant in ancestor.Descendants)
+                {
+                    var key = descendant.ShapeId;
+                    this.ShapesById[key].Ancestor.Add(ancestor);
+                }
+            }
+
+            foreach (var shape in this.ShapesById)
+            {
+                shape.Value.AncestorsShapesByObjectTypeId = CwDiagramContextLaboratory.ShapesListToDictionaryByObjectTypeId(shape.Value.Ancestor);
             }
         }
 
