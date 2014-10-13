@@ -6,27 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using cwContextGenerator.Compare;
 namespace cwContextGenerator.DataAnalysis
 {
 
-    public class Compare
-    {
-        public cwLightObject SourceObject{get;set;}
-        public CwShape TargetShape { get; set; }
-        public bool State
-        {
-            get
-            {
-                if (this.SourceObject != null & this.TargetShape != null)
-                {
-                    return true;
-                }
-                else { return false; }
-            }
-        }
-        public Compare() { }
-    }
+   
 
 
     public class CwContextObjectParameters
@@ -59,7 +43,11 @@ namespace cwContextGenerator.DataAnalysis
         protected CwDiagram Diagram { get; set; }
 
         private ConfigurationObjectNode ChildNode { get; set; }
-        private cwLightNodeAssociationType AtNode { get; set; }
+        private cwLightNodeAssociationType AtNode
+        {
+            get;
+            set;
+        }
 
         public cwLightObject ContextContainer { get; set; }
         protected int Id { get; set; }
@@ -79,12 +67,13 @@ namespace cwContextGenerator.DataAnalysis
         {
             get
             {
-                return String.Format("{0}_{1}_L{2}_{3}_{4}_{5}",
+                return String.Format("{0}_{1}_L{2}_{3}_{4}_[{5}]_{6}",
                                     Diagram.Type.ToString(),
                                     Diagram.ToString(),
                                     Level.ToString(),
                                     FromObject.ToString(),
                                     ChildNode.ReadingMode.ToString(),
+                                    this.AtNode.TargetObjectType.ScriptName.ToString(),
                                     this.Id.ToString());
             }
             set
@@ -93,47 +82,19 @@ namespace cwContextGenerator.DataAnalysis
         }
 
         #region Constructor
-        public CwContextObject(int level, cwLightObject fromObject, CwShape fromShape, CwContextMataModelManager contextMetaModel, CwDiagram diagram)
+
+        public CwContextObject(ConfigurationObjectNode childNode, cwLightObject parentContextObject, CwContextObjectParameters parameters)
+            : this(parameters)
         {
-            this.ContextMetaModel = contextMetaModel;
-            this.Diagram = diagram;
-            this.FromObject = fromObject;
-            this.FromShape = fromShape;
-            this.Level = level;
-        }
 
-
-        public CwContextObject(CwContextObjectParameters parameters)
-        {
-            this.ParentContextObject = parameters.ParentContextObject;
-            this.ChildNode = parameters.ChildNode;
-            this.AtNode = parameters.ChildNode.GetNode();
-            this.ToShapes = new List<CwShape>();
-            this.ToObjects = new List<cwLightObject>();
-
-            this.GetToShapesAndToObjects();
-
-            if (this.ToShapes.Count > 0)
-            {
-                this.Create();
-                this.UpdateProperties();
-                this.UpdateAssociations();
-            }
-        }
-
-        public CwContextObject(int level, cwLightObject fromObject, CwShape fromShape, CwContextMataModelManager contextMetaModel, ConfigurationObjectNode childNode, cwLightObject parentContextObject, CwDiagram diagram)
-            : this(level, fromObject, fromShape, contextMetaModel, diagram)
-        {
             this.ParentContextObject = parentContextObject;
-
             this.ChildNode = childNode;
-            this.AtNode = childNode.GetNode();
+            this.AtNode = this.ChildNode.GetNode();
 
             this.ToShapes = new List<CwShape>();
             this.ToObjects = new List<cwLightObject>();
 
             this.GetToShapesAndToObjects();
-
             if (this.ToShapes.Count > 0)
             {
                 this.Create();
@@ -141,6 +102,16 @@ namespace cwContextGenerator.DataAnalysis
                 this.UpdateAssociations();
             }
         }
+
+        protected CwContextObject(CwContextObjectParameters parameters)
+        {
+            this.ContextMetaModel = parameters.ContextMetaModel;
+            this.Diagram = parameters.Diagram;
+            this.FromObject = parameters.FromObject;
+            this.FromShape = parameters.FromShape;
+            this.Level = parameters.Level;
+        }
+
         #endregion
 
         #region create context object and update related data
@@ -217,7 +188,7 @@ namespace cwContextGenerator.DataAnalysis
 
         private void UnionTargetObjectsAndTargetShapes()
         {
-            Dictionary<string, Compare> compareShapeAndObject = new Dictionary<string, Compare>();
+            Dictionary<string, CwObjectShapeMapping> objectShapeMapping = new Dictionary<string, CwObjectShapeMapping>();
     
             List<cwLightObject> targetObjects = AtNode.getAllTargetObjectsDistinct();
 
@@ -225,30 +196,30 @@ namespace cwContextGenerator.DataAnalysis
             {
                 string key = toShape.ObjectTypeId.ToString() + toShape.ObjectId.ToString();
 
-                if (!compareShapeAndObject.ContainsKey(key))
+                if (!objectShapeMapping.ContainsKey(key))
                 {
-                    compareShapeAndObject[key] = new Compare();
+                    objectShapeMapping[key] = new CwObjectShapeMapping();
                 }
-                compareShapeAndObject[key].TargetShape = toShape;
+                objectShapeMapping[key].TargetShapes.Add(toShape);
             }
 
             foreach (cwLightObject targetObject in targetObjects)
             {
                 string key = targetObject.OTID.ToString() + targetObject.ID.ToString();
 
-                if (!compareShapeAndObject.ContainsKey(key))
+                if (!objectShapeMapping.ContainsKey(key))
                 {
-                    compareShapeAndObject[key] = new Compare();
+                    objectShapeMapping[key] = new CwObjectShapeMapping();
                 }
-                compareShapeAndObject[key].SourceObject = targetObject;
+                objectShapeMapping[key].SourceObject = targetObject;
             }
 
-            foreach (var compare in compareShapeAndObject)
+            foreach (var map in objectShapeMapping)
             {
-                if ( compare.Value.State==true)
+                if (map.Value.NoMapping == false)
                 {
-                    this.ToObjects.Add(compare.Value.SourceObject);
-                    this.ToShapes.Add(compare.Value.TargetShape);
+                    this.ToObjects.Add(map.Value.SourceObject);
+                    this.ToShapes.AddRange(map.Value.TargetShapes);
                 }
             }
         }

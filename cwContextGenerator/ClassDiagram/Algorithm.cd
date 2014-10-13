@@ -21,12 +21,5 @@
       <FileName>DataAnalysis\CwContextObjectRootLevel.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="cwContextGenerator.DataAnalysis.CwContextObjectParameters">
-    <Position X="20" Y="0.5" Width="2.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAgAAAAIQAAAAAAgAAAAAgAAACAAABAAAAAAAQAAA=</HashCode>
-      <FileName>DataAnalysis\CwContextObject.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Font Name="Segoe UI" Size="8.83" />
 </ClassDiagram>

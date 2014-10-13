@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace cwContextGenerator.DataAnalysis
 {
+
     
     public class CwContextObjectRootLevel : CwContextObject
     {
@@ -32,26 +33,15 @@ namespace cwContextGenerator.DataAnalysis
         #region Constructor
 
 
-        public CwContextObjectRootLevel(CwContextObjectParameters parameters):base(parameters)
+        public CwContextObjectRootLevel(ConfigurationRootNode rootNode, CwContextObjectParameters parameters):base(parameters)
         {
-            this.RootConfig = parameters.RootConfigurationNode;
+            this.RootConfig = rootNode;
             this.Create();
             //update 
             this.UpdateProperties();
             this.UpdateAssociations();
         }
 
-        public CwContextObjectRootLevel(int level, cwLightObject fromObject, CwShape fromShape, CwContextMataModelManager contextMetaModel, ConfigurationRootNode rootConfigurationNode, CwDiagram diagram)
-            : base(level, fromObject, fromShape, contextMetaModel, diagram)
-        {
-            this.RootConfig = rootConfigurationNode;
-            this.Create();
-            //update 
-            this.UpdateProperties();
-            this.UpdateAssociations();
-
-           
-        }
         #endregion
 
         #region update related data

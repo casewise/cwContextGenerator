@@ -1,4 +1,5 @@
 ﻿using Casewise.GraphAPI.API;
+using cwContextGenerator.Compare;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,6 +105,7 @@ namespace cwContextGenerator.DataAnalysis
             this.FillShapesDescendants();
             this.FillShapesChildren();
             this.FilShapesParents();
+            this.FillShapesAncentors();
         }
 
 
@@ -199,7 +201,7 @@ namespace cwContextGenerator.DataAnalysis
                 foreach (CwShape descendant in ancestor.Descendants)
                 {
                     List<CwShape> descendantsOfADescentdant = descendant.Descendants;
-                    IEnumerable<CwShape> union = descendantsOfAllDescendants.Union(descendantsOfADescentdant, new ShapeComparator());
+                    IEnumerable<CwShape> union = descendantsOfAllDescendants.Union(descendantsOfADescentdant, new CwShapeComparator());
                     descendantsOfAllDescendants = union.ToList();
 
                     //if (this.ShapesById.ContainsKey(descendant.ShapeId))

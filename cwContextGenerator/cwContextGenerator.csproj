@@ -132,12 +132,13 @@
     <Compile Include="DataAnalysis\CwDiagramContext.cs" />
     <Compile Include="DataAnalysis\CwJoiner.cs" />
     <Compile Include="DataAnalysis\CwContextObjectRootLevel.cs" />
+    <Compile Include="Compare\CwObjectShapeMapping.cs" />
     <Compile Include="DataAnalysis\CwShape.cs" />
     <Compile Include="DataAnalysis\CwDiagramContextLaboratory.cs" />
     <Compile Include="DataAnalysis\CwDiagramContextDataStore.cs" />
-    <Compile Include="DataAnalysis\ICwShape.cs" />
-    <Compile Include="DataAnalysis\CwShapeComparer.cs" />
-    <Compile Include="DataAnalysis\CwShapeCouple.cs" />
+    <Compile Include="DataAnalysis\ICwShapeRelationship.cs" />
+    <Compile Include="Compare\CwShapeComparator.cs" />
+    <Compile Include="Compare\CwShapeCouple.cs" />
     <Compile Include="Data\CwDiagramDataLoader.cs" />
     <Compile Include="GUI\EditModeGUI.cs">
       <SubType>Form</SubType>

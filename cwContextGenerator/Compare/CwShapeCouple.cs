@@ -1,10 +1,11 @@
-﻿using System;
+﻿using cwContextGenerator.DataAnalysis;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace cwContextGenerator.DataAnalysis
+namespace cwContextGenerator.Compare
 {
     public class CwShapeCouple
     {

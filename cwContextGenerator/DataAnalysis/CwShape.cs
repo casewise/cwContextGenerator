@@ -7,7 +7,7 @@ using Casewise.GraphAPI.API;
 
 namespace cwContextGenerator.DataAnalysis
 {
-    public class CwShape : ICwShape
+    public class CwShape : ICwShapeRelationship
     {
         #region datafields
         private float x;
@@ -79,7 +79,6 @@ namespace cwContextGenerator.DataAnalysis
         public Dictionary<int, List<CwShape>> ChildrenShapesByObjectTypeId { get; set; }
         public Dictionary<int, List<CwShape>> DescendantsShapesByObjectTypeId { get; set; }
         public Dictionary<int, List<CwShape>> AncestorsShapesByObjectTypeId { get; set; }
-
 
         public Dictionary<int, List<CwShape>> ParentsShapesByObjectTypeId { get; set; }
         public Dictionary<int, List<CwShape>> ToShapesByIntersectionId { get; set; }

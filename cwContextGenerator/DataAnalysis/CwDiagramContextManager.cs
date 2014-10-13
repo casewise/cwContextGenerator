@@ -108,10 +108,9 @@ namespace cwContextGenerator.DataAnalysis
                         FromObject = parentObject,
                         FromShape = parentShape,
                         ContextMetaModel = this.ContextMetaModel,
-                        RootConfigurationNode = this.Config,
                         Diagram = diagram
                     };
-                    CwContextObjectRootLevel rootContextObject = new CwContextObjectRootLevel(parameters);
+                    CwContextObjectRootLevel rootContextObject = new CwContextObjectRootLevel(this.Config,parameters);
                     //CwContextObjectRootLevel rootContextObject = new CwContextObjectRootLevel(level, parentObject, parentShape, ContextMetaModel, this.Config, diagram);
                     foreach (ConfigurationObjectNode childNode in Config.ChildrenNodes)
                     {
@@ -137,12 +136,9 @@ namespace cwContextGenerator.DataAnalysis
                 FromObject = fromObject,
                 FromShape = fromShape,
                 ContextMetaModel = this.ContextMetaModel,
-                ChildNode = node,
-                ParentContextObject = parentContextObject,
                 Diagram = diagram
-
             };
-            CwContextObject contextObject = new CwContextObject(parameters);
+            CwContextObject contextObject = new CwContextObject(node, parentContextObject, parameters);
             //CwContextObject contextObject = new CwContextObject(count, fromObject, fromShape, ContextMetaModel, node, parentContextObject, diagram);
 
             foreach (ConfigurationObjectNode childNode in node.ChildrenNodes)

@@ -17,16 +17,16 @@
   <Class Name="cwContextGenerator.DataAnalysis.CwShape" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="13" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QBhAAAQIAAAAIAUAQAAMAAQAAABAAAAAIABgACAKQAA=</HashCode>
+      <HashCode>QBhAAAQIAEAAIAUAQAAMAAQAAABAAAAAJQBgACEKQAA=</HashCode>
       <FileName>DataAnalysis\CwShape.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="cwContextGenerator.DataAnalysis.ShapeComparator" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="cwContextGenerator.Compare.CwShapeComparator" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="9.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
-      <FileName>DataAnalysis\CwShapeComparer.cs</FileName>
+      <FileName>Compare\CwShapeComparator.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
@@ -40,7 +40,7 @@
   <Class Name="cwContextGenerator.Configuration.ConfigurationRootNode" Collapsed="true">
     <Position X="3.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAQAQAAAAAAQAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAIAAAAAQAQAAAAAAQAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Configuration\ConfigurationRootNode.cs</FileName>
     </TypeIdentifier>
   </Class>

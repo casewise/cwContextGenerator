@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using cwContextGenerator.Data;
-namespace cwContextGenerator.DataAnalysis
+using cwContextGenerator.DataAnalysis;
+namespace cwContextGenerator.Compare
 {
-    class ShapeComparator : IEqualityComparer<CwShape>
+    class CwShapeComparator : IEqualityComparer<CwShape>
     {
         public bool Equals(CwShape x, CwShape y)
         {
