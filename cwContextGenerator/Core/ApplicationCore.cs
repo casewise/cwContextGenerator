@@ -388,6 +388,7 @@ namespace cwContextGenerator.Core
                 //cwLightModel m = this._selectedModel;
                 CwDiagramContextManager diagramContextManager = new CwDiagramContextManager(this.SelectedModel, config);
                 diagramContextManager.CreateContextHierarchy();
+                diagramContextManager.SetLog();
 
                 // appel du context manager
                 log.Debug("Operation done ! Duration : " + DateTime.Now.Subtract(start).ToString());

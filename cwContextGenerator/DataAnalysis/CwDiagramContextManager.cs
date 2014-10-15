@@ -1,6 +1,7 @@
 ﻿using Casewise.GraphAPI.API;
 using Casewise.GraphAPI.API.Graph;
 using cwContextGenerator.Configuration;
+using cwContextGenerator.Logs;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,8 @@ namespace cwContextGenerator.DataAnalysis
         private Dictionary<int, cwLightObject> ApprovedLightDiagramsById { get; set; }
         public Dictionary<int, CwDiagramContext> DiagramContextByDiagramId { get; private set; }
 
+        private cwLightObject RootContextObject { get; set; }
+
         public CwDiagramContextManager(cwLightModel model, ConfigurationRootNode config)
         {
             this.SelectedModel = model;
@@ -30,6 +33,13 @@ namespace cwContextGenerator.DataAnalysis
 
             this.GetApprovedLightDiagramsById();
             this.GetDiagramContextsFromDataStore();
+        }
+
+
+        public void SetLog()
+        {
+            CwContextObjectInfo log = new CwContextObjectInfo(this.RootContextObject, this.SelectedModel);
+            log.XmlSerialize();
         }
 
         private void GetApprovedLightDiagramsById()
@@ -111,6 +121,8 @@ namespace cwContextGenerator.DataAnalysis
                         Diagram = diagram
                     };
                     CwContextObjectRootLevel rootContextObject = new CwContextObjectRootLevel(this.Config,parameters);
+
+                    this.RootContextObject = rootContextObject.ContextContainer;
                     //CwContextObjectRootLevel rootContextObject = new CwContextObjectRootLevel(level, parentObject, parentShape, ContextMetaModel, this.Config, diagram);
                     foreach (ConfigurationObjectNode childNode in Config.ChildrenNodes)
                     {

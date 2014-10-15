@@ -10,13 +10,13 @@ namespace cwContextGenerator.DataAnalysis
     public class CwContextMataModelManager
     {
 
-        private static string OtCwContextNodeScriptName = "CWCONTEXTNODE";
-        private static string AtCwContextEndWithAnyObjectScriptName = "CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODEANYOBJECTHASENDOBJECTFORWARDTOANYOBJECT";
-        private static string AtCwContextToCwContextScriptName = "CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODECWCONTEXTNODEFATHEROFFORWARDTOCWCONTEXTNODE";
-        private static string AtCwContextStartByAnyObjectScriptName = "CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODEANYOBJECTHASSTARTOBJECTFORWARDTOANYOBJECT";
-        private static string AtCwContextPartOfCwContextPathScriptName = "CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODECWCPATHPARTOFFORWARDTOCWCONTEXTPATH";
-        private static string OtCwContextPathScriptName = "CWCONTEXTPATH";
-        private static string AtCwContextDescribesDiagramScriptName = "CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODEDIAGRAMDESCRIBESFORWARDTODIAGRAM";
+        public static string OtCwContextNodeScriptName = "CWCONTEXTNODE";
+        public static string AtCwContextEndWithAnyObjectScriptName = "CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODEANYOBJECTHASENDOBJECTFORWARDTOANYOBJECT";
+        public static string AtCwContextToCwContextScriptName = "CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODECWCONTEXTNODEFATHEROFFORWARDTOCWCONTEXTNODE";
+        public static string AtCwContextStartByAnyObjectScriptName = "CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODEANYOBJECTHASSTARTOBJECTFORWARDTOANYOBJECT";
+        public static string AtCwContextPartOfCwContextPathScriptName = "CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODECWCPATHPARTOFFORWARDTOCWCONTEXTPATH";
+        public static string OtCwContextPathScriptName = "CWCONTEXTPATH";
+        public static string AtCwContextDescribesDiagramScriptName = "CWCONTEXTNODETOASSOCIATIONCWCONTEXTNODEDIAGRAMDESCRIBESFORWARDTODIAGRAM";
 
         private cwLightModel Model { get; set; }
         public cwLightObjectType ContextOT

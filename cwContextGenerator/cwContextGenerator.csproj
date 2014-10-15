@@ -42,6 +42,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -179,6 +180,7 @@
     <Compile Include="GUI\Launcher.Designer.cs">
       <DependentUpon>Launcher.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logs\CwContextObjectInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -195,15 +197,19 @@
     </Compile>
     <EmbeddedResource Include="GUI\cwButtonModel.resx">
       <DependentUpon>cwButtonModel.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\EditModeGUI.resx">
       <DependentUpon>EditModeGUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Launcher.resx">
       <DependentUpon>Launcher.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\LauncherCreateItemPopup.resx">
       <DependentUpon>LauncherCreateItemPopup.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

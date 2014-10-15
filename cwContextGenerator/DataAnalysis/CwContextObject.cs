@@ -21,8 +21,8 @@ namespace cwContextGenerator.DataAnalysis
         public CwContextMataModelManager ContextMetaModel { get; set; }
         public ConfigurationRootNode RootConfigurationNode { get; set; }
         public CwDiagram Diagram { get; set; }
-        public ConfigurationObjectNode ChildNode { get; set; }
-        public cwLightObject ParentContextObject { get; set; }
+       // public ConfigurationObjectNode ChildNode { get; set; }
+       // public cwLightObject ParentContextObject { get; set; }
     }
 
 
@@ -33,7 +33,9 @@ namespace cwContextGenerator.DataAnalysis
         protected static string PropertyTypeAtName = "ATNAME";
         protected static string PropertyTypeAtScriptName = "ATSCRIPTNAME";
         protected static string PropertyTypeName = "NAME";
-        protected static string[] PropertiesToBySelected = new string[] { PropertyTypeName, PropertyTypeRootLevel, PropertyTypeAtName, PropertyTypeAtScriptName };
+        protected static string PropertyTypeDescription = "DESCRIPTION";
+
+        protected static string[] PropertiesToBySelected = new string[] { PropertyTypeName, PropertyTypeRootLevel, PropertyTypeAtName, PropertyTypeAtScriptName, PropertyTypeDescription };
         #endregion
 
         private List<CwShape> _targetShapes = new List<CwShape>();
@@ -43,11 +45,7 @@ namespace cwContextGenerator.DataAnalysis
         protected CwDiagram Diagram { get; set; }
 
         private ConfigurationObjectNode ChildNode { get; set; }
-        private cwLightNodeAssociationType AtNode
-        {
-            get;
-            set;
-        }
+        private cwLightNodeAssociationType AtNode { get; set; }
 
         public cwLightObject ContextContainer { get; set; }
         protected int Id { get; set; }
@@ -57,7 +55,7 @@ namespace cwContextGenerator.DataAnalysis
         protected cwLightObject FromObject { get; set; }
         protected CwShape FromShape { get; set; }
 
-        public List<cwLightObject> ToObjects { get; set; }
+        private List<cwLightObject> ToObjects { get; set; }
         public List<CwShape> ToShapes { get; set; }
      
         /// <summary>
@@ -147,12 +145,18 @@ namespace cwContextGenerator.DataAnalysis
         #endregion
 
         #region Analysis
+        /// <summary>
+        /// 
+        /// </summary>
         private void GetToShapesAndToObjects()
         {
             this.SetTargetShapes();
             this.UnionTargetObjectsAndTargetShapes();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void SetTargetShapes()
         {
             cwLightAssociationType associationType = AtNode.AssociationType;
@@ -186,6 +190,9 @@ namespace cwContextGenerator.DataAnalysis
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void UnionTargetObjectsAndTargetShapes()
         {
             Dictionary<string, CwObjectShapeMapping> objectShapeMapping = new Dictionary<string, CwObjectShapeMapping>();
@@ -224,6 +231,5 @@ namespace cwContextGenerator.DataAnalysis
             }
         }
         #endregion
-
     }
 }
