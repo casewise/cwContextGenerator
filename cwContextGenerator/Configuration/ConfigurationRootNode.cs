@@ -12,7 +12,7 @@ namespace cwContextGenerator.Configuration
 {
     public class ConfigurationRootNode : ConfigurationObjectNode
     {
-        public string DiagramId { get; set; }
+        public int DiagramId { get; set; }
         public int ConfigurationId { get; set; }
         public ConfigurationRootNode()
             : base()
@@ -63,9 +63,7 @@ namespace cwContextGenerator.Configuration
             return node;
         }
 
-
-
-        private cwLightObject GetTemplateByDiagramID(string diagramId)
+        private cwLightObject GetTemplateByDiagramID(int diagramId)
         {
             cwLightNodeObjectType node = this.Model.GetObjectTypeNode("DIAGRAM");
             node.selectedPropertiesScriptName = new string[] { "ID", "NAME", "TYPE", "DIAGRAMMER" }.ToList();

@@ -17,10 +17,10 @@ using log4net;
 
 namespace cwContextGenerator.Core
 {
-    public enum DIAGRAM_NAVIGATION
-    {
-        Includes, IsIncludedIn, LinkedTo
-    };
+    //public enum DIAGRAM_NAVIGATION
+    //{
+    //    Includes, IsIncludedIn, LinkedTo
+    //};
 
     public class ApplicationCore
     {

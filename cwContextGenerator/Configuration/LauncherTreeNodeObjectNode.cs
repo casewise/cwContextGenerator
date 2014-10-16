@@ -14,7 +14,7 @@ namespace cwContextGenerator.Configuration
 {
     public class LauncherTreeNodeObjectNode : TreeNode
     {
-        ConfigurationObjectNode config;
+        private  ConfigurationObjectNode Config;
         protected ApplicationCore Core = null;
 
         bool configNeedToBeLoaded = false;
@@ -25,7 +25,6 @@ namespace cwContextGenerator.Configuration
         protected cwPSFPropertyBoxFilterProperties bFilter { get; set; }
         protected cwPSFPropertyBoxComboBox bReadingPath { get; set; }
 
-
         #region Constructors
         public LauncherTreeNodeObjectNode()
             : base()
@@ -34,17 +33,18 @@ namespace cwContextGenerator.Configuration
             this.CreateContextMenu();
         }
 
+    
         /// <summary>
         /// Initializes a new instance of the <see cref="LauncherTreeNodeObjectNode"/> class.
         /// </summary>
-        public LauncherTreeNodeObjectNode(ApplicationCore c, ConfigurationObjectNode _config)
+        public LauncherTreeNodeObjectNode(ApplicationCore core, ConfigurationObjectNode config)
             : this()
         {
-            this.Core = c;
-            this.config = _config;
-            if (!string.IsNullOrEmpty(this.config.Name))
+            this.Core = core;
+            this.Config = config;
+            if (!string.IsNullOrEmpty(this.Config.Name))
             {
-                this.Text = this.config.Name;
+                this.Text = this.Config.Name;
             }
         }
         #endregion
@@ -69,11 +69,36 @@ namespace cwContextGenerator.Configuration
             ToolStripItem cloneItem = this.ContextMenuStrip.Items.Add("Copy");
             ToolStripItem pasteItem = this.ContextMenuStrip.Items.Add("Paste as child");
             ToolStripItem deleteItem = this.ContextMenuStrip.Items.Add("Delete");
-
+            ToolStripItem douplicateItem = this.ContextMenuStrip.Items.Add("Duplicate child");
+           
             addItem.Click += addItem_Click;
             cloneItem.Click += cloneItem_Click;
+            douplicateItem.Click += DuplicateItem_Click;
             pasteItem.Click += pasteItem_Click;
             deleteItem.Click += deleteItem_Click;
+        }
+
+        /// <summary>
+        /// Copy Node
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        private LauncherTreeNodeObjectNode RecCopyNode(LauncherTreeNodeObjectNode node)
+        {
+            LauncherTreeNodeObjectNode copy = new LauncherTreeNodeObjectNode(node.Core, node.Config);
+
+            foreach (LauncherTreeNodeObjectNode childNode in node.GetChildren())
+            {
+                LauncherTreeNodeObjectNode copyChild = RecCopyNode(childNode);
+                copy.Nodes.Add(copyChild);
+            }
+            return copy;
+        }
+
+        private void DuplicateItem_Click(object sender, EventArgs e)
+        {
+            LauncherTreeNodeObjectNode copy = RecCopyNode(this);
+            this.Parent.Nodes.Add(copy);
         }
 
         /// <summary>
@@ -118,6 +143,7 @@ namespace cwContextGenerator.Configuration
         private void cloneItem_Click(object sender, EventArgs e)
         {
             LauncherTreeNodeObjectNode copy = this.Clone() as LauncherTreeNodeObjectNode;
+
             copy.setCore(this.Core);
 
             this.Core.copiedNode = copy;
@@ -206,7 +232,7 @@ namespace cwContextGenerator.Configuration
             this.SetPropertiesBoxes(options);
             if (this.configNeedToBeLoaded)
             {
-                this.LoadFromConfigurationObject(this.config);
+                this.LoadFromConfigurationObject(this.Config);
                 this.configNeedToBeLoaded = false;
             }
             options.ResumeLayout();
@@ -230,11 +256,12 @@ namespace cwContextGenerator.Configuration
                 this.bReadingPath = new cwPSFPropertyBoxComboBox(null, "Mode de lecture", string.Empty, string.Empty, Enum.GetNames(typeof(ReadingMode)));
 
                 this.bOt.loadNodes(this.Core.SelectedModel);
-                this.bReadingPath.setValue(ReadingMode._NONE_.ToString());
+                this.bReadingPath.setValue(ReadingMode._None_.ToString());
 
                 this.bOt.checkBoxChanged(this.bOt_Changed);
                 this.bAt.checkBoxChanged(this.bAt_Changed);
             }
+
             panel.Reset();
             panel.addPropertyBox(this.bName);
             panel.addPropertyBox(this.bOt);
@@ -345,8 +372,5 @@ namespace cwContextGenerator.Configuration
             this.bAt.enable();
             this.bReadingPath.enable();
         }
-
-
-
     }
 }

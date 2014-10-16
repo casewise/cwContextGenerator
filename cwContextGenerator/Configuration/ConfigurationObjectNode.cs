@@ -12,8 +12,7 @@ using System.Web.Script.Serialization;
 
 namespace cwContextGenerator.Configuration
 {
-    // public enum ReadingMode { _NONE_, INCLUDES, IS_INCLUDED_IN, IS_LINK_WITH_JOINER }
-    public enum ReadingMode { _NONE_, Includes, IsIncludedIn, LinkedTo, Directly_Includes, Directly_IsIncludedIn }
+    public enum ReadingMode { _None_, Includes, IsIncludedIn, LinkedTo, Directly_Includes, Directly_IsIncludedIn }
 
     public class ConfigurationObjectNode
     {
@@ -63,26 +62,6 @@ namespace cwContextGenerator.Configuration
             this.ChildrenNodes.Add(node);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        //public cwLightNodeAssociationType GetNode()
-        //{
-        //    cwLightObjectType sourceOt = this.Model.ObjectTypeManager.GetObjectTypeByScriptName(this.ObjectTypeScriptName);
-        //    cwLightAssociationType at = sourceOt.getAssociationTypeByScriptName(this.AssociationTypeScriptName);
-        //    cwLightNodeAssociationType node = new cwLightNodeAssociationType(sourceOt, at);
-
-        //    node.selectedPropertiesScriptName = new string[] { "ID", "NAME" }.ToList();
-        //    node.attributeFiltersKeep = this.Filters;
-           
-        //    node.preloadLightObjects();
-        //    //node.preloadLightObjects_Rec();
-
-        //    return node;
-        //}
-
-
         public cwLightNodeAssociationType GetNode()
         {
             cwLightNodeObjectType OTNode = this.Model.GetObjectTypeNode(this.ObjectTypeScriptName); ;
@@ -95,17 +74,5 @@ namespace cwContextGenerator.Configuration
             OTNode.preloadLightObjects_Rec();
             return ATNode;
         }
-        
-        /// <summary>
-        /// Get Association Type
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        //public cwLightAssociationType GetAssociationType()
-        //{
-        //    cwLightObjectType sourceOt = this.Model.getObjectTypeByScriptName(this.ObjectTypeScriptName);
-        //    cwLightAssociationType at = sourceOt.getAssociationTypeByScriptName(this.AssociationTypeScriptName);
-        //    return at;
-        //}
     }
 }

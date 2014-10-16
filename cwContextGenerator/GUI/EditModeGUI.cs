@@ -38,12 +38,12 @@ namespace cwContextGenerator.GUI
         /// </summary>
         /// <param name="_model">The _model.</param>
         /// <param name="options">The options.</param>
-        public EditModeGUI(cwLightObject _configObject, ApplicationCore _core)
+        public EditModeGUI(cwLightObject configObject, ApplicationCore core)
         {
             InitializeComponent();
-            this._cmObject = _configObject;
-            this._model = _configObject.GetObjectType().Model;
-            this._core = _core;
+            this._cmObject = configObject;
+            this._model = configObject.GetObjectType().Model;
+            this._core = core;
             this.Icon = Properties.Resources.Casewise_Icon;
             log.Debug("Edit mode GUI Created");
         }

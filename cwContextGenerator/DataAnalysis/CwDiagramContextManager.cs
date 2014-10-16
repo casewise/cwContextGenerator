@@ -39,6 +39,7 @@ namespace cwContextGenerator.DataAnalysis
         public void SetLog()
         {
             CwContextObjectInfo log = new CwContextObjectInfo(this.RootContextObject, this.SelectedModel);
+            //log.JavascriptSerializeAndUpdateIntoDescriptionFiled();
             log.XmlSerialize();
         }
 
@@ -120,10 +121,12 @@ namespace cwContextGenerator.DataAnalysis
                         ContextMetaModel = this.ContextMetaModel,
                         Diagram = diagram
                     };
-                    CwContextObjectRootLevel rootContextObject = new CwContextObjectRootLevel(this.Config,parameters);
+
+
+                    CwContextObjectRootLevel rootContextObject = new CwContextObjectRootLevel(this.Config, parameters);
 
                     this.RootContextObject = rootContextObject.ContextContainer;
-                    //CwContextObjectRootLevel rootContextObject = new CwContextObjectRootLevel(level, parentObject, parentShape, ContextMetaModel, this.Config, diagram);
+                
                     foreach (ConfigurationObjectNode childNode in Config.ChildrenNodes)
                     {
                         CreateContextHierarchyRec(rootContextObject.Level, parentObject, parentShape, childNode, rootContextObject.ContextContainer, diagram);
@@ -150,8 +153,8 @@ namespace cwContextGenerator.DataAnalysis
                 ContextMetaModel = this.ContextMetaModel,
                 Diagram = diagram
             };
+
             CwContextObject contextObject = new CwContextObject(node, parentContextObject, parameters);
-            //CwContextObject contextObject = new CwContextObject(count, fromObject, fromShape, ContextMetaModel, node, parentContextObject, diagram);
 
             foreach (ConfigurationObjectNode childNode in node.ChildrenNodes)
             {

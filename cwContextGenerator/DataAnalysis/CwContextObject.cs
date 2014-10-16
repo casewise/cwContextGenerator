@@ -10,7 +10,7 @@ using cwContextGenerator.Compare;
 namespace cwContextGenerator.DataAnalysis
 {
 
-   
+
 
 
     public class CwContextObjectParameters
@@ -21,8 +21,8 @@ namespace cwContextGenerator.DataAnalysis
         public CwContextMataModelManager ContextMetaModel { get; set; }
         public ConfigurationRootNode RootConfigurationNode { get; set; }
         public CwDiagram Diagram { get; set; }
-       // public ConfigurationObjectNode ChildNode { get; set; }
-       // public cwLightObject ParentContextObject { get; set; }
+        // public ConfigurationObjectNode ChildNode { get; set; }
+        // public cwLightObject ParentContextObject { get; set; }
     }
 
 
@@ -57,7 +57,7 @@ namespace cwContextGenerator.DataAnalysis
 
         private List<cwLightObject> ToObjects { get; set; }
         public List<CwShape> ToShapes { get; set; }
-     
+
         /// <summary>
         /// Context Object Name
         /// </summary>
@@ -196,7 +196,7 @@ namespace cwContextGenerator.DataAnalysis
         private void UnionTargetObjectsAndTargetShapes()
         {
             Dictionary<string, CwObjectShapeMapping> objectShapeMapping = new Dictionary<string, CwObjectShapeMapping>();
-    
+
             List<cwLightObject> targetObjects = AtNode.getAllTargetObjectsDistinct();
 
             foreach (CwShape toShape in this._targetShapes)

@@ -24,7 +24,7 @@ namespace cwContextGenerator.Logs
 
     public class CwContextObjectInfo
     {
-       
+
         private cwLightNodeObjectType _otNode;
 
         private List<string> _to = new List<string>();
@@ -63,7 +63,8 @@ namespace cwContextGenerator.Logs
                 if (this.FromObject == null) { return null; }
                 else { return this.FromObject.ToString(); }
             }
-            set { 
+            set
+            {
             }
         }
 
@@ -106,7 +107,7 @@ namespace cwContextGenerator.Logs
             this.SetFromObject();
             this.SetToObjects();
             this.SetChildrenContextObjects();
-           
+
         }
 
         private StringBuilder Serialize()
@@ -136,13 +137,25 @@ namespace cwContextGenerator.Logs
             this.CurrentObject.updatePropertiesInModel();
         }
 
-        private static List<string> AtNodeScriptNames = new List<string> 
-                    {CwContextMataModelManager.AtCwContextStartByAnyObjectScriptName, 
-                CwContextMataModelManager.AtCwContextEndWithAnyObjectScriptName,
-                CwContextMataModelManager.AtCwContextToCwContextScriptName };
+        private static List<string> AtNodeScriptNames = new List<string>
+        {
+            CwContextMataModelManager.AtCwContextStartByAnyObjectScriptName, 
+            CwContextMataModelManager.AtCwContextEndWithAnyObjectScriptName,
+            CwContextMataModelManager.AtCwContextToCwContextScriptName 
+        };
+        private Dictionary<string, cwLightNodeAssociationType> ATNodesByAtScriptName { get; set; }
 
+        private void SetAtTNodesByAtScriptName()
+        {
+            Dictionary<string, cwLightNodeAssociationType> atNodesByAtScriptName = new Dictionary<string, cwLightNodeAssociationType>();
+            foreach (cwLightNodeAssociationType AtNode in this._otNode.childrenNodes)
+            {
+                string key = AtNode.AssociationType.ScriptName;
+                atNodesByAtScriptName.Add(key, AtNode);
+            }
+            ATNodesByAtScriptName = atNodesByAtScriptName;
+        }
 
-       
         private cwLightNodeObjectType LoadOTNode()
         {
             cwLightNodeObjectType OTNode = this.Model.GetObjectTypeNode(CwContextMataModelManager.OtCwContextNodeScriptName);
@@ -155,20 +168,6 @@ namespace cwContextGenerator.Logs
             }
             OTNode.preloadLightObjects_Rec();
             return OTNode;
-        }
-
-
-        private Dictionary<string, cwLightNodeAssociationType> ATNodesByAtScriptName { get; set; }
-
-        private void SetAtTNodesByAtScriptName()
-        {
-            Dictionary<string, cwLightNodeAssociationType> atNodesByAtScriptName = new Dictionary<string, cwLightNodeAssociationType>();
-            foreach (cwLightNodeAssociationType AtNode in this._otNode.childrenNodes)
-            {
-                string key = AtNode.AssociationType.ScriptName;
-                atNodesByAtScriptName.Add(key, AtNode);
-            }
-            ATNodesByAtScriptName = atNodesByAtScriptName;
         }
 
         private void SetFromObject()
