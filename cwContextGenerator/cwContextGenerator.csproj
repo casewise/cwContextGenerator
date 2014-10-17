@@ -191,7 +191,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\ContextGeneratorMetaModel.xml" />
+    <EmbeddedResource Include="Resources\ContextGeneratorMetaModel.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Images\Casewise_Icon.ico" />

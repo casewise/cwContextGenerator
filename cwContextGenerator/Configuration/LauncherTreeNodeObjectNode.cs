@@ -117,10 +117,25 @@ namespace cwContextGenerator.Configuration
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cloneItem_Click(object sender, EventArgs e)
         {
-            LauncherTreeNodeObjectNode copy = this.Clone() as LauncherTreeNodeObjectNode;
-            copy.setCore(this.Core);
-
+            LauncherTreeNodeObjectNode copy = this.CloneNode();
             this.Core.copiedNode = copy;
+        }
+
+        private LauncherTreeNodeObjectNode CloneNode()
+        {
+            LauncherTreeNodeObjectNode copy = new LauncherTreeNodeObjectNode();
+            this.SetupConfigurationObject(this.config);
+            ConfigurationObjectNode copyConfig = ConfigurationObjectNode.Copy(this.config);
+            copy.setCore(this.Core);
+            copy.config = copyConfig;
+            copy.Text = this.Text;
+
+            List<LauncherTreeNodeObjectNode> children = this.GetChildren();
+            foreach (LauncherTreeNodeObjectNode n in children)
+            {
+                copy.Nodes.Add(n.CloneNode());
+            }
+            return copy;
         }
 
         /// <summary>
