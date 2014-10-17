@@ -12,8 +12,7 @@ using System.Web.Script.Serialization;
 
 namespace cwContextGenerator.Configuration
 {
-    // public enum ReadingMode { _NONE_, INCLUDES, IS_INCLUDED_IN, IS_LINK_WITH_JOINER }
-    public enum ReadingMode { _NONE_, Includes, IsIncludedIn, IsLinkWithJoiner }
+    public enum ReadingMode { _None_, Includes, IsIncludedIn, LinkedTo, Directly_Includes, Directly_IsIncludedIn }
 
     public class ConfigurationObjectNode
     {
@@ -121,38 +120,18 @@ namespace cwContextGenerator.Configuration
 
         public cwLightNodeAssociationType GetNode()
         {
-            //cwLightObjectType sourceOT = this.Model.GetObjectTypeNode(this.ObjectTypeScriptName);
-            try
-            {
+            cwLightNodeObjectType OTNode = this.Model.GetObjectTypeNode(this.ObjectTypeScriptName); ;
 
-                //cwConnection c = new cwConnection();
-                //cwLightModel m = c.getModel(this.Model.FileName);
-                //m.loadLightModelContent();
-                cwLightNodeObjectType OTNode = this.Model.GetObjectTypeNode(this.ObjectTypeScriptName); ;
+            OTNode.addPropertiesToSelect(new string[] { "ID", "NAME" });
+            cwLightNodeAssociationType ATNode = OTNode.createAssociationNode(this.AssociationTypeScriptName);
 
+            // ATNode.selectedObjectType = at.Target;
+            //OTNode.preloadLightObjects();
 
-                OTNode.addPropertiesToSelect(new string[] { "ID", "NAME" });
-                //cwLightAssociationType at = sourceOT.getAssociationTypeByScriptName();
-                cwLightNodeAssociationType ATNode = OTNode.createAssociationNode(this.AssociationTypeScriptName);
-                // List<string> propertiesATTargetScriptNames = at.Target.getProperties().Select(p => p.ScriptName).ToList<string>();
-                //ATNode.addPropertiesToSelect(propertiesATTargetScriptNames.ToArray());
-
-                ATNode.addPropertiesToSelect(new string[] { "ID" });
-                //  ATNode.attributeFiltersKeep = this.Filters;
-
-
-                // ATNode.selectedObjectType = at.Target;
-                //OTNode.preloadLightObjects();
-
-                //ATNode.preloadLightObjects();
-                //  OTNode.preloadLightObjects_Rec(this.Model);
-                OTNode.preloadLightObjects_Rec();
-            }
-            catch (Exception e)
-            {
-
-            }
-            return null;
+            //ATNode.preloadLightObjects();
+            //  OTNode.preloadLightObjects_Rec(this.Model);
+            OTNode.preloadLightObjects_Rec();
+            return ATNode;
         }
 
         /// <summary>

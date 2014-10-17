@@ -1,71 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="cwContextGenerator.Data.CwDiagramDataLoader">
-    <Position X="15.25" Y="5.75" Width="2.5" />
+  <Class Name="cwContextGenerator.DataAnalysis.CwContextMataModelManager">
+    <Position X="13" Y="0.5" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAACAAAAAAAAAAAAAACAAAAAAAAAAAAAAAgAAAAA=</HashCode>
-      <FileName>Data\CwDiagramDataLoader.cs</FileName>
+      <HashCode>AACQACAAAIQAAIAAQBAABCAAQACAAAIAAAgAAAAACAA=</HashCode>
+      <FileName>DataAnalysis\CwContextMataModelManager.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="cwContextGenerator.DataAnalysis.CwJoiner">
-    <Position X="6.75" Y="1.75" Width="1.5" />
+  <Class Name="cwContextGenerator.DataAnalysis.CwDiagramContextManager">
+    <Position X="16.75" Y="0.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AACAgEAAAIBAAAAAAEAAAAAAAABAAEAAAABAAAAAAAA=</HashCode>
-      <FileName>DataAnalysis\CwJoiner.cs</FileName>
+      <HashCode>AAAAAEAAAgAAAEAAQAAACABAAAAAgAgQEBAAAAIQAAA=</HashCode>
+      <FileName>DataAnalysis\CwDiagramContextManager.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="cwContextGenerator.DataAnalysis.CwShape">
-    <Position X="4.5" Y="1.75" Width="1.5" />
+  <Class Name="cwContextGenerator.DataAnalysis.CwContextObjectRootLevel">
+    <Position X="23.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>QBhAAAQIAAAAIAUAQAAMAAQAAABAAAAQIABgACAKQAA=</HashCode>
-      <FileName>DataAnalysis\CwShape.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="cwContextGenerator.DataAnalysis.ShapeComparator">
-    <Position X="2.5" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
-      <FileName>DataAnalysis\ShapeComparer.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.134" />
-  </Class>
-  <Class Name="System.Object" Collapsed="true">
-    <Position X="9.25" Y="0.5" Width="1.5" />
-    <TypeIdentifier />
-  </Class>
-  <Class Name="cwContextGenerator.DataAnalysis.CwDiagram">
-    <Position X="9" Y="4.75" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAgAAQAQIAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DataAnalysis\CwDiagram.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="cwContextGenerator.DataAnalysis.CwDiagramDataStore">
-    <Position X="9" Y="1.75" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAoBACAAAAAAAAAAAAQAAAAAAIAA=</HashCode>
-      <FileName>DataAnalysis\CwDiagramDataStore.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="cwContextGenerator.DataAnalysis.DiagramContext">
-    <Position X="11.75" Y="1.75" Width="2.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAIBAAAEAoAEgAAACAwAAAkABQACQAABAAIAAAAAA=</HashCode>
-      <FileName>DataAnalysis\DiagramContext.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="cwContextGenerator.DataAnalysis.DiagramContextDataStore">
-    <Position X="15" Y="1.75" Width="3" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAIAAAAQABAAAgAQAAAAAAAAAYAAAAAgAAYAgAA=</HashCode>
-      <FileName>DataAnalysis\DiagramContextDataStore.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="cwContextGenerator.DataAnalysis.ShapeCouple">
-    <Position X="6.75" Y="5.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
-      <FileName>DataAnalysis\ShapeCouple.cs</FileName>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAQAAgAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>DataAnalysis\CwContextObjectRootLevel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="8.83" />

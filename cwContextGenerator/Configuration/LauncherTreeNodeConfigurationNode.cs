@@ -14,19 +14,19 @@ namespace cwContextGenerator.Configuration
     public class LauncherTreeNodeConfigurationNode : LauncherTreeNodeObjectNode
     {
         public EditModeGUI GUI { get; private set; }
-        public ConfigurationRootNode config { get; private set; }
+        public ConfigurationRootNode Config { get; private set; }
 
-        cwPSFPropertyBoxComboBoxTemplate bTemplate { get; set; }
+        private cwPSFPropertyBoxComboBoxTemplate bTemplate { get; set; }
 
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="LauncherTreeNodeConfigurationNode"/> class.
         /// </summary>
-        public LauncherTreeNodeConfigurationNode(ApplicationCore _c, ConfigurationRootNode _config)
-            : base(_c, _config)
+        public LauncherTreeNodeConfigurationNode(ApplicationCore core, ConfigurationRootNode config)
+            : base(core, config)
         {
             this.CreateContextMenu();
-            this.config = _config;
+            this.Config = config;
         }
         #endregion
 
@@ -57,6 +57,8 @@ namespace cwContextGenerator.Configuration
         protected override void SetPropertiesBoxes(cwPSFTableLayoutPropertiesBoxes panel)
         {
             base.SetPropertiesBoxes(panel);
+            this.bFilter = new cwPSFPropertyBoxFilterProperties(null, "Diagram Filtre (ET)", string.Empty, string.Empty);
+
             if (this.bTemplate == null)
             {
                 this.bTemplate = new cwPSFPropertyBoxComboBoxTemplate(null, "Template", string.Empty, string.Empty, this.Core.SelectedModel);
@@ -88,7 +90,7 @@ namespace cwContextGenerator.Configuration
             if (this.bName != null)
             {
                 base.SetupConfigurationObject(node);
-                node.DiagramId = this.bTemplate.ToString();
+                node.DiagramId = Convert.ToInt32(this.bTemplate.ToString());
             }
             else
             {

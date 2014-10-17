@@ -1,12 +1,13 @@
-﻿using System;
+﻿using cwContextGenerator.DataAnalysis;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace cwContextGenerator.DataAnalysis
+namespace cwContextGenerator.Compare
 {
-    public class ShapeCouple
+    public class CwShapeCouple
     {
         public CwShape Ancestor { get; set; }
         public CwShape Descendant { get; set; }
@@ -26,7 +27,7 @@ namespace cwContextGenerator.DataAnalysis
             }
         }
 
-        public ShapeCouple(CwShape shapeA, CwShape shapeB)
+        public CwShapeCouple(CwShape shapeA, CwShape shapeB)
         {
             if (shapeA.Includes(shapeB))
             {

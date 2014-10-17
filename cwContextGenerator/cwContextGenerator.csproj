@@ -42,6 +42,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -55,6 +56,26 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>cwContextGenerator.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
@@ -105,15 +126,20 @@
     <Compile Include="Configuration\LauncherTreeNodeConfigurationNode.cs" />
     <Compile Include="Core\ApplicationCore.cs" />
     <Compile Include="Core\BatchManager.cs" />
+    <Compile Include="DataAnalysis\CwContextObject.cs" />
+    <Compile Include="DataAnalysis\CwContextMataModelManager.cs" />
     <Compile Include="DataAnalysis\CwDiagram.cs" />
     <Compile Include="DataAnalysis\CwDiagramContextManager.cs" />
-    <Compile Include="DataAnalysis\CwDiagramDataStore.cs" />
+    <Compile Include="DataAnalysis\CwDiagramContext.cs" />
     <Compile Include="DataAnalysis\CwJoiner.cs" />
+    <Compile Include="DataAnalysis\CwContextObjectRootLevel.cs" />
+    <Compile Include="Compare\CwObjectShapeMapping.cs" />
     <Compile Include="DataAnalysis\CwShape.cs" />
-    <Compile Include="DataAnalysis\DiagramContext.cs" />
-    <Compile Include="DataAnalysis\DiagramContextDataStore.cs" />
-    <Compile Include="DataAnalysis\ShapeComparer.cs" />
-    <Compile Include="DataAnalysis\ShapeCouple.cs" />
+    <Compile Include="DataAnalysis\CwDiagramContextLaboratory.cs" />
+    <Compile Include="DataAnalysis\CwDiagramContextDataStore.cs" />
+    <Compile Include="DataAnalysis\ICwShapeRelationship.cs" />
+    <Compile Include="Compare\CwShapeComparator.cs" />
+    <Compile Include="Compare\CwShapeCouple.cs" />
     <Compile Include="Data\CwDiagramDataLoader.cs" />
     <Compile Include="GUI\EditModeGUI.cs">
       <SubType>Form</SubType>
@@ -154,13 +180,16 @@
     <Compile Include="GUI\Launcher.Designer.cs">
       <DependentUpon>Launcher.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logs\CwContextObjectInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\Tool.cs" />
+    <Compile Include="Utilities\Tool.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -168,15 +197,19 @@
     </Compile>
     <EmbeddedResource Include="GUI\cwButtonModel.resx">
       <DependentUpon>cwButtonModel.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\EditModeGUI.resx">
       <DependentUpon>EditModeGUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Launcher.resx">
       <DependentUpon>Launcher.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\LauncherCreateItemPopup.resx">
       <DependentUpon>LauncherCreateItemPopup.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -189,6 +222,10 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="ClassDiagram\Algorithm.cd" />
+    <None Include="ClassDiagram\Configuration.cd" />
+    <None Include="ClassDiagram\GlobalView.cd" />
+    <None Include="ClassDiagram\GUI.cd" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\ContextGeneratorMetaModel.xml">

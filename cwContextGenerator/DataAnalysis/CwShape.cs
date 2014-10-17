@@ -7,7 +7,7 @@ using Casewise.GraphAPI.API;
 
 namespace cwContextGenerator.DataAnalysis
 {
-    public class CwShape
+    public class CwShape : ICwShapeRelationship
     {
         #region datafields
         private float x;
@@ -25,6 +25,7 @@ namespace cwContextGenerator.DataAnalysis
         #region relation fields
         private List<CwShape> descendants = new List<CwShape>();
         private List<CwShape> parents = new List<CwShape>();
+        private List<CwShape> ancestor = new List<CwShape>();
         private List<CwShape> children = new List<CwShape>();
         #endregion
         /// <summary>
@@ -40,16 +41,13 @@ namespace cwContextGenerator.DataAnalysis
         /// </summary>
         public int ObjectId
         {
-            get
-            {
-                return this.objectId;
-            }
+            get { return this.objectId; }
         }
-        
+
         public int ShapeId
         {
             get { return this.shapeId; }
-            set { this.shapeId = value; }
+          //  set { this.shapeId = value; }
         }
 
         public List<CwShape> Descendants
@@ -57,10 +55,17 @@ namespace cwContextGenerator.DataAnalysis
             get { return this.descendants; }
             set { this.descendants = value; }
         }
+
         public List<CwShape> Parents
         {
             get { return this.parents; }
             set { this.parents = value; }
+        }
+
+        public List<CwShape> Ancestor
+        {
+            get { return this.ancestor; }
+            set { this.ancestor = value; }
         }
         /// <summary>
         /// 
@@ -72,10 +77,12 @@ namespace cwContextGenerator.DataAnalysis
         }
 
         public Dictionary<int, List<CwShape>> ChildrenShapesByObjectTypeId { get; set; }
-        public Dictionary<int, List<CwShape>> ParentsShapesByObjectTypeId { get; set; }
+        public Dictionary<int, List<CwShape>> DescendantsShapesByObjectTypeId { get; set; }
+        public Dictionary<int, List<CwShape>> AncestorsShapesByObjectTypeId { get; set; }
 
-        public Dictionary<int, List<int>> ToShapesByIntersectionId { get; set; }
-        
+        public Dictionary<int, List<CwShape>> ParentsShapesByObjectTypeId { get; set; }
+        public Dictionary<int, List<CwShape>> ToShapesByIntersectionId { get; set; }
+
         /// <summary>
         /// Constructor Shape on a diagram
         /// </summary>
@@ -91,6 +98,8 @@ namespace cwContextGenerator.DataAnalysis
             this.height = Convert.ToSingle(shapeData.properties["HEIGHT"].Value) / ACaseInGrid;
             this.xPlusWidth = (this.x + width);
             this.yPlusHeight = (this.y + height);
+
+            this.ToShapesByIntersectionId = new Dictionary<int, List<CwShape>>();
         }
 
         /// <summary>
@@ -122,66 +131,14 @@ namespace cwContextGenerator.DataAnalysis
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public cwLightObject GetObject(cwLightModel model)
-        {
-            return model.getObjectTypeByID(this.ObjectTypeId).getObjectByID(this.ObjectId);
-        }
-
-        public cwLightObjectType GetObjectType(cwLightModel model)
-        {
-            return model.getObjectTypeByID(this.ObjectTypeId);
-        }
-        
-
-        /// <summary>
-        /// console write shape data
-        /// </summary>
-        /// <param name="A"></param>
-        //public static void ConsoleWriteShape(CwShape A)
+        //public cwLightObject GetObject(cwLightModel model)
         //{
-        //    Console.WriteLine("X: {0}", A.x);
-        //    Console.WriteLine("Y: {0}", A.y);
-        //    Console.WriteLine("Width: {0}", A.width);
-        //    Console.WriteLine("Height: {0}", A.height);
-        //    Console.WriteLine("XPlusWidth :{0}", A.xPlusWidth);
-        //    Console.WriteLine("YPlusHeight:{0}", A.yPlusHeight);
+        //    return model.getObjectTypeByID(this.ObjectTypeId).getObjectByID(this.ObjectId);
         //}
-        /// <summary>
-        /// compare the position of shape A and shape B
-        /// return true if shape A includes shape B
-        /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
-        /// <returns></returns>
-        //public static bool ShapeAIncludesShapeB(CwShape A, CwShape B)
+
+        //public cwLightObjectType GetObjectType(cwLightModel model)
         //{
-        //    bool shapeAIncludesShapeB = false;
-        //    if (A.x < B.x
-        //        && A.y < B.y
-        //        && A.xPlusWidth > B.xPlusWidth
-        //        && A.yPlusHeight > B.yPlusHeight
-        //        && A.width > B.width
-        //        && A.height > B.height)
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return shapeAIncludesShapeB;
-        //    }
-        //}
-        //public List<CwShape> AllIncludedShapes { get; set; }
-        //public List<CwShape> UndirectlyIncludedShapes {get;set;}
-
-
-        /// <summary>
-        /// union two list's items
-        /// union the includes items of each included shapes
-        /// </summary>
-        /// <param name="indirectlyIncludedShapes"></param>
-        //public void UnionUndirectlyIncludedShapes(List<CwShape> indirectlyIncludedShapes) {
-        //    IEnumerable<CwShape> union = this.UndirectlyIncludedShapes.Union(indirectlyIncludedShapes, new ShapeComparator());
-        //    this.UndirectlyIncludedShapes = union.ToList();
+        //    return model.getObjectTypeByID(this.ObjectTypeId);
         //}
     }
 }
