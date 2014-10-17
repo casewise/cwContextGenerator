@@ -96,6 +96,7 @@ namespace cwContextGenerator.Configuration
             {
                 node.Name = this.Text;
             }
+          //  this.Config = node;
         }
 
         /// <summary>

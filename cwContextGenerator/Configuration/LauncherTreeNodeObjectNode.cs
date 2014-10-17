@@ -66,15 +66,16 @@ namespace cwContextGenerator.Configuration
         {
             this.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
             ToolStripItem addItem = this.ContextMenuStrip.Items.Add("Add child");
-            ToolStripItem cloneItem = this.ContextMenuStrip.Items.Add("Copy");
-            ToolStripItem pasteItem = this.ContextMenuStrip.Items.Add("Paste as child");
+            ToolStripItem douplicateItem = this.ContextMenuStrip.Items.Add("Duplicate node");
+            //ToolStripItem cloneItem = this.ContextMenuStrip.Items.Add("Copy");
+            //ToolStripItem pasteItem = this.ContextMenuStrip.Items.Add("Paste as child");
             ToolStripItem deleteItem = this.ContextMenuStrip.Items.Add("Delete");
-            ToolStripItem douplicateItem = this.ContextMenuStrip.Items.Add("Duplicate child");
+           
            
             addItem.Click += addItem_Click;
-            cloneItem.Click += cloneItem_Click;
+           // cloneItem.Click += cloneItem_Click;
             douplicateItem.Click += DuplicateItem_Click;
-            pasteItem.Click += pasteItem_Click;
+          //  pasteItem.Click += pasteItem_Click;
             deleteItem.Click += deleteItem_Click;
         }
 
@@ -98,6 +99,7 @@ namespace cwContextGenerator.Configuration
         private void DuplicateItem_Click(object sender, EventArgs e)
         {
             LauncherTreeNodeObjectNode copy = RecCopyNode(this);
+           
             this.Parent.Nodes.Add(copy);
         }
 
@@ -347,7 +349,9 @@ namespace cwContextGenerator.Configuration
                 node.Filters = this.bFilter.getDataGrid().GetAttributesFiltered();
 
                 node.ReadingMode = (ReadingMode)Enum.Parse(typeof(ReadingMode), this.bReadingPath.getValue().ToString());
+              //  this.Config = node;
             }
+            
         }
 
         /// <summary>
