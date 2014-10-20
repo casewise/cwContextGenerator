@@ -275,11 +275,13 @@ namespace cwContextGenerator.GUI
             configObject = this.Core.GetConfigurationObjectFromId(configObject.ID); // update de l'objet
             Configuration.LauncherTreeNodeConfigurationNode node = this.Core.BuildTreeNode(root);
             node.SetGUI(gui);
+
             node.ExpandAll();
             gui.addRootNode(node);
+            node.DisplayOptionForAllNodes();
             gui.ShowDialog();
-        }
 
+        }
 
     }
 }

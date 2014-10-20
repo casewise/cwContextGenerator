@@ -290,6 +290,7 @@ namespace cwContextGenerator.Core
             foreach (ConfigurationObjectNode child in children)
             {
                 LauncherTreeNodeObjectNode n = new LauncherTreeNodeObjectNode(this, child);
+             //   n.LoadFromConfigurationObject(child);
                 this.BrowseNodeToLoadConfiguration(n, child);
                 root.Nodes.Add(n);
             }

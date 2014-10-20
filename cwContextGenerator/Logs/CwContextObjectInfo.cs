@@ -119,7 +119,8 @@ namespace cwContextGenerator.Logs
 
         public void SetLog()
         {
-            this.XmlSerialize();
+            //this.XmlSerialize();
+              this.JsonSerializeAndUpdateIntoDescriptionField();
         }
 
         private void JsonSerializeAndUpdateIntoDescriptionField()

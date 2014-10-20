@@ -257,6 +257,19 @@ namespace cwContextGenerator.Configuration
             options.ResumeLayout();
         }
 
+        public void DisplayOptionForAllNodes()
+        {
+            this.DisplayOptions();
+            List<Configuration.LauncherTreeNodeObjectNode> children = this.GetChildren();// new List<Configuration.LauncherTreeNodeConfigurationNode>();
+            if (children.Count > 0)
+            {
+                foreach (Configuration.LauncherTreeNodeObjectNode childNode in children)
+                {
+                    childNode.DisplayOptionForAllNodes();
+                }
+            }
+        }
+
         /// <summary>
         /// Sets the properties boxes.
         /// </summary>

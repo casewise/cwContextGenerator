@@ -29,7 +29,7 @@ namespace cwContextGenerator.GUI
         private cwLightObject _cmObject = null;
         private cwLightModel _model = null;
         private ApplicationCore _core = null;
-        private LauncherTreeNodeConfigurationNode rootNode = null;
+        private LauncherTreeNodeConfigurationNode _rootNode = null;
 
 
 
@@ -114,7 +114,7 @@ namespace cwContextGenerator.GUI
         public void addRootNode(LauncherTreeNodeConfigurationNode rootTreeNode)
         {
             this.treeViewConfigurations.Nodes.Add(rootTreeNode);
-            this.rootNode = rootTreeNode;
+            this._rootNode = rootTreeNode;
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace cwContextGenerator.GUI
         private void SaveConfiguration()
         {
             Cursor.Current = Cursors.WaitCursor;
-            this._core.SaveConfiguration(this.rootNode, this._cmObject);
+            this._core.SaveConfiguration(this._rootNode, this._cmObject);
             this.appendInfo("Configuration sauvegardée !");
             Cursor.Current = Cursors.Default;
         }

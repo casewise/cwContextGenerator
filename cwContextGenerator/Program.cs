@@ -40,7 +40,7 @@ namespace cwContextGenerator
             catch (Exception e)
             {
                 log.Debug(e.ToString());
-               // MessageBox.Show(e.ToString());
+                //MessageBox.Show(e.ToString());
                 return -1;
             }
         }
