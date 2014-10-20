@@ -109,7 +109,7 @@ namespace cwContextGenerator.GUI
                 return;
             }
 
-            SuspendLayout();
+            this.SuspendLayout();
             flowLayoutPanelItems.SuspendLayout();
             flowLayoutPanelOptions.SuspendLayout();
             Point currentPoint = new Point(e.X, e.Y);
@@ -216,8 +216,8 @@ namespace cwContextGenerator.GUI
         {
             this.optionBack.Visible = false;
             this.clearFlowLayoutPanel();
-            List<cwLightModel> enabled = this.Core._enabledModels;
-            List<cwLightModel> notEnabled = this.Core._notEnabledModels;
+            List<cwLightModel> enabled = this.Core.EnabledModels;
+            List<cwLightModel> notEnabled = this.Core.NotEnabledModels;
             if (notEnabled.Count > 0)
             {
                 optionOptions.Visible = true;

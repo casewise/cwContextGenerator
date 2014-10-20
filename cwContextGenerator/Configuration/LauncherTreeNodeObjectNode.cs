@@ -66,16 +66,16 @@ namespace cwContextGenerator.Configuration
         {
             this.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
             ToolStripItem addItem = this.ContextMenuStrip.Items.Add("Add child");
-            ToolStripItem douplicateItem = this.ContextMenuStrip.Items.Add("Duplicate node");
-            //ToolStripItem cloneItem = this.ContextMenuStrip.Items.Add("Copy");
-            //ToolStripItem pasteItem = this.ContextMenuStrip.Items.Add("Paste as child");
+            ToolStripItem cloneItem = this.ContextMenuStrip.Items.Add("Copy");
+            ToolStripItem pasteItem = this.ContextMenuStrip.Items.Add("Paste as child");
+            ToolStripItem douplicateItem = this.ContextMenuStrip.Items.Add("Duplicate");
             ToolStripItem deleteItem = this.ContextMenuStrip.Items.Add("Delete");
-           
-           
+
+
             addItem.Click += addItem_Click;
-           // cloneItem.Click += cloneItem_Click;
+            cloneItem.Click += cloneItem_Click;
             douplicateItem.Click += DuplicateItem_Click;
-          //  pasteItem.Click += pasteItem_Click;
+            pasteItem.Click += pasteItem_Click;
             deleteItem.Click += deleteItem_Click;
         }
 
@@ -86,9 +86,11 @@ namespace cwContextGenerator.Configuration
         /// <returns></returns>
         private LauncherTreeNodeObjectNode RecCopyNode(LauncherTreeNodeObjectNode node)
         {
+            node.SetupConfigurationObject();
             LauncherTreeNodeObjectNode copy = new LauncherTreeNodeObjectNode(node.Core, node.Config);
 
-            foreach (LauncherTreeNodeObjectNode childNode in node.GetChildren())
+            List<LauncherTreeNodeObjectNode> children = node.GetChildren();
+            foreach (LauncherTreeNodeObjectNode childNode in children)
             {
                 LauncherTreeNodeObjectNode copyChild = RecCopyNode(childNode);
                 copy.Nodes.Add(copyChild);
@@ -133,6 +135,7 @@ namespace cwContextGenerator.Configuration
         private void pasteItem_Click(object sender, EventArgs e)
         {
             LauncherTreeNodeObjectNode copy = this.Core.copiedNode;
+            
             this.Nodes.Add(copy);
             this.Core.copiedNode = null;
         }
@@ -353,38 +356,42 @@ namespace cwContextGenerator.Configuration
         /// Setups the configuration object.
         /// </summary>
         /// <param name="node">The node.</param>
-        public void SetupConfigurationObject(ConfigurationObjectNode node)
+        public void SetupConfigurationObject(ConfigurationObjectNode config)
         {
             if (this.bName != null)
             {
-                node.Name = this.Text;
-                node.ObjectTypeScriptName = this.bOt.ToString();
-                node.AssociationTypeScriptName = this.bAt.ToString();
-                node.Filters = this.bFilter.getDataGrid().GetAttributesFiltered();
+                config.Name = this.Text;
+                config.ObjectTypeScriptName = this.bOt.ToString();
+                config.AssociationTypeScriptName = this.bAt.ToString();
+                config.Filters = this.bFilter.getDataGrid().GetAttributesFiltered();
 
-                node.ReadingMode = (ReadingMode)Enum.Parse(typeof(ReadingMode), this.bReadingPath.getValue().ToString());
-              //  this.Config = node;
+                config.ReadingMode = (ReadingMode)Enum.Parse(typeof(ReadingMode), this.bReadingPath.getValue().ToString());
             }
-            
+        }
+
+        public void SetupConfigurationObject()
+        {
+            this.SetupConfigurationObject(this.Config);
+
         }
 
         /// <summary>
         /// Loads from configuration object.
         /// </summary>
         /// <param name="node">The node.</param>
-        protected virtual void LoadFromConfigurationObject(ConfigurationObjectNode node)
+        protected virtual void LoadFromConfigurationObject(ConfigurationObjectNode config)
         {
-            this.bName.setValue(node.Name);
-            this.bOt.setValue(node.ObjectTypeScriptName);
-            this.bAt.setValue(node.AssociationTypeScriptName);
-            foreach (var attributesKeep in node.Filters)
+            this.bName.setValue(config.Name);
+            this.bOt.setValue(config.ObjectTypeScriptName);
+            this.bAt.setValue(config.AssociationTypeScriptName);
+            foreach (var attributesKeep in config.Filters)
             {
                 foreach (cwLightNodePropertyFilter attributeFilter in attributesKeep.Value)
                 {
                     this.bFilter.getDataGrid().AddDataGridRow(attributeFilter.OperatorString, attributesKeep.Key, attributeFilter.Value);
                 }
             }
-            this.bReadingPath.setValue(node.ReadingMode.ToString());
+            this.bReadingPath.setValue(config.ReadingMode.ToString());
 
             this.bOt.enable();
             this.bAt.enable();

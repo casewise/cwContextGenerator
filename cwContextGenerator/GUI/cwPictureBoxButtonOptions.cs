@@ -50,10 +50,10 @@ namespace cwContextGenerator.GUI
                 menuStrip.RightToLeft = System.Windows.Forms.RightToLeft.No;
                 if (mainGUI.GetCore().SelectedModel == null)
                 {
-                    mainGUI.GetCore()._notEnabledModels.Sort();
-                    for (var i = 0; i < mainGUI.GetCore()._notEnabledModels.Count; ++i)
+                    mainGUI.GetCore().NotEnabledModels.Sort();
+                    for (var i = 0; i < mainGUI.GetCore().NotEnabledModels.Count; ++i)
                     {
-                        cwLightModel model = mainGUI.GetCore()._notEnabledModels[i];
+                        cwLightModel model = mainGUI.GetCore().NotEnabledModels[i];
                         ToolStripItem modelItem = menuStrip.Items.Add(model.ToString());
                         modelItem.Click += (modelSender, args) => ctx_setupNewAModel_Click(model, args);
                         menuStrip.Items.Add(modelItem);

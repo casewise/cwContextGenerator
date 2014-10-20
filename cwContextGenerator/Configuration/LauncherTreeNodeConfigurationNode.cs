@@ -91,24 +91,39 @@ namespace cwContextGenerator.Configuration
             {
                 base.SetupConfigurationObject(node);
                 node.DiagramId = Convert.ToInt32(this.bTemplate.ToString());
+
             }
             else
             {
                 node.Name = this.Text;
             }
-          //  this.Config = node;
         }
+
+        //public bool CheckConfiguration(ConfigurationRootNode node)
+        //{
+        //    bool approved = true;
+        //    if (this.bName == null)
+        //    {
+        //        this.LoadFromConfigurationObject(node);
+        //    }
+        //    if (this.bTemplate == null)
+        //    {
+        //        approved = false;
+        //        this.GUI.appendError("Sélectionner obligatoirement un [Diagram Template].");
+        //    }
+        //    return approved;
+        //}
 
         /// <summary>
         /// Loads from configuration object.
         /// </summary>
         /// <param name="node">The node.</param>
-        protected override void LoadFromConfigurationObject(ConfigurationObjectNode node)
+        protected override void LoadFromConfigurationObject(ConfigurationObjectNode config)
         {
-            base.LoadFromConfigurationObject(node);
+            base.LoadFromConfigurationObject(config);
             this.bAt.disable();
             this.bReadingPath.disable();
-            ConfigurationRootNode n = node as ConfigurationRootNode;
+            ConfigurationRootNode n = config as ConfigurationRootNode;
             this.bTemplate.setValue(n.DiagramId);
         }
 

@@ -11,20 +11,8 @@ using System.Xml.Serialization;
 
 namespace cwContextGenerator.Logs
 {
-    //public class ObjectInfo
-    //{
-    //    public string ObjectTypeScriptName; public string Name;
-    //    public ObjectInfo(string scriptname, string name)
-    //    {
-    //        this.ObjectTypeScriptName = scriptname;
-    //        this.Name = name;
-    //    }
-    //}
-
-
     public class CwContextObjectInfo
     {
-
         private cwLightNodeObjectType _otNode;
 
         private List<string> _to = new List<string>();
@@ -107,10 +95,9 @@ namespace cwContextGenerator.Logs
             this.SetFromObject();
             this.SetToObjects();
             this.SetChildrenContextObjects();
-
         }
 
-        private StringBuilder Serialize()
+        private StringBuilder JavascriptSerialize()
         {
             JavaScriptSerializer s = new JavaScriptSerializer();
             StringBuilder output = new StringBuilder();
@@ -118,7 +105,7 @@ namespace cwContextGenerator.Logs
             return output;
         }
 
-        public void XmlSerialize()
+        private void XmlSerialize()
         {
             //string endwith = string.Format("_{0:yyyy-MM-dd_hh-mm}.xml", DateTime.Now);
             XmlSerializer writer = new XmlSerializer(typeof(CwContextObjectInfo));
@@ -129,10 +116,15 @@ namespace cwContextGenerator.Logs
             file.Close();
         }
 
-        public void JavascriptSerializeAndUpdateIntoDescriptionFiled()
-        {
-            StringBuilder serialize = this.Serialize();
 
+        public void SetLog()
+        {
+            this.XmlSerialize();
+        }
+
+        private void JsonSerializeAndUpdateIntoDescriptionField()
+        {
+            StringBuilder serialize = this.JavascriptSerialize();
             this.CurrentObject.getProperty<CwPropertyMemo>("DESCRIPTION").Value = serialize.ToString();
             this.CurrentObject.updatePropertiesInModel();
         }
@@ -143,6 +135,7 @@ namespace cwContextGenerator.Logs
             CwContextMataModelManager.AtCwContextEndWithAnyObjectScriptName,
             CwContextMataModelManager.AtCwContextToCwContextScriptName 
         };
+
         private Dictionary<string, cwLightNodeAssociationType> ATNodesByAtScriptName { get; set; }
 
         private void SetAtTNodesByAtScriptName()

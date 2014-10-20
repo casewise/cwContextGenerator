@@ -175,18 +175,18 @@ namespace cwContextGenerator.GUI
                     this.treeViewConfigurations.SelectedNode = node;
                     if (e.Button.Equals(MouseButtons.Right))
                     {
-                        //if (node is LauncherTreeNodeObjectNode && !(node is LauncherTreeNodeConfigurationNode))
-                        //{
-                        //    // display context menu
-                        //    if (this._core.copiedNode == null)
-                        //    {
-                        //        node.ContextMenuStrip.Items[2].Enabled = false;
-                        //    }
-                        //    else
-                        //    {
-                        //        node.ContextMenuStrip.Items[2].Enabled = true;
-                        //    }
-                        //}
+                        if (node is LauncherTreeNodeObjectNode && !(node is LauncherTreeNodeConfigurationNode))
+                        {
+                            // display context menu
+                            if (this._core.copiedNode == null)
+                            {
+                                node.ContextMenuStrip.Items[2].Enabled = false;
+                            }
+                            else
+                            {
+                                node.ContextMenuStrip.Items[2].Enabled = true;
+                            }
+                        }
                         node.ContextMenuStrip.Show(p);
                     }
                     else
@@ -244,7 +244,5 @@ namespace cwContextGenerator.GUI
                 }
             }
         }
-
-
     }
 }

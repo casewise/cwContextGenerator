@@ -1,5 +1,6 @@
 ﻿using cwContextGenerator.Core;
 using cwContextGenerator.GUI;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace cwContextGenerator
 {
     class Program
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(Program));
+
         [STAThread]
         static int Main(string[] args)
         {
@@ -36,7 +39,8 @@ namespace cwContextGenerator
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
+                log.Debug(e.ToString());
+               // MessageBox.Show(e.ToString());
                 return -1;
             }
         }

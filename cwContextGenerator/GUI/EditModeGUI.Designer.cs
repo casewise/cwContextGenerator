@@ -33,14 +33,6 @@ namespace cwContextGenerator.GUI
             this.richTextBoxDebug = new System.Windows.Forms.RichTextBox();
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
             this.splitContainerTop = new System.Windows.Forms.SplitContainer();
-            this.groupBoxDesigns = new System.Windows.Forms.GroupBox();
-            this.treeViewConfigurations = new System.Windows.Forms.TreeView();
-            this.groupBoxDetails = new System.Windows.Forms.GroupBox();
-            this.panelOptions = new System.Windows.Forms.Panel();
-            this.tableLayoutOptions = new Casewise.GraphAPI.PSF.cwPSFTableLayoutPropertiesBoxes();
-            this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.labelOptionName = new System.Windows.Forms.Label();
-            this.labelOptionValue = new System.Windows.Forms.Label();
             this.menuStripTop = new System.Windows.Forms.MenuStrip();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.executeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,6 +41,14 @@ namespace cwContextGenerator.GUI
             this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker4 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker5 = new System.ComponentModel.BackgroundWorker();
+            this.treeViewConfigurations = new System.Windows.Forms.TreeView();
+            this.groupBoxDesigns = new System.Windows.Forms.GroupBox();
+            this.panelOptions = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.labelOptionValue = new System.Windows.Forms.Label();
+            this.labelOptionName = new System.Windows.Forms.Label();
+            this.tableLayoutOptions = new Casewise.GraphAPI.PSF.cwPSFTableLayoutPropertiesBoxes();
+            this.groupBoxDetails = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel1.SuspendLayout();
             this.splitContainerMain.Panel2.SuspendLayout();
@@ -57,11 +57,11 @@ namespace cwContextGenerator.GUI
             this.splitContainerTop.Panel1.SuspendLayout();
             this.splitContainerTop.Panel2.SuspendLayout();
             this.splitContainerTop.SuspendLayout();
+            this.menuStripTop.SuspendLayout();
             this.groupBoxDesigns.SuspendLayout();
-            this.groupBoxDetails.SuspendLayout();
             this.panelOptions.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
-            this.menuStripTop.SuspendLayout();
+            this.groupBoxDetails.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBoxDebug
@@ -71,7 +71,7 @@ namespace cwContextGenerator.GUI
             this.richTextBoxDebug.Location = new System.Drawing.Point(0, 0);
             this.richTextBoxDebug.Margin = new System.Windows.Forms.Padding(4);
             this.richTextBoxDebug.Name = "richTextBoxDebug";
-            this.richTextBoxDebug.Size = new System.Drawing.Size(1058, 90);
+            this.richTextBoxDebug.Size = new System.Drawing.Size(935, 80);
             this.richTextBoxDebug.TabIndex = 3;
             this.richTextBoxDebug.Text = "";
             // 
@@ -79,28 +79,27 @@ namespace cwContextGenerator.GUI
             // 
             this.splitContainerMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerMain.Location = new System.Drawing.Point(0, 26);
-            this.splitContainerMain.Margin = new System.Windows.Forms.Padding(12);
+            this.splitContainerMain.Margin = new System.Windows.Forms.Padding(11);
             this.splitContainerMain.Name = "splitContainerMain";
             this.splitContainerMain.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainerMain.Panel1
             // 
             this.splitContainerMain.Panel1.Controls.Add(this.splitContainerTop);
-            this.splitContainerMain.Panel1.Padding = new System.Windows.Forms.Padding(10);
+            this.splitContainerMain.Panel1.Padding = new System.Windows.Forms.Padding(9);
             // 
             // splitContainerMain.Panel2
             // 
             this.splitContainerMain.Panel2.Controls.Add(this.richTextBoxDebug);
-            this.splitContainerMain.Size = new System.Drawing.Size(1058, 614);
-            this.splitContainerMain.SplitterDistance = 519;
-            this.splitContainerMain.SplitterWidth = 5;
+            this.splitContainerMain.Size = new System.Drawing.Size(935, 539);
+            this.splitContainerMain.SplitterDistance = 455;
             this.splitContainerMain.TabIndex = 4;
             // 
             // splitContainerTop
             // 
             this.splitContainerTop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerTop.Location = new System.Drawing.Point(10, 10);
-            this.splitContainerTop.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.splitContainerTop.Location = new System.Drawing.Point(9, 9);
+            this.splitContainerTop.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainerTop.Name = "splitContainerTop";
             // 
             // splitContainerTop.Panel1
@@ -110,24 +109,37 @@ namespace cwContextGenerator.GUI
             // splitContainerTop.Panel2
             // 
             this.splitContainerTop.Panel2.Controls.Add(this.groupBoxDetails);
-            this.splitContainerTop.Size = new System.Drawing.Size(1038, 499);
-            this.splitContainerTop.SplitterDistance = 340;
-            this.splitContainerTop.SplitterWidth = 5;
+            this.splitContainerTop.Size = new System.Drawing.Size(917, 437);
+            this.splitContainerTop.SplitterDistance = 300;
             this.splitContainerTop.TabIndex = 3;
             // 
-            // groupBoxDesigns
+            // menuStripTop
             // 
-            this.groupBoxDesigns.BackColor = System.Drawing.Color.White;
-            this.groupBoxDesigns.Controls.Add(this.treeViewConfigurations);
-            this.groupBoxDesigns.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxDesigns.Location = new System.Drawing.Point(0, 0);
-            this.groupBoxDesigns.Margin = new System.Windows.Forms.Padding(5);
-            this.groupBoxDesigns.Name = "groupBoxDesigns";
-            this.groupBoxDesigns.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBoxDesigns.Size = new System.Drawing.Size(340, 499);
-            this.groupBoxDesigns.TabIndex = 0;
-            this.groupBoxDesigns.TabStop = false;
-            this.groupBoxDesigns.Text = "Configurations";
+            this.menuStripTop.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
+            this.menuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem,
+            this.executeToolStripMenuItem});
+            this.menuStripTop.Location = new System.Drawing.Point(0, 0);
+            this.menuStripTop.Name = "menuStripTop";
+            this.menuStripTop.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStripTop.Size = new System.Drawing.Size(935, 26);
+            this.menuStripTop.TabIndex = 5;
+            this.menuStripTop.Text = "menuStrip1";
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripMenuItem.Image")));
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(64, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // executeToolStripMenuItem
+            // 
+            this.executeToolStripMenuItem.Name = "executeToolStripMenuItem";
+            this.executeToolStripMenuItem.Size = new System.Drawing.Size(66, 22);
+            this.executeToolStripMenuItem.Text = "Execute";
+            this.executeToolStripMenuItem.Click += new System.EventHandler(this.executeToolStripMenuItem_Click);
             // 
             // treeViewConfigurations
             // 
@@ -135,29 +147,27 @@ namespace cwContextGenerator.GUI
             this.treeViewConfigurations.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.treeViewConfigurations.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewConfigurations.HideSelection = false;
-            this.treeViewConfigurations.Location = new System.Drawing.Point(5, 21);
-            this.treeViewConfigurations.Margin = new System.Windows.Forms.Padding(5);
+            this.treeViewConfigurations.Location = new System.Drawing.Point(4, 19);
+            this.treeViewConfigurations.Margin = new System.Windows.Forms.Padding(4);
             this.treeViewConfigurations.Name = "treeViewConfigurations";
-            this.treeViewConfigurations.Size = new System.Drawing.Size(330, 473);
+            this.treeViewConfigurations.Size = new System.Drawing.Size(292, 414);
             this.treeViewConfigurations.TabIndex = 0;
             this.treeViewConfigurations.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditModeGUI_KeyDown);
             this.treeViewConfigurations.MouseClick += new System.Windows.Forms.MouseEventHandler(this.treeViewConfigurations_Click);
             // 
-            // groupBoxDetails
+            // groupBoxDesigns
             // 
-            this.groupBoxDetails.AutoSize = true;
-            this.groupBoxDetails.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.groupBoxDetails.BackColor = System.Drawing.Color.White;
-            this.groupBoxDetails.Controls.Add(this.panelOptions);
-            this.groupBoxDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxDetails.Location = new System.Drawing.Point(0, 0);
-            this.groupBoxDetails.Margin = new System.Windows.Forms.Padding(5);
-            this.groupBoxDetails.Name = "groupBoxDetails";
-            this.groupBoxDetails.Padding = new System.Windows.Forms.Padding(12, 15, 12, 15);
-            this.groupBoxDetails.Size = new System.Drawing.Size(693, 499);
-            this.groupBoxDetails.TabIndex = 1;
-            this.groupBoxDetails.TabStop = false;
-            this.groupBoxDetails.Text = "Options";
+            this.groupBoxDesigns.BackColor = System.Drawing.Color.White;
+            this.groupBoxDesigns.Controls.Add(this.treeViewConfigurations);
+            this.groupBoxDesigns.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBoxDesigns.Location = new System.Drawing.Point(0, 0);
+            this.groupBoxDesigns.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxDesigns.Name = "groupBoxDesigns";
+            this.groupBoxDesigns.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxDesigns.Size = new System.Drawing.Size(300, 437);
+            this.groupBoxDesigns.TabIndex = 0;
+            this.groupBoxDesigns.TabStop = false;
+            this.groupBoxDesigns.Text = "Configurations";
             // 
             // panelOptions
             // 
@@ -165,11 +175,49 @@ namespace cwContextGenerator.GUI
             this.panelOptions.Controls.Add(this.tableLayoutOptions);
             this.panelOptions.Controls.Add(this.tableLayoutPanel);
             this.panelOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelOptions.Location = new System.Drawing.Point(12, 31);
-            this.panelOptions.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.panelOptions.Location = new System.Drawing.Point(11, 28);
+            this.panelOptions.Margin = new System.Windows.Forms.Padding(4);
             this.panelOptions.Name = "panelOptions";
-            this.panelOptions.Size = new System.Drawing.Size(669, 453);
+            this.panelOptions.Size = new System.Drawing.Size(591, 396);
             this.panelOptions.TabIndex = 2;
+            // 
+            // tableLayoutPanel
+            // 
+            this.tableLayoutPanel.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel.ColumnCount = 2;
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.tableLayoutPanel.Controls.Add(this.labelOptionName, 0, 0);
+            this.tableLayoutPanel.Controls.Add(this.labelOptionValue, 1, 0);
+            this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel.Name = "tableLayoutPanel";
+            this.tableLayoutPanel.RowCount = 1;
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel.Size = new System.Drawing.Size(591, 28);
+            this.tableLayoutPanel.TabIndex = 0;
+            // 
+            // labelOptionValue
+            // 
+            this.labelOptionValue.AutoSize = true;
+            this.labelOptionValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelOptionValue.Location = new System.Drawing.Point(181, 1);
+            this.labelOptionValue.Name = "labelOptionValue";
+            this.labelOptionValue.Size = new System.Drawing.Size(406, 26);
+            this.labelOptionValue.TabIndex = 1;
+            this.labelOptionValue.Text = "Valeurs";
+            this.labelOptionValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelOptionName
+            // 
+            this.labelOptionName.AutoSize = true;
+            this.labelOptionName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelOptionName.Location = new System.Drawing.Point(4, 1);
+            this.labelOptionName.Name = "labelOptionName";
+            this.labelOptionName.Size = new System.Drawing.Size(170, 26);
+            this.labelOptionName.TabIndex = 0;
+            this.labelOptionName.Text = "Options";
+            this.labelOptionName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutOptions
             // 
@@ -190,97 +238,51 @@ namespace cwContextGenerator.GUI
             this.tableLayoutOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.tableLayoutOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tableLayoutOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
-            this.tableLayoutOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 175F));
+            this.tableLayoutOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.tableLayoutOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.tableLayoutOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
             this.tableLayoutOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutOptions.Location = new System.Drawing.Point(0, 32);
+            this.tableLayoutOptions.Location = new System.Drawing.Point(0, 28);
             this.tableLayoutOptions.Name = "tableLayoutOptions";
             this.tableLayoutOptions.RowCount = 1;
             this.tableLayoutOptions.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutOptions.Size = new System.Drawing.Size(669, 421);
+            this.tableLayoutOptions.Size = new System.Drawing.Size(591, 368);
             this.tableLayoutOptions.TabIndex = 1;
             // 
-            // tableLayoutPanel
+            // groupBoxDetails
             // 
-            this.tableLayoutPanel.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.tableLayoutPanel.ColumnCount = 2;
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
-            this.tableLayoutPanel.Controls.Add(this.labelOptionName, 0, 0);
-            this.tableLayoutPanel.Controls.Add(this.labelOptionValue, 1, 0);
-            this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel.Name = "tableLayoutPanel";
-            this.tableLayoutPanel.RowCount = 1;
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(669, 32);
-            this.tableLayoutPanel.TabIndex = 0;
-            // 
-            // labelOptionName
-            // 
-            this.labelOptionName.AutoSize = true;
-            this.labelOptionName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelOptionName.Location = new System.Drawing.Point(4, 1);
-            this.labelOptionName.Name = "labelOptionName";
-            this.labelOptionName.Size = new System.Drawing.Size(193, 30);
-            this.labelOptionName.TabIndex = 0;
-            this.labelOptionName.Text = "Options";
-            this.labelOptionName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelOptionValue
-            // 
-            this.labelOptionValue.AutoSize = true;
-            this.labelOptionValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelOptionValue.Location = new System.Drawing.Point(204, 1);
-            this.labelOptionValue.Name = "labelOptionValue";
-            this.labelOptionValue.Size = new System.Drawing.Size(461, 30);
-            this.labelOptionValue.TabIndex = 1;
-            this.labelOptionValue.Text = "Valeurs";
-            this.labelOptionValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // menuStripTop
-            // 
-            this.menuStripTop.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            this.menuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveToolStripMenuItem,
-            this.executeToolStripMenuItem});
-            this.menuStripTop.Location = new System.Drawing.Point(0, 0);
-            this.menuStripTop.Name = "menuStripTop";
-            this.menuStripTop.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
-            this.menuStripTop.Size = new System.Drawing.Size(1058, 26);
-            this.menuStripTop.TabIndex = 5;
-            this.menuStripTop.Text = "menuStrip1";
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripMenuItem.Image")));
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(65, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
-            // 
-            // executeToolStripMenuItem
-            // 
-            this.executeToolStripMenuItem.Name = "executeToolStripMenuItem";
-            this.executeToolStripMenuItem.Size = new System.Drawing.Size(72, 22);
-            this.executeToolStripMenuItem.Text = "Execute";
-            this.executeToolStripMenuItem.Click += new System.EventHandler(this.executeToolStripMenuItem_Click);
+            this.groupBoxDetails.AutoSize = true;
+            this.groupBoxDetails.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBoxDetails.BackColor = System.Drawing.Color.White;
+            this.groupBoxDetails.Controls.Add(this.panelOptions);
+            this.groupBoxDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBoxDetails.Location = new System.Drawing.Point(0, 0);
+            this.groupBoxDetails.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxDetails.Name = "groupBoxDetails";
+            this.groupBoxDetails.Padding = new System.Windows.Forms.Padding(11, 13, 11, 13);
+            this.groupBoxDetails.Size = new System.Drawing.Size(613, 437);
+            this.groupBoxDetails.TabIndex = 1;
+            this.groupBoxDetails.TabStop = false;
+            this.groupBoxDetails.Text = "Options";
             // 
             // EditModeGUI
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(106F, 106F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1058, 640);
+            this.ClientSize = new System.Drawing.Size(935, 565);
             this.Controls.Add(this.splitContainerMain);
             this.Controls.Add(this.menuStripTop);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStripTop;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "EditModeGUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "cwEditModeGUI";
@@ -294,14 +296,14 @@ namespace cwContextGenerator.GUI
             this.splitContainerTop.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTop)).EndInit();
             this.splitContainerTop.ResumeLayout(false);
+            this.menuStripTop.ResumeLayout(false);
+            this.menuStripTop.PerformLayout();
             this.groupBoxDesigns.ResumeLayout(false);
-            this.groupBoxDetails.ResumeLayout(false);
             this.panelOptions.ResumeLayout(false);
             this.panelOptions.PerformLayout();
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
-            this.menuStripTop.ResumeLayout(false);
-            this.menuStripTop.PerformLayout();
+            this.groupBoxDetails.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -314,16 +316,6 @@ namespace cwContextGenerator.GUI
         /// </summary>
         private System.Windows.Forms.RichTextBox richTextBoxDebug;
         private System.Windows.Forms.SplitContainer splitContainerMain;
-        private System.Windows.Forms.GroupBox groupBoxDetails;
-        private System.Windows.Forms.Panel panelOptions;
-        /// <summary>
-        /// 
-        /// </summary>
-        protected System.Windows.Forms.GroupBox groupBoxDesigns;
-        /// <summary>
-        /// treeViewConfigurations
-        /// </summary>
-        public System.Windows.Forms.TreeView treeViewConfigurations;
         /// <summary>
         /// splitContainerTop
         /// </summary>
@@ -338,10 +330,14 @@ namespace cwContextGenerator.GUI
         private System.ComponentModel.BackgroundWorker backgroundWorker3;
         private System.ComponentModel.BackgroundWorker backgroundWorker4;
         private System.ComponentModel.BackgroundWorker backgroundWorker5;
+        private System.Windows.Forms.ToolStripMenuItem executeToolStripMenuItem;
+        protected System.Windows.Forms.GroupBox groupBoxDesigns;
+        public System.Windows.Forms.TreeView treeViewConfigurations;
+        private System.Windows.Forms.GroupBox groupBoxDetails;
+        private System.Windows.Forms.Panel panelOptions;
+        private cwPSFTableLayoutPropertiesBoxes tableLayoutOptions;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.Label labelOptionName;
         private System.Windows.Forms.Label labelOptionValue;
-        private cwPSFTableLayoutPropertiesBoxes tableLayoutOptions;
-        private System.Windows.Forms.ToolStripMenuItem executeToolStripMenuItem;
     }
 }

@@ -39,8 +39,7 @@ namespace cwContextGenerator.DataAnalysis
         public void SetLog()
         {
             CwContextObjectInfo log = new CwContextObjectInfo(this.RootContextObject, this.SelectedModel);
-            //log.JavascriptSerializeAndUpdateIntoDescriptionFiled();
-            log.XmlSerialize();
+            log.SetLog();
         }
 
         private void GetApprovedLightDiagramsById()

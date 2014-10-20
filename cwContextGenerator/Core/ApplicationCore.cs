@@ -31,10 +31,10 @@ namespace cwContextGenerator.Core
         internal static string ATNAME_PT = "ATNAME";
         internal static string ATSCRIPTNAME_PT = "ATSCRIPTNAME";
 
-        cwConnection _connection { get; set; }
-        List<cwLightModel> _allModels { get; set; }
-        public List<cwLightModel> _notEnabledModels { get; private set; }
-        public List<cwLightModel> _enabledModels { get; private set; }
+        cwConnection Connection { get; set; }
+        List<cwLightModel> AllModels { get; set; }
+        public List<cwLightModel> NotEnabledModels { get; private set; }
+        public List<cwLightModel> EnabledModels { get; private set; }
         public cwLightModel SelectedModel { get; set; }
 
         public LauncherTreeNodeObjectNode copiedNode = null;
@@ -70,7 +70,7 @@ namespace cwContextGenerator.Core
             {
                 try
                 {
-                    this._connection = new cwConnection(database, user, password);
+                    this.Connection = new cwConnection(database, user, password);
                 }
                 catch (Exception e)
                 {
@@ -81,19 +81,19 @@ namespace cwContextGenerator.Core
             }
             else
             {
-                this._connection = new cwConnection();
+                this.Connection = new cwConnection();
             }
             log.Debug("Connection open. Loading models...");
 
-            List<cwLightModel> allmodels = this._connection.getModels();
-            this._allModels = new List<cwLightModel>();
+            List<cwLightModel> allmodels = this.Connection.getModels();
+            this.AllModels = new List<cwLightModel>();
             foreach (cwLightModel m in allmodels)
             {
-                this._allModels.Add(this._connection.getModel(m.FileName));
+                this.AllModels.Add(this.Connection.getModel(m.FileName));
             }
 
-            this._notEnabledModels = new List<cwLightModel>();
-            this._enabledModels = new List<cwLightModel>();
+            this.NotEnabledModels = new List<cwLightModel>();
+            this.EnabledModels = new List<cwLightModel>();
             log.Debug("Models loaded");
         }
         #endregion
@@ -104,9 +104,9 @@ namespace cwContextGenerator.Core
         public void closeConnection()
         {
             log.Debug("Closing connection");
-            if (this._connection != null)
+            if (this.Connection != null)
             {
-                this._connection.CloseConnections();
+                this.Connection.CloseConnections();
             }
             log.Debug("Connection closed");
         }
@@ -118,14 +118,14 @@ namespace cwContextGenerator.Core
         public void SetModelFromFilename(string filename)
         {
             log.Debug("Select model " + filename + " for cwContextGenerator operation");
-            cwLightModel model = this._allModels.Find(m => m.FileName.Equals(filename));
+            cwLightModel model = this.AllModels.Find(m => m.FileName.Equals(filename));
             if (model == null)
             {
                 this.ReturnValue = -3;
                 log.Error("Model " + filename + " does not exist in repository.");
                 return;
             }
-            if (this._enabledModels.Exists(mod => mod.FileName.Equals(filename)))
+            if (this.EnabledModels.Exists(mod => mod.FileName.Equals(filename)))
             {
                 this.ReturnValue = -4;
                 log.Error("Model " + filename + " is not enabled for cwContextGenerator");
@@ -143,15 +143,15 @@ namespace cwContextGenerator.Core
         public void SetModelAsEnabled(cwLightModel m)
         {
             int i = 0;
-            for (i = 0; i < this._notEnabledModels.Count; i++)
+            for (i = 0; i < this.NotEnabledModels.Count; i++)
             {
-                if (m.FileName.Equals(this._notEnabledModels[i].FileName))
+                if (m.FileName.Equals(this.NotEnabledModels[i].FileName))
                 {
                     break;
                 }
             }
-            this._notEnabledModels.RemoveAt(i);
-            this._enabledModels.Add(m);
+            this.NotEnabledModels.RemoveAt(i);
+            this.EnabledModels.Add(m);
         }
 
         /// <summary>
@@ -199,17 +199,17 @@ namespace cwContextGenerator.Core
         /// </summary>
         public void LoadModels()
         {
-            this._notEnabledModels.Clear();
-            this._allModels.ForEach(m =>
+            this.NotEnabledModels.Clear();
+            this.AllModels.ForEach(m =>
             {
                 m.loadLightModelContent();
                 if (!m.hasObjectTypeByScriptName(ApplicationCore.CONTEXTPATH_OT))
                 {
-                    this._notEnabledModels.Add(m);
+                    this.NotEnabledModels.Add(m);
                 }
                 else
                 {
-                    this._enabledModels.Add(m);
+                    this.EnabledModels.Add(m);
                 }
             });
         }
@@ -336,7 +336,9 @@ namespace cwContextGenerator.Core
             log.Debug("Creating configuration from ui treenode");
             ConfigurationRootNode config = new ConfigurationRootNode(this.SelectedModel, o.ID);
 
+         //   rootNode.SetupConfigurationObject();
             rootNode.SetupConfigurationObject(config);
+            
 
             List<LauncherTreeNodeObjectNode> children = rootNode.GetChildren();
             foreach (LauncherTreeNodeObjectNode child in children)
@@ -360,6 +362,7 @@ namespace cwContextGenerator.Core
         private void BrowseNodesToSaveConfiguration(LauncherTreeNodeObjectNode node, ConfigurationObjectNode config)
         {
             node.SetupConfigurationObject(config);
+           
             List<LauncherTreeNodeObjectNode> children = node.GetChildren();
             foreach (LauncherTreeNodeObjectNode child in children)
             {
@@ -380,9 +383,8 @@ namespace cwContextGenerator.Core
             this.ReturnValue = -1;
             try
             {
-                
                 DateTime start = DateTime.Now;
-                this.SelectedModel = this._connection.getModel(this.SelectedModel.FileName);
+                this.SelectedModel = this.Connection.getModel(this.SelectedModel.FileName);
                 this.SelectedModel.loadLightModelContent();
                 log.Debug("Start operation");
                 //cwLightModel m = this._selectedModel;

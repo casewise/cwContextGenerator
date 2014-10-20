@@ -33,7 +33,7 @@
   <Class Name="cwContextGenerator.Configuration.ConfigurationObjectNode" Collapsed="true">
     <Position X="3.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAIBkAAAAAAAIAAAAQAEAAAgAAAAAgAAAQAAAA=</HashCode>
+      <HashCode>AAAAAAAIBmAAAAAAAIAAAAQAEgAAgAAAAAgAAAQAAAA=</HashCode>
       <FileName>Configuration\ConfigurationObjectNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -47,14 +47,14 @@
   <Class Name="cwContextGenerator.Configuration.LauncherTreeNodeConfigurationNode" Collapsed="true">
     <Position X="0.5" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACgAAAAAQAAAAAAAAAAAAABAAAAQAEAAAgAAQQAAA=</HashCode>
+      <HashCode>AAAAgAAAAgQAAAAAAAAAAAAABAAAAQAEAAAgAAQQAAA=</HashCode>
       <FileName>Configuration\LauncherTreeNodeConfigurationNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cwContextGenerator.Configuration.LauncherTreeNodeObjectNode" Collapsed="true">
     <Position X="0.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACigAEoAQgAAAgAAAgAQBAAAAAQQAAIEYgEAQAkQA=</HashCode>
+      <HashCode>AAAAigAEogRgAAIgAAAgIQBAAAAAQQAAIEYgEAQAkQA=</HashCode>
       <FileName>Configuration\LauncherTreeNodeObjectNode.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -119,13 +119,6 @@
     <TypeIdentifier>
       <HashCode>AABAAAgAAgAAAAIAACAAAAAAAAAAAAAAACAAAAAQAAA=</HashCode>
       <FileName>GUI\cwPictureBoxLogo.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="cwContextGenerator.GUI.EditModeGUI" Collapsed="true">
-    <Position X="7.75" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>BAAAABBAGDQgIwWASiCAiDiCwAAACAQAAACAEAYAGBA=</HashCode>
-      <FileName>GUI\EditModeGUI.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cwContextGenerator.GUI.Launcher" Collapsed="true">
