@@ -91,7 +91,6 @@ namespace cwContextGenerator.Configuration
             {
                 base.SetupConfigurationObject(node);
                 node.DiagramId = Convert.ToInt32(this.bTemplate.ToString());
-
             }
             else
             {
@@ -99,20 +98,24 @@ namespace cwContextGenerator.Configuration
             }
         }
 
-        //public bool CheckConfiguration(ConfigurationRootNode node)
-        //{
-        //    bool approved = true;
-        //    if (this.bName == null)
-        //    {
-        //        this.LoadFromConfigurationObject(node);
-        //    }
-        //    if (this.bTemplate == null)
-        //    {
-        //        approved = false;
-        //        this.GUI.appendError("Sélectionner obligatoirement un [Diagram Template].");
-        //    }
-        //    return approved;
-        //}
+
+        public override bool CheckConfiguration()
+        {
+            bool approved = true;
+            if (String.IsNullOrEmpty(this.bTemplate.ToString()))
+            {
+                approved = false;
+                this.GUI.appendInfo("[Obligatoire]=> Sélectionnez un [Diagram Template] dans le [Root Node]", color: System.Drawing.Color.Red);
+            }
+
+            if (String.IsNullOrEmpty(this.bOt.ToString()))
+            {
+                approved = false;
+                this.GUI.appendInfo("[Obligatoire]=> Sélectionnez un [Object Type] dans le [Root Node]", color: System.Drawing.Color.Red);
+            }
+
+            return approved;
+        }
 
         /// <summary>
         /// Loads from configuration object.

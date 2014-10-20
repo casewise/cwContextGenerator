@@ -124,7 +124,11 @@ namespace cwContextGenerator.GUI
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.SaveConfiguration();
+            bool approved = this._core.CheckConfiguration(this._rootNode);
+            if (approved)
+            {
+                this.SaveConfiguration();
+            }
         }
 
         /// <summary>
@@ -145,7 +149,11 @@ namespace cwContextGenerator.GUI
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void executeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.ExecuteConfiguration();
+            bool approved = this._core.CheckConfiguration(this._rootNode);
+            if (approved)
+            {
+                this.ExecuteConfiguration();
+            }
         }
 
         private void ExecuteConfiguration()
@@ -154,6 +162,7 @@ namespace cwContextGenerator.GUI
             this.appendInfo("Exécution de la configuration");
             cwLightObject obj = this._core.GetConfigurationObjectFromId(this._cmObject.ID);
             ConfigurationRootNode root = this._core.GetConfigurationNodeFromDescription(obj);
+            
             this._core.GenerateContextTree(root);
             this.appendInfo("Fin de l'opération");
             Cursor.Current = Cursors.Default;

@@ -328,6 +328,12 @@ namespace cwContextGenerator.Core
             return output;
         }
 
+        public bool CheckConfiguration(LauncherTreeNodeConfigurationNode rootNode)
+        {
+            // ConfigurationRootNode config = new ConfigurationRootNode(this.SelectedModel, o.ID);
+            return rootNode.CheckConfiguration();
+        }
+
         /// <summary>
         /// Saves the configuration.
         /// </summary>
@@ -337,9 +343,7 @@ namespace cwContextGenerator.Core
             log.Debug("Creating configuration from ui treenode");
             ConfigurationRootNode config = new ConfigurationRootNode(this.SelectedModel, o.ID);
 
-         //   rootNode.SetupConfigurationObject();
             rootNode.SetupConfigurationObject(config);
-            
 
             List<LauncherTreeNodeObjectNode> children = rootNode.GetChildren();
             foreach (LauncherTreeNodeObjectNode child in children)

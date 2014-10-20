@@ -14,10 +14,10 @@ namespace cwContextGenerator.Configuration
 {
     public class LauncherTreeNodeObjectNode : TreeNode
     {
-        private  ConfigurationObjectNode Config;
-        protected ApplicationCore Core = null;
+        private ConfigurationObjectNode Config { get; set; }
+        protected ApplicationCore Core { get; set; }
 
-        bool configNeedToBeLoaded = false;
+        private bool _configNeedToBeLoaded = false;
 
         protected cwPSFPropertyBoxString bName { get; set; }
         protected cwPSFPropertyBoxComboBoxObjectType bOt { get; set; }
@@ -33,7 +33,6 @@ namespace cwContextGenerator.Configuration
             this.CreateContextMenu();
         }
 
-    
         /// <summary>
         /// Initializes a new instance of the <see cref="LauncherTreeNodeObjectNode"/> class.
         /// </summary>
@@ -80,29 +79,37 @@ namespace cwContextGenerator.Configuration
         }
 
         /// <summary>
-        /// Copy Node
+        /// Copy a TreeNode (with Children Node)
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        private LauncherTreeNodeObjectNode RecCopyNode(LauncherTreeNodeObjectNode node)
-        {
+        private LauncherTreeNodeObjectNode BrowseAndCopyTreeNode(LauncherTreeNodeObjectNode node)
+        {   //get interface data
             node.SetupConfigurationObject();
-            LauncherTreeNodeObjectNode copy = new LauncherTreeNodeObjectNode(node.Core, node.Config);
 
+            LauncherTreeNodeObjectNode copy = new LauncherTreeNodeObjectNode(node.Core, node.Config);
             List<LauncherTreeNodeObjectNode> children = node.GetChildren();
+
             foreach (LauncherTreeNodeObjectNode childNode in children)
             {
-                LauncherTreeNodeObjectNode copyChild = RecCopyNode(childNode);
+                LauncherTreeNodeObjectNode copyChild = BrowseAndCopyTreeNode(childNode);
                 copy.Nodes.Add(copyChild);
             }
             return copy;
         }
 
+        /// <summary>
+        /// Event duplicate
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DuplicateItem_Click(object sender, EventArgs e)
         {
-            LauncherTreeNodeObjectNode copy = RecCopyNode(this);
-           
+            LauncherTreeNodeObjectNode copy = BrowseAndCopyTreeNode(this);
+          //  copy.DisplayOptionForAllNodes();
             this.Parent.Nodes.Add(copy);
+            LauncherTreeNodeObjectNode parent = this.Parent as LauncherTreeNodeObjectNode;
+            parent.DisplayOptionForAllNodes();
         }
 
         /// <summary>
@@ -135,8 +142,10 @@ namespace cwContextGenerator.Configuration
         private void pasteItem_Click(object sender, EventArgs e)
         {
             LauncherTreeNodeObjectNode copy = this.Core.copiedNode;
-            
+
             this.Nodes.Add(copy);
+
+            this.DisplayOptionForAllNodes();
             this.Core.copiedNode = null;
         }
 
@@ -249,10 +258,10 @@ namespace cwContextGenerator.Configuration
 
             options.SuspendLayout();
             this.SetPropertiesBoxes(options);
-            if (this.configNeedToBeLoaded)
+            if (this._configNeedToBeLoaded)
             {
                 this.LoadFromConfigurationObject(this.Config);
-                this.configNeedToBeLoaded = false;
+                this._configNeedToBeLoaded = false;
             }
             options.ResumeLayout();
         }
@@ -278,7 +287,7 @@ namespace cwContextGenerator.Configuration
         {
             if (this.bName == null)
             {
-                this.configNeedToBeLoaded = true;
+                this._configNeedToBeLoaded = true;
                 this.bName = new cwPSFPropertyBoxString(null, "Nom", string.Empty, string.Empty);
                 this.bName.Text = this.Text;
                 this.bName.TextChanged += bName_TextChanged;
@@ -382,12 +391,34 @@ namespace cwContextGenerator.Configuration
             }
         }
 
+        /// <summary>
+        /// Setups the configuration object
+        /// </summary>
         public void SetupConfigurationObject()
         {
             this.SetupConfigurationObject(this.Config);
-
         }
 
+        public virtual bool CheckConfiguration()
+        {
+            bool approved = true;
+
+
+            string x = this.bAt.ToString();
+            string y = this.bOt.ToString();
+            if (String.IsNullOrEmpty(this.bOt.ToString()))
+            {
+                approved = false;
+            }
+           if (String.IsNullOrEmpty(this.bAt.ToString())||this.bAt.ToString()=="Root-Mode")
+            {
+                approved = false;
+            }
+            return approved;
+        }
+
+
+        
         /// <summary>
         /// Loads from configuration object.
         /// </summary>
