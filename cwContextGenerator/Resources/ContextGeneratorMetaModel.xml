@@ -14,7 +14,7 @@
         <cwProperty scriptname="READINGMODE" text="Reading Mode" uuid="9b094ac32a0711e58266ecf4bb47d31e" type="string" flags="32" paneid="1"/>
         <cwProperty scriptname="ATNAME" text="Association Type Name" uuid="9b094ac32a0711e48266ecf4bb47d31e" type="string" flags="32" paneid="1"/>
         <cwProperty scriptname="ATSCRIPTNAME" text="Association Type Scriptname" uuid="a2f2295a2a0711e48266ecf4bb47d31e" type="string" flags="32" paneid="1"/>
-        <cwProperty scriptname="ROOTLEVEL" text="Root" uuid="a2f2295a2b0711e48266ecf4bb47d31e" type="bool" paneid="1"/>
+        <cwProperty scriptname="ROOTLEVEL" text="Root" uuid="a2f2295a2b0711e48266ecf4bb47d31e" type="bool" flags="32" paneid="1"/>
         <cwProperty scriptname="DESCRIPTION" text="Description" uuid="d95a4a182a0611e48266ecf4bb47d31e" type="multi" paneid="2"/>
         <cwProperty scriptname="WHOOWNS" text="Propriétaire" uuid="d95a4a192a0611e48266ecf4bb47d31e" type="int" paneid="997"/>
         <cwProperty scriptname="EXPORTFLAG" text="Niveau de protection" uuid="d95a4a1a2a0611e48266ecf4bb47d31e" type="int" paneid="997"/>

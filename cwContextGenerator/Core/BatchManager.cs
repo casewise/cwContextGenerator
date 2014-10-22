@@ -72,8 +72,9 @@ namespace cwContextGenerator.Core
                 return core.ReturnValue;
             }
             ConfigurationRootNode node = core.GetConfigurationNodeFromDescription(config);
+            
             core.GenerateContextTree(node);
-
+            
             core.closeConnection();
             return core.ReturnValue;
         }

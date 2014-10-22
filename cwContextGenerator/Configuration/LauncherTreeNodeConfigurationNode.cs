@@ -57,16 +57,17 @@ namespace cwContextGenerator.Configuration
         protected override void SetPropertiesBoxes(cwPSFTableLayoutPropertiesBoxes panel)
         {
             base.SetPropertiesBoxes(panel);
-            this.bFilter = new cwPSFPropertyBoxFilterProperties(null, "Diagram Filtre (ET)", string.Empty, string.Empty);
 
             if (this.bTemplate == null)
-            {
-                this.bTemplate = new cwPSFPropertyBoxComboBoxTemplate(null, "Template", string.Empty, string.Empty, this.Core.SelectedModel);
+            {  
+                this.bFilter.helpName = "Diagramme Filtre (ET)";
+                this.bFilter.loadNodes(this.Core.SelectedModel.getObjectTypeByScriptName("DIAGRAM"));
+
+                this.bTemplate = new cwPSFPropertyBoxComboBoxTemplate(null, "Diagramme Template", string.Empty, string.Empty, this.Core.SelectedModel);
                 this.bAt.disable();
                 this.bReadingPath.disable();
-
-                this.bFilter.loadNodes(this.Core.SelectedModel.getObjectTypeByScriptName("DIAGRAM"));
             }
+
             panel.addPropertyBox(this.bTemplate);
         }
 

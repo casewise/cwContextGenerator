@@ -392,7 +392,7 @@ namespace cwContextGenerator.Core
                 this.SelectedModel = this.Connection.getModel(this.SelectedModel.FileName);
                 this.SelectedModel.loadLightModelContent();
                 log.Debug("Start operation");
-                //cwLightModel m = this._selectedModel;
+
                 CwDiagramContextManager diagramContextManager = new CwDiagramContextManager(this.SelectedModel, config);
                 diagramContextManager.CreateContextHierarchy();
                 diagramContextManager.SetLog();
