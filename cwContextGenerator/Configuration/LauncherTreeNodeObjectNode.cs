@@ -209,11 +209,20 @@ namespace cwContextGenerator.Configuration
                 }
                 else
                 {
-                    cwLightObjectType ot = this.bOt.getSelectedObjectType();
-                    if (ot != null)
+                    if (this is LauncherTreeNodeConfigurationNode)
                     {
-                        config.ObjectTypeScriptName = ot.ScriptName;
-                        config.Name = ot.ToString();
+                        cwLightObjectType ot = this.bOt.getSelectedObjectType();
+                        if (ot != null)
+                        {
+                            config.ObjectTypeScriptName = ot.ScriptName;
+                            config.Name = ot.ToString();
+                        }
+                    }
+                    else if (this is LauncherTreeNodeObjectNode)
+                    {
+                        this.ToolTipText = "Merci de selectionner une association type";
+                        this.BackColor = System.Drawing.Color.Red;
+                        return;
                     }
                 }
             }
@@ -292,6 +301,7 @@ namespace cwContextGenerator.Configuration
                 this.bName.Text = this.Text;
                 this.bName.TextChanged += bName_TextChanged;
                 this.bOt = new cwPSFPropertyBoxComboBoxObjectType(null, "Objet Type", string.Empty, string.Empty, null);
+
                 this.bAt = new cwPSFPropertyBoxComboBoxAssociationType(null, "Association Type", string.Empty, string.Empty, null);
                 this.bFilter = new cwPSFPropertyBoxFilterProperties(null, "Filtre (ET)", string.Empty, string.Empty);
                 this.bReadingPath = new cwPSFPropertyBoxComboBox(null, "Mode de lecture", string.Empty, string.Empty, Enum.GetNames(typeof(ReadingMode)));
@@ -309,6 +319,8 @@ namespace cwContextGenerator.Configuration
             panel.addPropertyBox(this.bReadingPath);
             panel.addPropertyBox(this.bAt);
             panel.addPropertyBox(this.bFilter);
+
+            this.bOt.disable();
         }
 
 
@@ -402,10 +414,6 @@ namespace cwContextGenerator.Configuration
         public virtual bool CheckConfiguration()
         {
             bool approved = true;
-
-
-            string x = this.bAt.ToString();
-            string y = this.bOt.ToString();
             if (String.IsNullOrEmpty(this.bOt.ToString()))
             {
                 approved = false;
@@ -437,7 +445,7 @@ namespace cwContextGenerator.Configuration
             }
             this.bReadingPath.setValue(config.ReadingMode.ToString());
 
-            this.bOt.enable();
+            //this.bOt.enable();
             this.bAt.enable();
             this.bReadingPath.enable();
         }

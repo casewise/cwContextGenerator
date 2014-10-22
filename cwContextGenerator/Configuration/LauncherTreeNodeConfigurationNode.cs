@@ -68,6 +68,9 @@ namespace cwContextGenerator.Configuration
                 this.bReadingPath.disable();
             }
 
+            if (this.GetChildren().Count == 0) {
+                this.bOt.enable();
+            }
             panel.addPropertyBox(this.bTemplate);
         }
 
