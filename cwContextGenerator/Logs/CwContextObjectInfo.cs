@@ -3,8 +3,10 @@ using Casewise.GraphAPI.API.Graph;
 using cwContextGenerator.DataAnalysis;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using System.Xml.Serialization;
@@ -110,17 +112,27 @@ namespace cwContextGenerator.Logs
             //string endwith = string.Format("_{0:yyyy-MM-dd_hh-mm}.xml", DateTime.Now);
             XmlSerializer writer = new XmlSerializer(typeof(CwContextObjectInfo));
             StringBuilder output = new StringBuilder();
-            var path = "logs//" + this.CurrentObject.ToString() + ".xml";
+
+            var fileName = RemoveInvalidFileNameChars(this.CurrentObject.ToString());
+            var path = "logs//" + fileName + ".xml";
             System.IO.FileStream file = System.IO.File.Create(path);
             writer.Serialize(file, this);
             file.Close();
         }
 
+        private string RemoveInvalidFileNameChars(string filename)
+        {
+            foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+            {
+                filename = filename.Replace(c, '_');
+            }
+            return filename;
+        }
 
         public void SetLog()
         {
-            //this.XmlSerialize();
-              this.JsonSerializeAndUpdateIntoDescriptionField();
+            this.XmlSerialize();
+            //this.JsonSerializeAndUpdateIntoDescriptionField();
         }
 
         private void JsonSerializeAndUpdateIntoDescriptionField()
