@@ -141,12 +141,12 @@ namespace cwContextGenerator.Configuration
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pasteItem_Click(object sender, EventArgs e)
         {
-            LauncherTreeNodeObjectNode copy = this.Core.copiedNode;
+            LauncherTreeNodeObjectNode copy = this.Core.CopiedNode;
 
             this.Nodes.Add(copy);
 
             this.DisplayOptionForAllNodes();
-            this.Core.copiedNode = null;
+            this.Core.CopiedNode = null;
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace cwContextGenerator.Configuration
         private void cloneItem_Click(object sender, EventArgs e)
         {
             LauncherTreeNodeObjectNode copy = this.CloneNode();
-            this.Core.copiedNode = copy;
+            this.Core.CopiedNode = copy;
         }
 
         private LauncherTreeNodeObjectNode CloneNode()

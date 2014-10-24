@@ -187,7 +187,7 @@ namespace cwContextGenerator.GUI
                         if (node is LauncherTreeNodeObjectNode && !(node is LauncherTreeNodeConfigurationNode))
                         {
                             // display context menu
-                            if (this._core.copiedNode == null)
+                            if (this._core.CopiedNode == null)
                             {
                                 node.ContextMenuStrip.Items[2].Enabled = false;
                             }

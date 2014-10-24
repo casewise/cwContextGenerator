@@ -17,11 +17,6 @@ using log4net;
 
 namespace cwContextGenerator.Core
 {
-    //public enum DIAGRAM_NAVIGATION
-    //{
-    //    Includes, IsIncludedIn, LinkedTo
-    //};
-
     public class ApplicationCore
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(ApplicationCore));
@@ -37,7 +32,7 @@ namespace cwContextGenerator.Core
         public List<cwLightModel> EnabledModels { get; private set; }
         public cwLightModel SelectedModel { get; set; }
 
-        public LauncherTreeNodeObjectNode copiedNode = null;
+        public LauncherTreeNodeObjectNode CopiedNode {get;set;}
 
         /*
          Values are:
@@ -133,6 +128,7 @@ namespace cwContextGenerator.Core
             }
 
             this.SelectedModel = model;
+            this.SelectedModel.loadLightModelContent();
 
         }
 
@@ -163,6 +159,9 @@ namespace cwContextGenerator.Core
         {
 
             log.Debug("Getting configuration object with id = " + id);
+
+           
+           //this.SelectedModel.loadLightModelContent();
             cwLightModel m = this.SelectedModel;
 
             cwLightObjectType ot = m.getObjectTypeByScriptName(CONTEXTPATH_OT);
@@ -389,8 +388,8 @@ namespace cwContextGenerator.Core
             try
             {
                 DateTime start = DateTime.Now;
-                this.SelectedModel = this.Connection.getModel(this.SelectedModel.FileName);
-                this.SelectedModel.loadLightModelContent();
+               // this.SelectedModel = this.Connection.getModel(this.SelectedModel.FileName);
+                //this.SelectedModel.loadLightModelContent();
                 log.Debug("Start operation");
 
                 CwDiagramContextManager diagramContextManager = new CwDiagramContextManager(this.SelectedModel, config);
