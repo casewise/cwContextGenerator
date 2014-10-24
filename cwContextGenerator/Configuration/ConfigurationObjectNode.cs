@@ -45,36 +45,36 @@ namespace cwContextGenerator.Configuration
         /// </summary>
         /// <param name="c">The c.</param>
         /// <returns></returns>
-        public static ConfigurationObjectNode Copy(ConfigurationObjectNode c)
-        {
-            ConfigurationObjectNode newNode = new ConfigurationObjectNode();
-            newNode.Name = string.IsNullOrEmpty(c.Name) ? string.Empty : c.Name.Clone().ToString();
-            newNode.ObjectTypeScriptName = string.IsNullOrEmpty(c.ObjectTypeScriptName) ? string.Empty : c.ObjectTypeScriptName.Clone().ToString();
-            newNode.AssociationTypeScriptName = string.IsNullOrEmpty(c.AssociationTypeScriptName) ? string.Empty : c.AssociationTypeScriptName.Clone().ToString();
-            Dictionary<string, List<cwLightNodePropertyFilter>> filter = new Dictionary<string, List<cwLightNodePropertyFilter>>();
-            foreach (var v in c.Filters)
-            {
-                string pScript = v.Key.Clone().ToString();
-                filter[pScript] = new List<cwLightNodePropertyFilter>();
-                foreach (cwLightNodePropertyFilter f in v.Value)
-                {
-                    filter[pScript].Add(new cwLightNodePropertyFilter(f.Value, f.Operator));
-                }
-            }
-            newNode.Filters = filter;
+        //public static ConfigurationObjectNode Copy(ConfigurationObjectNode c)
+        //{
+        //    ConfigurationObjectNode newNode = new ConfigurationObjectNode();
+        //    newNode.Name = string.IsNullOrEmpty(c.Name) ? string.Empty : c.Name.Clone().ToString();
+        //    newNode.ObjectTypeScriptName = string.IsNullOrEmpty(c.ObjectTypeScriptName) ? string.Empty : c.ObjectTypeScriptName.Clone().ToString();
+        //    newNode.AssociationTypeScriptName = string.IsNullOrEmpty(c.AssociationTypeScriptName) ? string.Empty : c.AssociationTypeScriptName.Clone().ToString();
+        //    Dictionary<string, List<cwLightNodePropertyFilter>> filter = new Dictionary<string, List<cwLightNodePropertyFilter>>();
+        //    foreach (var v in c.Filters)
+        //    {
+        //        string pScript = v.Key.Clone().ToString();
+        //        filter[pScript] = new List<cwLightNodePropertyFilter>();
+        //        foreach (cwLightNodePropertyFilter f in v.Value)
+        //        {
+        //            filter[pScript].Add(new cwLightNodePropertyFilter(f.Value, f.Operator));
+        //        }
+        //    }
+        //    newNode.Filters = filter;
 
-            List<ConfigurationObjectNode> children = new List<ConfigurationObjectNode>();
-            foreach (ConfigurationObjectNode n in c.ChildrenNodes)
-            {
-                children.Add(ConfigurationObjectNode.Copy(n));
-            }
-            newNode.ChildrenNodes = children;
-            newNode.ReadingMode = c.ReadingMode;
+        //    List<ConfigurationObjectNode> children = new List<ConfigurationObjectNode>();
+        //    foreach (ConfigurationObjectNode n in c.ChildrenNodes)
+        //    {
+        //        children.Add(ConfigurationObjectNode.Copy(n));
+        //    }
+        //    newNode.ChildrenNodes = children;
+        //    newNode.ReadingMode = c.ReadingMode;
 
-            newNode.Model = c.Model;
+        //    newNode.Model = c.Model;
 
-            return newNode;
-        }
+        //    return newNode;
+        //}
 
         /// <summary>
         /// Sets the model for all nodes.

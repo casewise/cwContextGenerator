@@ -19,12 +19,19 @@ namespace cwContextGenerator.DataAnalysis
         {
             get
             {
-                return String.Format("{0}_{1}_L{2}_{3}_RootLevel_{4}",
+                string name = String.Format("{0}_{1}_L{2}_{3}_RootLevel_",
                                     Diagram.Type.ToString(),
                                     Diagram.ToString(),
                                     Level.ToString(),
-                                    FromObject.ToString(),
-                                    this.Id.ToString());
+                                    FromObject.ToString());
+
+
+                if (name.Length > ObjectNameMaxLength)
+                    name = name.Substring(0, ObjectNameMaxLength);
+
+                name = name + this.Id.ToString();
+               
+                return name;
             }
             set { }
         }

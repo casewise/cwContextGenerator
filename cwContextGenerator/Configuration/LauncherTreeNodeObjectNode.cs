@@ -156,26 +156,26 @@ namespace cwContextGenerator.Configuration
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cloneItem_Click(object sender, EventArgs e)
         {
-            LauncherTreeNodeObjectNode copy = this.CloneNode();
+            LauncherTreeNodeObjectNode copy = BrowseAndCopyTreeNode(this); //this.CloneNode();
             this.Core.CopiedNode = copy;
         }
 
-        private LauncherTreeNodeObjectNode CloneNode()
-        {
-            LauncherTreeNodeObjectNode copy = new LauncherTreeNodeObjectNode();
-            this.SetupConfigurationObject(this.Config);
-            ConfigurationObjectNode copyConfig = ConfigurationObjectNode.Copy(this.Config);
-            copy.setCore(this.Core);
-            copy.Config = copyConfig;
-            copy.Text = this.Text;
+        //private LauncherTreeNodeObjectNode CloneNode()
+        //{
+        //    LauncherTreeNodeObjectNode copy = new LauncherTreeNodeObjectNode();
+        //    this.SetupConfigurationObject(this.Config);
+        //    ConfigurationObjectNode copyConfig = ConfigurationObjectNode.Copy(this.Config);
+        //    copy.setCore(this.Core);
+        //    copy.Config = copyConfig;
+        //    copy.Text = this.Text;
 
-            List<LauncherTreeNodeObjectNode> children = this.GetChildren();
-            foreach (LauncherTreeNodeObjectNode n in children)
-            {
-                copy.Nodes.Add(n.CloneNode());
-            }
-            return copy;
-        }
+        //    List<LauncherTreeNodeObjectNode> children = this.GetChildren();
+        //    foreach (LauncherTreeNodeObjectNode n in children)
+        //    {
+        //        copy.Nodes.Add(n.CloneNode());
+        //    }
+        //    return copy;
+        //}
 
         /// <summary>
         /// Sets the core.

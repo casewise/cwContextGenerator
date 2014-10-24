@@ -38,6 +38,8 @@ namespace cwContextGenerator.DataAnalysis
         protected static string[] PropertiesToBySelected = new string[] { PropertyTypeName, PropertyTypeRootLevel, PropertyTypeAtName, PropertyTypeAtScriptName, PropertyTypeDescription };
         #endregion
 
+        
+
         private List<CwShape> _targetShapes = new List<CwShape>();
         private cwLightObject ParentContextObject { get; set; }
 
@@ -46,6 +48,7 @@ namespace cwContextGenerator.DataAnalysis
 
         private ConfigurationObjectNode ChildNode { get; set; }
         private cwLightNodeAssociationType AtNode { get; set; }
+        protected const int ObjectNameMaxLength = 250;
 
         public cwLightObject ContextContainer { get; set; }
         protected int Id { get; set; }
@@ -65,14 +68,16 @@ namespace cwContextGenerator.DataAnalysis
         {
             get
             {
-                return String.Format("{0}_{1}_L{2}_{3}_{4}_[{5}]_{6}",
+                string name = String.Format("{0}_{1}_L{2}_{3}_{4}_[{5}]_",
                                     Diagram.Type.ToString(),
                                     Diagram.ToString(),
                                     Level.ToString(),
                                     FromObject.ToString(),
                                     ChildNode.ReadingMode.ToString(),
-                                    this.AtNode.TargetObjectType.ScriptName.ToString(),
-                                    this.Id.ToString());
+                                    this.AtNode.TargetObjectType.ScriptName.ToString());
+                if (name.Length > ObjectNameMaxLength) { name = name.Substring(0, ObjectNameMaxLength); }
+                name = name + this.Id.ToString();
+                return name;
             }
             set
             {
@@ -80,7 +85,6 @@ namespace cwContextGenerator.DataAnalysis
         }
 
         #region Constructor
-
         public CwContextObject(ConfigurationObjectNode childNode, cwLightObject parentContextObject, CwContextObjectParameters parameters)
             : this(parameters)
         {
