@@ -109,12 +109,12 @@ namespace cwContextGenerator.Logs
 
         private void XmlSerialize()
         {
-            //string endwith = string.Format("_{0:yyyy-MM-dd_hh-mm}.xml", DateTime.Now);
             XmlSerializer writer = new XmlSerializer(typeof(CwContextObjectInfo));
             StringBuilder output = new StringBuilder();
 
             var fileName = RemoveInvalidFileNameChars(this.CurrentObject.ToString());
             var path = "logs//" + fileName + ".xml";
+
             System.IO.FileStream file = System.IO.File.Create(path);
             writer.Serialize(file, this);
             file.Close();

@@ -124,27 +124,21 @@ namespace cwContextGenerator.Configuration
 
             OTNode.addPropertiesToSelect(new string[] { "ID", "NAME" });
             cwLightNodeAssociationType ATNode = OTNode.createAssociationNode(this.AssociationTypeScriptName);
-
-            // ATNode.selectedObjectType = at.Target;
-            //OTNode.preloadLightObjects();
-
-            //ATNode.preloadLightObjects();
-            //  OTNode.preloadLightObjects_Rec(this.Model);
+            ATNode.attributeFiltersKeep = this.Filters;
             OTNode.preloadLightObjects_Rec();
             return ATNode;
         }
 
-        /// <summary>
-        /// Get Association Type
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public cwLightAssociationType GetAssociationType()
+
+        public cwLightNodeObjectType GetTargetObjectTypeNode()
         {
             cwLightObjectType sourceOt = this.Model.getObjectTypeByScriptName(this.ObjectTypeScriptName);
             cwLightAssociationType at = sourceOt.getAssociationTypeByScriptName(this.AssociationTypeScriptName);
-            return at;
+            cwLightNodeObjectType OTTargetNode = this.Model.GetObjectTypeNode(at.Target.ScriptName);
+            OTTargetNode.addPropertiesToSelect(new string[] { "ID", "NAME" });
+            OTTargetNode.attributeFiltersKeep = this.Filters;
+            OTTargetNode.preloadLightObjects();
+            return OTTargetNode;
         }
-
     }
 }

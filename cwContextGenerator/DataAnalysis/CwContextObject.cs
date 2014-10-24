@@ -41,6 +41,7 @@ namespace cwContextGenerator.DataAnalysis
         
 
         private List<CwShape> _targetShapes = new List<CwShape>();
+        private List<cwLightObject> _targetObjects = new List<cwLightObject>();
         private cwLightObject ParentContextObject { get; set; }
 
         protected CwContextMataModelManager ContextMetaModel { get; set; }
@@ -48,7 +49,8 @@ namespace cwContextGenerator.DataAnalysis
 
         private ConfigurationObjectNode ChildNode { get; set; }
         private cwLightNodeAssociationType AtNode { get; set; }
-        protected const int ObjectNameMaxLength = 250;
+        private cwLightNodeObjectType TargetOTNode { get; set; }
+        protected const int ObjectNameMaxLength = 240;
 
         public cwLightObject ContextContainer { get; set; }
         protected int Id { get; set; }
@@ -92,6 +94,7 @@ namespace cwContextGenerator.DataAnalysis
             this.ParentContextObject = parentContextObject;
             this.ChildNode = childNode;
             this.AtNode = this.ChildNode.GetNode();
+            this.TargetOTNode = this.ChildNode.GetTargetObjectTypeNode();
 
             this.ToShapes = new List<CwShape>();
             this.ToObjects = new List<cwLightObject>();
@@ -155,6 +158,8 @@ namespace cwContextGenerator.DataAnalysis
         private void GetToShapesAndToObjects()
         {
             this.SetTargetShapes();
+            this.SetTargetObjects();
+           
             this.UnionTargetObjectsAndTargetShapes();
         }
 
@@ -194,15 +199,25 @@ namespace cwContextGenerator.DataAnalysis
             }
         }
 
+
+        private void SetTargetObjects()
+        {
+            switch (this.ChildNode.ReadingMode)
+            {
+                case ReadingMode.LinkedTo:
+                    this._targetObjects = this.AtNode.GetTargetsForSource(this.FromObject);
+                    break;
+                default:
+                    this._targetObjects = this.TargetOTNode.usedOTLightObjects;
+                    break;
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
         private void UnionTargetObjectsAndTargetShapes()
         {
             Dictionary<string, CwObjectShapeMapping> objectShapeMapping = new Dictionary<string, CwObjectShapeMapping>();
-
-            List<cwLightObject> targetObjects = AtNode.getAllTargetObjectsDistinct();
-
             foreach (CwShape toShape in this._targetShapes)
             {
                 string key = toShape.ObjectTypeId.ToString() + toShape.ObjectId.ToString();
@@ -214,7 +229,7 @@ namespace cwContextGenerator.DataAnalysis
                 objectShapeMapping[key].TargetShapes.Add(toShape);
             }
 
-            foreach (cwLightObject targetObject in targetObjects)
+            foreach (cwLightObject targetObject in this._targetObjects)
             {
                 string key = targetObject.OTID.ToString() + targetObject.ID.ToString();
 
